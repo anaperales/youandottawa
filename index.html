@@ -45,10 +45,10 @@
             60% { transform: translateY(-5px) rotate(45deg); }
         }
 
-        /* --- THE NEW PARALLAX STORY SECTION --- */
+        /* --- THE PARALLAX STORY SECTION --- */
         .parallax-section {
-            /* REPLACE THE URL BELOW WITH YOUR UNSPLASH LINK OR GITHUB FILE NAME! */
-            background-image: url('https://images.unsplash.com/photo-1590483691652-3eb41a0e5b7c?q=80&w=2000&auto=format&fit=crop'); 
+            /* Now looking directly at your GitHub file! */
+            background-image: url('parliament.jpg'); 
             height: 80vh; 
             background-attachment: fixed;
             background-position: center;
@@ -69,7 +69,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .story-text-box p { font-size: 1.2em; line-height: 1.6; font-family: 'Georgia', serif; }
+        .story-text-box p { font-size: 1.2em; line-height: 1.6; font-family: 'Georgia', serif; margin-bottom: 10px; }
         
         /* The EN/FR Toggle Button */
         .lang-toggle-btn {
@@ -79,7 +79,7 @@
             padding: 5px 15px;
             border-radius: 20px;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: bold;
             transition: 0.3s;
         }
@@ -118,7 +118,7 @@
         .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.5; color: #222; margin-bottom: 12px; }
         .info-panel ul { padding-left: 20px; }
 
-        /* The 10-Category Legend (Capitalized Community Action!) */
+        /* The 10-Category Legend */
         .legend-panel {
             position: absolute; bottom: 30px; right: 20px; z-index: 1000;
             background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px;
@@ -169,11 +169,19 @@
             <div id="text-en">
                 <p>Ottawa is more than just Parliament Hill.</p>
                 <p>Even if you've lived here for years, the coolest hidden gems often stay under the radar.</p>
+                <br>
+                <p><strong>Welcome to "You & Ottawa".</strong></p>
+                <p>This map was created to help us see our city differently.</p>
+                <p>Connecting the places we visit to the water that sustains us.</p>
             </div>
             
             <div id="text-fr">
                 <p>Ottawa est bien plus que la Colline du Parlement.</p>
                 <p>Même si vous habitez ici depuis des années, les initiatives les plus intéressantes et les joyaux cachés passent souvent inaperçus.</p>
+                <br>
+                <p><strong>Bienvenue à « You & Ottawa ».</strong></p>
+                <p>Cette carte a été créée pour nous aider à voir notre ville différemment.</p>
+                <p>En reliant les lieux que nous visitons à l'eau qui nous soutient.</p>
             </div>
         </div>
     </div>
@@ -259,7 +267,7 @@
             attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
-        // ICON DICTIONARY (Capitalized Community Action!)
+        // ICON DICTIONARY
         function getIconForCategory(category) {
             var iconName = 'star'; var color = 'cadetblue';
 
