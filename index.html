@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>You & Ottawa</title>
     
-    <link rel="stylesheet" href="leaflet/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -32,42 +32,15 @@
             position: relative;
         }
 
-        .hero-section h1 {
-            font-family: 'Georgia', serif; 
-            color: #ffffff; 
-            font-size: 3.5em; 
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
+        .hero-section h1 { font-family: 'Georgia', serif; color: #ffffff; font-size: 3.5em; margin-bottom: 10px; letter-spacing: 1px; }
+        .hero-section h2 { color: #d1d5db; font-size: 1.2em; font-weight: 500; margin-bottom: 15px; }
+        .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 1px; font-style: italic; }
 
-        .hero-section h2 {
-            color: #d1d5db; 
-            font-size: 1.2em;
-            font-weight: 500; 
-            margin-bottom: 15px; 
-        }
-
-        .scroll-text {
-            color: #a1a5ab; 
-            font-size: 0.9em;
-            letter-spacing: 1px;
-            font-style: italic;
-        }
-
-        .arrow-container {
-            position: absolute;
-            bottom: 40px;
-            left: 40px; 
-        }
-
+        .arrow-container { position: absolute; bottom: 40px; left: 40px; }
         .arrow-down {
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            border-bottom: 2px solid #d1d5db;
-            border-right: 2px solid #d1d5db;
-            transform: rotate(45deg);
-            animation: gentle-bounce 2s infinite;
+            display: inline-block; width: 15px; height: 15px;
+            border-bottom: 2px solid #d1d5db; border-right: 2px solid #d1d5db;
+            transform: rotate(45deg); animation: gentle-bounce 2s infinite;
         }
 
         @keyframes gentle-bounce {
@@ -77,81 +50,29 @@
         }
 
         /* The Map Section */
-        .map-section {
-            position: relative;
-            width: 100%;
-            height: 650px; 
-            max-width: 1000px;
-            margin: 40px auto;
-        }
-
-        #map {
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            z-index: 1; 
-        }
+        .map-section { position: relative; width: 100%; height: 650px; max-width: 1000px; margin: 40px auto; }
+        #map { width: 100%; height: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 1; }
 
         /* The Search Bar */
         .search-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
+            position: absolute; top: 20px; right: 20px; z-index: 1000;
+            background: white; padding: 5px 10px; border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center;
         }
+        .search-container input { border: none; padding: 8px 10px; outline: none; font-size: 1em; width: 200px; border-radius: 25px; }
+        .search-container i { color: #1B4965; padding: 0 10px 0 5px; }
 
-        .search-container input {
-            border: none;
-            padding: 8px 10px;
-            outline: none;
-            font-size: 1em;
-            width: 200px;
-            border-radius: 25px;
-        }
-
-        .search-container i {
-            color: #1B4965;
-            padding: 0 10px 0 5px;
-        }
-
-        /* The Collapsible Panel Styles */
+        /* Welcome Panel */
         .info-toggle-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 999;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 10px 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: none;
-            font-weight: bold;
-            color: #1B4965;
-            cursor: pointer;
-            display: none; 
+            position: absolute; top: 20px; left: 20px; z-index: 999;
+            background: rgba(255, 255, 255, 0.95); padding: 10px 15px; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-weight: bold; color: #1B4965; cursor: pointer; display: none; 
         }
-
         .info-panel {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 320px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000; 
-            max-height: 90%;
-            overflow-y: auto;
+            position: absolute; top: 20px; left: 20px; width: 320px;
+            background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; max-height: 90%; overflow-y: auto;
         }
-
         .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; }
         .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.4em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
         .info-panel h4 { color: #1B4965; margin: 15px 0 5px 0; }
@@ -166,23 +87,17 @@
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; }
 
-        /* --- MOBILE RESPONSIVENESS (The "Squish" Code) --- */
+        /* MOBILE RESPONSIVENESS */
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
-            .map-section { height: 75vh; margin: 20px auto; max-width: 100%; }
-            #map { border-radius: 0; }
-            
-            /* Shrink the search bar */
+            .map-section { height: 75vh; margin: 20px auto; width: 90%; } /* Changed to 90% so users can scroll past! */
+            #map { border-radius: 8px; }
             .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
             .search-container input { width: 100%; }
-
-            /* Move the welcome panel to the bottom so it doesn't block the map */
             .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 10%; width: 70%; max-height: 40vh; }
-            
             .arrow-container { left: 20px; }
         }
-
     </style>
 </head>
 <body>
@@ -191,14 +106,10 @@
         <h1>You & Ottawa</h1>
         <h2>a student-led guide to the city's hidden gems</h2>
         <div class="scroll-text">scroll down to start!</div>
-        
-        <div class="arrow-container">
-            <div class="arrow-down"></div>
-        </div>
+        <div class="arrow-container"><div class="arrow-down"></div></div>
     </div>
 
     <div class="map-section">
-        
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="search-box" placeholder="Search thrift, coffee, etc...">
@@ -212,9 +123,8 @@
             <p>This interactive map connects Ottawa’s waterways with local sustainability action.</p>
             <h4>How to Use This Map</h4>
             <ul>
-                <li><b>Search:</b> Type a name or topic to find specific hidden gems.</li>
+                <li><b>Search:</b> Type a name to find specific hidden gems.</li>
                 <li><b>Explore:</b> Click any icon on the map to see the story and details.</li>
-                <li><b>Filter:</b> Click the Filter tool to see specific categories.</li>
                 <li><b>Navigate:</b> Zoom in on the map to find spots near you!</li>
             </ul>
             <h4>About the Project</h4>
@@ -226,8 +136,10 @@
         <div id="map"></div>
     </div>
 
-    <script src="leaflet/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script>
         document.getElementById('close-info-btn').onclick = function() {
@@ -240,39 +152,66 @@
             document.getElementById('open-info-btn').style.display = 'none';
         };
 
-        // NEW CENTER AND ZOOM (45.424, -75.695 is right near Parliament!)
         var map = L.map('map').setView([45.424, -75.695], 12);
 
-        // The Black & White Map
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19,
             attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
-        // Custom Book Icon
-        var bookMarker = L.AwesomeMarkers.icon({
-            icon: 'book',      
-            markerColor: 'darkblue', 
-            prefix: 'fa'       
+        // This function decides which icon to use based on the Category!
+        function getIconForCategory(category) {
+            var iconName = 'star'; // Default icon
+            var color = 'blue';
+
+            if (category === 'Books & Knowledge') { iconName = 'book'; color = 'darkblue'; }
+            else if (category === 'Zero Waste & Refill') { iconName = 'recycle'; color = 'green'; }
+            
+            return L.AwesomeMarkers.icon({
+                icon: iconName,
+                markerColor: color,
+                prefix: 'fa'
+            });
+        }
+
+        // HERE IS PAPAPARSE DOING ITS JOB
+        // MAKE SURE THIS FILE NAME MATCHES EXACTLY WHAT YOU UPLOADED TO GITHUB!
+        Papa.parse("You_Ottawa_MASTER_v2.csv", {
+            download: true,
+            header: true, // Tells it to read your column titles
+            skipEmptyLines: true,
+            complete: function(results) {
+                var data = results.data;
+                
+                // This loops through every single row in your Excel sheet
+                for (var i = 0; i < data.length; i++) {
+                    var row = data[i];
+                    
+                    // Build the popup using your exact column names
+                    var popupContent = `
+                        <div class="custom-popup">
+                            <h3>${row.Place_Organization}</h3>
+                            <p class="category">${row.Category}</p>
+                            <p>📍 ${row.Address}</p>
+                            <h4>THE MISSION</h4>
+                            <p>${row.The_Mission}</p>
+                            <h4>WHY IT MATTERS</h4>
+                            <p>${row.Why_Matters}</p>
+                            <h4>ACT</h4>
+                            <p>${row.Action_Item}</p>
+                            <a href="${row.Website_Link}" class="plan-visit-btn" target="_blank">PLAN YOUR VISIT</a>
+                        </div>
+                    `;
+
+                    // Create the pin using your Latitude and Longitude columns
+                    var customIcon = getIconForCategory(row.Category);
+                    L.marker([row.Latitude, row.Longitude], {icon: customIcon})
+                        .addTo(map)
+                        .bindPopup(popupContent);
+                }
+            }
         });
 
-        var blackSquirrelPopup = `
-            <div class="custom-popup">
-                <h3>Black Squirrel Books & Espresso Bar</h3>
-                <p class="category">Books & Knowledge</p>
-                <p>📍 1073 Bank St., Ottawa, ON K1S 3W9</p>
-                <h4>THE MISSION</h4>
-                <p>A unique spot blending a large second-hand bookstore with a cozy café. Extensive collection of gently used books from classics to academic texts.</p>
-                <h4>WHY IT MATTERS</h4>
-                <p>A perfect student hub for affordable literature. Its focus on used books directly promotes the reuse of media and knowledge.</p>
-                <h4>ACT</h4>
-                <p>Grab a locally roasted coffee and study. Trade in your completed books for store credit.</p>
-                <a href="https://www.blacksquirrelbooks.ca/" class="plan-visit-btn" target="_blank">PLAN YOUR VISIT</a>
-            </div>
-        `;
-
-        L.marker([45.394769, -75.683288], {icon: bookMarker}).addTo(map).bindPopup(blackSquirrelPopup);
     </script>
-
 </body>
 </html>
