@@ -18,6 +18,7 @@
             color: #333;
         }
         
+        /* The Hero Cover Page */
         .hero-section {
             height: 100vh;
             background-color: #1B4965;
@@ -28,11 +29,9 @@
             text-align: center;
             position: relative;
         }
-
         .hero-section h1 { font-family: 'Georgia', serif; color: #ffffff; font-size: 3.5em; margin-bottom: 10px; letter-spacing: 1px; }
         .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 500; margin-bottom: 15px; }
         .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 1px; font-style: italic; }
-
         .arrow-container { position: absolute; bottom: 40px; left: 40px; }
         .arrow-down {
             display: inline-block; width: 15px; height: 15px;
@@ -46,7 +45,51 @@
             60% { transform: translateY(-5px) rotate(45deg); }
         }
 
-        .map-section { position: relative; width: 100%; height: 650px; max-width: 1000px; margin: 40px auto; }
+        /* --- THE NEW PARALLAX STORY SECTION --- */
+        .parallax-section {
+            /* REPLACE THE URL BELOW WITH A LINK TO YOUR PHOTO! */
+            background-image: url('https://images.unsplash.com/photo-1590483691652-3eb41a0e5b7c?q=80&w=2000&auto=format&fit=crop'); 
+            height: 80vh; 
+            background-attachment: fixed; /* This makes the image stay still while you scroll */
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .story-text-box {
+            background: rgba(27, 73, 101, 0.9); /* Dark blue semi-transparent box */
+            color: white;
+            margin-left: 10%;
+            padding: 40px;
+            border-radius: 8px;
+            width: 40%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .story-text-box p { font-size: 1.2em; line-height: 1.6; font-family: 'Georgia', serif; }
+        
+        /* The EN/FR Toggle Button */
+        .lang-toggle-btn {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .lang-toggle-btn:hover { background: white; color: #1B4965; }
+        
+        /* Hides French by default */
+        #text-fr { display: none; }
+
+        /* --- The Map Section --- */
+        .map-section { position: relative; width: 100%; height: 700px; max-width: 1200px; margin: 40px auto; }
         #map { width: 100%; height: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 1; }
 
         /* Search Bar */
@@ -58,35 +101,37 @@
         .search-container input { border: none; padding: 8px 10px; outline: none; font-size: 1em; width: 220px; border-radius: 25px; }
         .search-container i { color: #1B4965; padding: 0 10px 0 5px; }
 
-        /* Welcome Panel */
+        /* Transparent, Smaller Welcome Panel */
         .info-toggle-btn {
             position: absolute; top: 20px; left: 20px; z-index: 999;
             background: rgba(255, 255, 255, 0.95); padding: 10px 15px; border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-weight: bold; color: #1B4965; cursor: pointer; display: none; 
         }
         .info-panel {
-            position: absolute; top: 20px; left: 20px; width: 320px;
-            background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 8px;
+            position: absolute; top: 20px; left: 20px; 
+            width: 280px; /* Made it smaller! */
+            background: rgba(255, 255, 255, 0.85); /* Made it slightly transparent! */
+            backdrop-filter: blur(5px); /* Adds a cool blur effect to the map underneath */
+            padding: 20px; 
+            border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; max-height: 90%; overflow-y: auto;
         }
         .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; }
-        .info-panel h3 { font-family: 'Georgia', serif; color: #1B4965; margin-top: 0; font-size: 1.5em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
-        .info-panel h4 { font-family: 'Georgia', serif; color: #1B4965; margin: 15px 0 5px 0; font-size: 1.1em;}
-        .info-panel p, .info-panel ul { font-size: 0.95em; line-height: 1.6; color: #444; margin-bottom: 15px; }
+        .info-panel h3 { font-family: 'Georgia', serif; color: #1B4965; margin-top: 0; font-size: 1.3em; border-bottom: 2px solid #1B4965; padding-bottom: 8px; }
+        .info-panel h4 { font-family: 'Georgia', serif; color: #1B4965; margin: 12px 0 5px 0; font-size: 1.05em;}
+        .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.5; color: #222; margin-bottom: 12px; }
         .info-panel ul { padding-left: 20px; }
 
-        /* Interactive Legend */
+        /* The 10-Category Legend */
         .legend-panel {
             position: absolute; bottom: 30px; right: 20px; z-index: 1000;
             background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 0.9em; max-width: 200px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 0.85em; max-width: 220px;
         }
         .legend-panel h4 { margin: 0 0 10px 0; font-family: 'Georgia', serif; color: #1B4965; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-        .legend-item { display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; transition: opacity 0.2s; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 6px; cursor: pointer; transition: opacity 0.2s; }
         .legend-item:hover { opacity: 0.7; }
-        .legend-item i { width: 20px; text-align: center; margin-right: 10px; font-size: 1.2em; }
-        
-        /* The class applied when a category is "dimmed" out */
+        .legend-item i { width: 20px; text-align: center; margin-right: 8px; font-size: 1.1em; }
         .dimmed { opacity: 0.3 !important; }
 
         /* Popup Styling */
@@ -100,13 +145,18 @@
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
+            
+            /* Mobile Parallax fix */
+            .parallax-section { background-attachment: scroll; height: auto; padding: 60px 20px; }
+            .story-text-box { width: 90%; margin: 0 auto; padding: 25px; }
+
             .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
             #map { border-radius: 8px; }
             .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
             .search-container input { width: 100%; }
             .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 5%; width: 80%; max-height: 40vh; border-radius: 12px;}
             .arrow-container { left: 20px; }
-            .legend-panel { display: none; } /* Hides legend on small phones to save space */
+            .legend-panel { display: none; } 
         }
     </style>
 </head>
@@ -119,6 +169,22 @@
         <div class="arrow-container"><div class="arrow-down"></div></div>
     </div>
 
+    <div class="parallax-section">
+        <div class="story-text-box">
+            <button class="lang-toggle-btn" id="lang-btn">EN / FR</button>
+            
+            <div id="text-en">
+                <p>Ottawa is more than just Parliament Hill.</p>
+                <p>Even if you've lived here for years, the coolest hidden gems often stay under the radar.</p>
+            </div>
+            
+            <div id="text-fr">
+                <p>Ottawa est bien plus que la Colline du Parlement.</p>
+                <p>Même si vous habitez ici depuis des années, les initiatives les plus intéressantes et les joyaux cachés passent souvent inaperçus.</p>
+            </div>
+        </div>
+    </div>
+
     <div class="map-section">
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -129,14 +195,13 @@
 
         <div id="info-panel" class="info-panel">
             <button id="close-info-btn" class="close-btn">✖</button>
-            <h3>Welcome to You & Ottawa</h3>
+            <h3>Welcome to the map</h3>
             <p>This interactive map connects Ottawa’s waterways with local sustainability action.</p>
             
             <h4>How to Use This Map</h4>
             <ul>
-                <li><b>Search:</b> Type a name or topic (e.g., "Thrift," "Coffee") to find specific hidden gems.</li>
+                <li><b>Search:</b> Type a name to find specific hidden gems.</li>
                 <li><b>Explore:</b> Click any icon on the map to see the story and details.</li>
-                <li><b>Filter:</b> Click the Filter tool (funnel icon) to see specific categories like Dining or Thrift.</li>
                 <li><b>Navigate:</b> Zoom in on the map to find spots near you!</li>
             </ul>
             
@@ -150,10 +215,15 @@
         <div class="legend-panel">
             <h4>Categories</h4>
             <div class="legend-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color: darkblue;"></i> Books & Knowledge</div>
-            <div class="legend-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color: green;"></i> Zero Waste & Refill</div>
+            <div class="legend-item" data-category="Circular Economy"><i class="fa-solid fa-arrows-rotate" style="color: green;"></i> Circular Economy</div>
+            <div class="legend-item" data-category="Community action"><i class="fa-solid fa-hands-holding-circle" style="color: orange;"></i> Community action</div>
+            <div class="legend-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color: cadetblue;"></i> Eco-Stories</div>
+            <div class="legend-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color: red;"></i> Indigenous Culture</div>
+            <div class="legend-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color: darkgreen;"></i> Nature & Wildlife</div>
+            <div class="legend-item" data-category="Sustainable Dining"><i class="fa-solid fa-utensils" style="color: darkred;"></i> Sustainable Dining</div>
             <div class="legend-item" data-category="Thrift & Vintage"><i class="fa-solid fa-shirt" style="color: purple;"></i> Thrift & Vintage</div>
-            <div class="legend-item" data-category="Dining"><i class="fa-solid fa-utensils" style="color: orange;"></i> Dining</div>
-            <div class="legend-item" data-category="Nature & Wildlife"><i class="fa-solid fa-leaf" style="color: darkgreen;"></i> Nature & Wildlife</div>
+            <div class="legend-item" data-category="Waterways"><i class="fa-solid fa-water" style="color: blue;"></i> Waterways</div>
+            <div class="legend-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color: black;"></i> Zero Waste & Refill</div>
         </div>
 
         <div id="map"></div>
@@ -164,6 +234,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script>
+        // --- The EN/FR Button Logic ---
+        var isEnglish = true;
+        document.getElementById('lang-btn').onclick = function() {
+            if (isEnglish) {
+                document.getElementById('text-en').style.display = 'none';
+                document.getElementById('text-fr').style.display = 'block';
+                isEnglish = false;
+            } else {
+                document.getElementById('text-en').style.display = 'block';
+                document.getElementById('text-fr').style.display = 'none';
+                isEnglish = true;
+            }
+        };
+
+        // Panel Toggle Logic
         document.getElementById('close-info-btn').onclick = function() {
             document.getElementById('info-panel').style.display = 'none';
             document.getElementById('open-info-btn').style.display = 'block';
@@ -181,22 +266,27 @@
             attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
+        // THE MASTER 10-ICON DICTIONARY
         function getIconForCategory(category) {
             var iconName = 'star'; var color = 'cadetblue';
 
+            // IMPORTANT: These names must match your Excel sheet exactly!
             if (category === 'Books & Knowledge') { iconName = 'book'; color = 'darkblue'; }
-            else if (category === 'Zero Waste & Refill') { iconName = 'recycle'; color = 'green'; }
+            else if (category === 'Circular Economy') { iconName = 'arrows-rotate'; color = 'green'; }
+            else if (category === 'Community action') { iconName = 'hands-holding-circle'; color = 'orange'; }
+            else if (category === 'Eco-Stories') { iconName = 'leaf'; color = 'cadetblue'; }
+            else if (category === 'Indigenous Culture') { iconName = 'fire'; color = 'red'; }
+            else if (category === 'Nature & Wildlife') { iconName = 'tree'; color = 'darkgreen'; }
+            else if (category === 'Sustainable Dining') { iconName = 'utensils'; color = 'darkred'; }
             else if (category === 'Thrift & Vintage') { iconName = 'shirt'; color = 'purple'; }
-            else if (category === 'Dining') { iconName = 'utensils'; color = 'orange'; }
-            else if (category === 'Nature & Wildlife') { iconName = 'leaf'; color = 'darkgreen'; }
             else if (category === 'Waterways') { iconName = 'water'; color = 'blue'; }
+            else if (category === 'Zero Waste & Refill') { iconName = 'recycle'; color = 'black'; }
             
             return L.AwesomeMarkers.icon({ icon: iconName, markerColor: color, prefix: 'fa' });
         }
 
-        // We store all the markers here so the Search Bar and Legend can turn them on and off!
         var allMapMarkers = []; 
-        var activeFilterCategory = "All"; // Keeps track of what is clicked in the legend
+        var activeFilterCategory = "All"; 
 
         Papa.parse("You_Ottawa_MASTER_v2.csv", {
             download: true,
@@ -228,7 +318,6 @@
                     
                     marker.addTo(map);
 
-                    // Save the marker AND its data so we can search it later
                     allMapMarkers.push({
                         marker: marker,
                         category: row.Category,
@@ -238,14 +327,12 @@
             }
         });
 
-        // --- THE LIVE SEARCH & LEGEND FILTER ENGINE ---
+        // Search Logic
         function filterMap() {
             var searchQuery = document.getElementById('search-box').value.toLowerCase();
 
             allMapMarkers.forEach(function(item) {
-                // Check if it matches the search bar
                 var matchesSearch = item.searchableText.includes(searchQuery);
-                // Check if it matches the clicked legend category
                 var matchesCategory = (activeFilterCategory === "All" || item.category === activeFilterCategory);
 
                 if (matchesSearch && matchesCategory) {
@@ -256,27 +343,24 @@
             });
         }
 
-        // Trigger filter every time a letter is typed!
         document.getElementById('search-box').addEventListener('input', filterMap);
 
-        // Make the Legend Interactive!
+        // Legend Click Logic
         var legendItems = document.querySelectorAll('.legend-item');
         legendItems.forEach(function(item) {
             item.addEventListener('click', function() {
                 var clickedCategory = this.getAttribute('data-category');
 
-                // If they click the one that's already active, reset it to "All"
                 if (activeFilterCategory === clickedCategory) {
                     activeFilterCategory = "All";
-                    legendItems.forEach(i => i.classList.remove('dimmed')); // Un-dim everything
+                    legendItems.forEach(i => i.classList.remove('dimmed')); 
                 } else {
                     activeFilterCategory = clickedCategory;
-                    // Dim all items, then un-dim the clicked one
                     legendItems.forEach(i => i.classList.add('dimmed'));
                     this.classList.remove('dimmed');
                 }
                 
-                filterMap(); // Update the map pins
+                filterMap(); 
             });
         });
 
