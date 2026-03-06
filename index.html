@@ -7,8 +7,11 @@
     
     <link rel="stylesheet" href="leaflet/leaflet.css" />
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
+
     <style>
-        /* This styles your page to look clean and modern */
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
@@ -16,56 +19,259 @@
             background-color: #f9f9f9;
             color: #333;
         }
-        .story-section {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
+        
+        /* The Hero Cover Page */
+        .hero-section {
+            height: 100vh;
+            background-color: #1B4965;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            position: relative;
         }
-        .story-section h1 {
-            color: #1a4f66;
-            font-size: 2.5em;
+
+        .hero-section h1 {
+            font-family: 'Georgia', serif; 
+            color: #ffffff; 
+            font-size: 3.5em; 
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
-        .story-section p {
+
+        .hero-section h2 {
+            color: #d1d5db; 
             font-size: 1.2em;
-            line-height: 1.6;
+            font-weight: 500; 
+            margin-bottom: 15px; 
         }
-        /* This makes the map big and gives it a nice shadow */
-        #map {
-            height: 600px;
-            width: 90%;
+
+        .scroll-text {
+            color: #a1a5ab; 
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+
+        .arrow-container {
+            position: absolute;
+            bottom: 40px;
+            left: 40px; 
+        }
+
+        .arrow-down {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-bottom: 2px solid #d1d5db;
+            border-right: 2px solid #d1d5db;
+            transform: rotate(45deg);
+            animation: gentle-bounce 2s infinite;
+        }
+
+        @keyframes gentle-bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); }
+            40% { transform: translateY(-10px) rotate(45deg); }
+            60% { transform: translateY(-5px) rotate(45deg); }
+        }
+
+        /* The Map Section */
+        .map-section {
+            position: relative;
+            width: 100%;
+            height: 650px; 
             max-width: 1000px;
-            margin: 0 auto 50px auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 40px auto;
         }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 1; 
+        }
+
+        /* The Search Bar */
+        .search-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container input {
+            border: none;
+            padding: 8px 10px;
+            outline: none;
+            font-size: 1em;
+            width: 200px;
+            border-radius: 25px;
+        }
+
+        .search-container i {
+            color: #1B4965;
+            padding: 0 10px 0 5px;
+        }
+
+        /* The Collapsible Panel Styles */
+        .info-toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: none;
+            font-weight: bold;
+            color: #1B4965;
+            cursor: pointer;
+            display: none; 
+        }
+
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 320px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000; 
+            max-height: 90%;
+            overflow-y: auto;
+        }
+
+        .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; }
+        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.4em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
+        .info-panel h4 { color: #1B4965; margin: 15px 0 5px 0; }
+        .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.5; color: #444; margin-bottom: 15px; }
+        .info-panel ul { padding-left: 20px; }
+
+        /* Custom Popup Styling */
+        .custom-popup h3 { color: #1B4965; margin: 0 0 5px 0; font-size: 1.3em; }
+        .custom-popup .category { color: #666; font-style: italic; margin: 0 0 10px 0; }
+        .custom-popup h4 { font-size: 0.85em; color: #888; letter-spacing: 1px; margin: 15px 0 2px 0; }
+        .custom-popup p { margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.4; }
+        .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .custom-popup .plan-visit-btn:hover { background-color: #12344a; }
+
+        /* --- MOBILE RESPONSIVENESS (The "Squish" Code) --- */
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.5em; }
+            .hero-section h2 { font-size: 1em; padding: 0 20px; }
+            .map-section { height: 75vh; margin: 20px auto; max-width: 100%; }
+            #map { border-radius: 0; }
+            
+            /* Shrink the search bar */
+            .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
+            .search-container input { width: 100%; }
+
+            /* Move the welcome panel to the bottom so it doesn't block the map */
+            .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 10%; width: 70%; max-height: 40vh; }
+            
+            .arrow-container { left: 20px; }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="story-section">
+    <div class="hero-section">
         <h1>You & Ottawa</h1>
-        <p>A student-led guide to the city's hidden gems.</p>
-        <p>Connecting our community to sustainable action. It’s hard to aggregate all the activities and resources fragmented across Ottawa regions and suburbs. Scroll down to explore local, affordable, and sustainable resources.</p>
+        <h2>a student-led guide to the city's hidden gems</h2>
+        <div class="scroll-text">scroll down to start!</div>
+        
+        <div class="arrow-container">
+            <div class="arrow-down"></div>
+        </div>
     </div>
 
-    <div id="map"></div>
+    <div class="map-section">
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-box" placeholder="Search thrift, coffee, etc...">
+        </div>
+
+        <button id="open-info-btn" class="info-toggle-btn">ℹ️ About this Map</button>
+
+        <div id="info-panel" class="info-panel">
+            <button id="close-info-btn" class="close-btn">✖</button>
+            <h3>Welcome to You & Ottawa</h3>
+            <p>This interactive map connects Ottawa’s waterways with local sustainability action.</p>
+            <h4>How to Use This Map</h4>
+            <ul>
+                <li><b>Search:</b> Type a name or topic to find specific hidden gems.</li>
+                <li><b>Explore:</b> Click any icon on the map to see the story and details.</li>
+                <li><b>Filter:</b> Click the Filter tool to see specific categories.</li>
+                <li><b>Navigate:</b> Zoom in on the map to find spots near you!</li>
+            </ul>
+            <h4>About the Project</h4>
+            <p>Created by Ana Perales as part of the Waterlution Y4RC Cohort. This guide challenges the idea that there is "nothing to do" in Ottawa by making the invisible water footprint visible through local action.</p>
+            <h4>Feedback or Questions?</h4>
+            <p>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a></p>
+        </div>
+
+        <div id="map"></div>
+    </div>
 
     <script src="leaflet/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     
     <script>
-        // This tells the map to center on Ottawa (Latitude, Longitude) and sets the zoom level
-        var map = L.map('map').setView([45.4215, -75.6972], 12);
+        document.getElementById('close-info-btn').onclick = function() {
+            document.getElementById('info-panel').style.display = 'none';
+            document.getElementById('open-info-btn').style.display = 'block';
+        };
 
-        // This pulls in the free street map visual design
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        document.getElementById('open-info-btn').onclick = function() {
+            document.getElementById('info-panel').style.display = 'block';
+            document.getElementById('open-info-btn').style.display = 'none';
+        };
+
+        // NEW CENTER AND ZOOM (45.424, -75.695 is right near Parliament!)
+        var map = L.map('map').setView([45.424, -75.695], 12);
+
+        // The Black & White Map
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19,
-            attribution: '© OpenStreetMap contributors'
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
-        // This is a test pin! We will eventually link this to your Google Sheet.
-        L.marker([45.4236, -75.6835]).addTo(map)
-            .bindPopup('<b>uOttawa Free Store</b><br>A great place for zero-waste finds.');
+        // Custom Book Icon
+        var bookMarker = L.AwesomeMarkers.icon({
+            icon: 'book',      
+            markerColor: 'darkblue', 
+            prefix: 'fa'       
+        });
+
+        var blackSquirrelPopup = `
+            <div class="custom-popup">
+                <h3>Black Squirrel Books & Espresso Bar</h3>
+                <p class="category">Books & Knowledge</p>
+                <p>📍 1073 Bank St., Ottawa, ON K1S 3W9</p>
+                <h4>THE MISSION</h4>
+                <p>A unique spot blending a large second-hand bookstore with a cozy café. Extensive collection of gently used books from classics to academic texts.</p>
+                <h4>WHY IT MATTERS</h4>
+                <p>A perfect student hub for affordable literature. Its focus on used books directly promotes the reuse of media and knowledge.</p>
+                <h4>ACT</h4>
+                <p>Grab a locally roasted coffee and study. Trade in your completed books for store credit.</p>
+                <a href="https://www.blacksquirrelbooks.ca/" class="plan-visit-btn" target="_blank">PLAN YOUR VISIT</a>
+            </div>
+        `;
+
+        L.marker([45.394769, -75.683288], {icon: bookMarker}).addTo(map).bindPopup(blackSquirrelPopup);
     </script>
 
 </body>
