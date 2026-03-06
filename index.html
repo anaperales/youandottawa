@@ -47,10 +47,10 @@
 
         /* --- THE NEW PARALLAX STORY SECTION --- */
         .parallax-section {
-            /* REPLACE THE URL BELOW WITH A LINK TO YOUR PHOTO! */
+            /* REPLACE THE URL BELOW WITH YOUR UNSPLASH LINK OR GITHUB FILE NAME! */
             background-image: url('https://images.unsplash.com/photo-1590483691652-3eb41a0e5b7c?q=80&w=2000&auto=format&fit=crop'); 
             height: 80vh; 
-            background-attachment: fixed; /* This makes the image stay still while you scroll */
+            background-attachment: fixed;
             background-position: center;
             background-size: cover;
             position: relative;
@@ -59,7 +59,7 @@
         }
         
         .story-text-box {
-            background: rgba(27, 73, 101, 0.9); /* Dark blue semi-transparent box */
+            background: rgba(27, 73, 101, 0.9);
             color: white;
             margin-left: 10%;
             padding: 40px;
@@ -85,7 +85,6 @@
         }
         .lang-toggle-btn:hover { background: white; color: #1B4965; }
         
-        /* Hides French by default */
         #text-fr { display: none; }
 
         /* --- The Map Section --- */
@@ -101,19 +100,16 @@
         .search-container input { border: none; padding: 8px 10px; outline: none; font-size: 1em; width: 220px; border-radius: 25px; }
         .search-container i { color: #1B4965; padding: 0 10px 0 5px; }
 
-        /* Transparent, Smaller Welcome Panel */
+        /* Transparent Welcome Panel */
         .info-toggle-btn {
             position: absolute; top: 20px; left: 20px; z-index: 999;
             background: rgba(255, 255, 255, 0.95); padding: 10px 15px; border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-weight: bold; color: #1B4965; cursor: pointer; display: none; 
         }
         .info-panel {
-            position: absolute; top: 20px; left: 20px; 
-            width: 280px; /* Made it smaller! */
-            background: rgba(255, 255, 255, 0.85); /* Made it slightly transparent! */
-            backdrop-filter: blur(5px); /* Adds a cool blur effect to the map underneath */
-            padding: 20px; 
-            border-radius: 8px;
+            position: absolute; top: 20px; left: 20px; width: 280px;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
+            padding: 20px; border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; max-height: 90%; overflow-y: auto;
         }
         .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; }
@@ -122,7 +118,7 @@
         .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.5; color: #222; margin-bottom: 12px; }
         .info-panel ul { padding-left: 20px; }
 
-        /* The 10-Category Legend */
+        /* The 10-Category Legend (Capitalized Community Action!) */
         .legend-panel {
             position: absolute; bottom: 30px; right: 20px; z-index: 1000;
             background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px;
@@ -145,11 +141,8 @@
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
-            
-            /* Mobile Parallax fix */
             .parallax-section { background-attachment: scroll; height: auto; padding: 60px 20px; }
             .story-text-box { width: 90%; margin: 0 auto; padding: 25px; }
-
             .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
             #map { border-radius: 8px; }
             .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
@@ -195,7 +188,7 @@
 
         <div id="info-panel" class="info-panel">
             <button id="close-info-btn" class="close-btn">✖</button>
-            <h3>Welcome to the map</h3>
+            <h3>Welcome to the Map!</h3>
             <p>This interactive map connects Ottawa’s waterways with local sustainability action.</p>
             
             <h4>How to Use This Map</h4>
@@ -216,7 +209,7 @@
             <h4>Categories</h4>
             <div class="legend-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color: darkblue;"></i> Books & Knowledge</div>
             <div class="legend-item" data-category="Circular Economy"><i class="fa-solid fa-arrows-rotate" style="color: green;"></i> Circular Economy</div>
-            <div class="legend-item" data-category="Community action"><i class="fa-solid fa-hands-holding-circle" style="color: orange;"></i> Community action</div>
+            <div class="legend-item" data-category="Community Action"><i class="fa-solid fa-hands-holding-circle" style="color: orange;"></i> Community Action</div>
             <div class="legend-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color: cadetblue;"></i> Eco-Stories</div>
             <div class="legend-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color: red;"></i> Indigenous Culture</div>
             <div class="legend-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color: darkgreen;"></i> Nature & Wildlife</div>
@@ -234,7 +227,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script>
-        // --- The EN/FR Button Logic ---
+        // EN/FR Logic
         var isEnglish = true;
         document.getElementById('lang-btn').onclick = function() {
             if (isEnglish) {
@@ -248,7 +241,7 @@
             }
         };
 
-        // Panel Toggle Logic
+        // Panel Toggle
         document.getElementById('close-info-btn').onclick = function() {
             document.getElementById('info-panel').style.display = 'none';
             document.getElementById('open-info-btn').style.display = 'block';
@@ -266,14 +259,13 @@
             attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
-        // THE MASTER 10-ICON DICTIONARY
+        // ICON DICTIONARY (Capitalized Community Action!)
         function getIconForCategory(category) {
             var iconName = 'star'; var color = 'cadetblue';
 
-            // IMPORTANT: These names must match your Excel sheet exactly!
             if (category === 'Books & Knowledge') { iconName = 'book'; color = 'darkblue'; }
             else if (category === 'Circular Economy') { iconName = 'arrows-rotate'; color = 'green'; }
-            else if (category === 'Community action') { iconName = 'hands-holding-circle'; color = 'orange'; }
+            else if (category === 'Community Action') { iconName = 'hands-holding-circle'; color = 'orange'; }
             else if (category === 'Eco-Stories') { iconName = 'leaf'; color = 'cadetblue'; }
             else if (category === 'Indigenous Culture') { iconName = 'fire'; color = 'red'; }
             else if (category === 'Nature & Wildlife') { iconName = 'tree'; color = 'darkgreen'; }
