@@ -6,9 +6,7 @@
     <title>You & Ottawa</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
 
     <style>
@@ -20,7 +18,6 @@
             color: #333;
         }
         
-        /* The Hero Cover Page */
         .hero-section {
             height: 100vh;
             background-color: #1B4965;
@@ -32,14 +29,28 @@
             position: relative;
         }
 
-        .hero-section h1 { font-family: 'Georgia', serif; color: #ffffff; font-size: 3.5em; margin-bottom: 10px; letter-spacing: 1px; }
-        .hero-section h2 { color: #d1d5db; font-size: 1.2em; font-weight: 500; margin-bottom: 15px; }
+        .hero-section h1 { 
+            font-family: 'Georgia', serif; 
+            color: #ffffff; 
+            font-size: 3.5em; 
+            margin-bottom: 10px; 
+            letter-spacing: 1px; 
+        }
+        
+        /* Subtitle color changed to match the scroll text! */
+        .hero-section h2 { 
+            color: #a1a5ab; 
+            font-size: 1.2em; 
+            font-weight: 500; 
+            margin-bottom: 15px; 
+        }
+        
         .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 1px; font-style: italic; }
 
         .arrow-container { position: absolute; bottom: 40px; left: 40px; }
         .arrow-down {
             display: inline-block; width: 15px; height: 15px;
-            border-bottom: 2px solid #d1d5db; border-right: 2px solid #d1d5db;
+            border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab;
             transform: rotate(45deg); animation: gentle-bounce 2s infinite;
         }
 
@@ -49,11 +60,9 @@
             60% { transform: translateY(-5px) rotate(45deg); }
         }
 
-        /* The Map Section */
         .map-section { position: relative; width: 100%; height: 650px; max-width: 1000px; margin: 40px auto; }
         #map { width: 100%; height: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 1; }
 
-        /* The Search Bar */
         .search-container {
             position: absolute; top: 20px; right: 20px; z-index: 1000;
             background: white; padding: 5px 10px; border-radius: 25px;
@@ -62,7 +71,6 @@
         .search-container input { border: none; padding: 8px 10px; outline: none; font-size: 1em; width: 200px; border-radius: 25px; }
         .search-container i { color: #1B4965; padding: 0 10px 0 5px; }
 
-        /* Welcome Panel */
         .info-toggle-btn {
             position: absolute; top: 20px; left: 20px; z-index: 999;
             background: rgba(255, 255, 255, 0.95); padding: 10px 15px; border-radius: 8px;
@@ -74,28 +82,35 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1000; max-height: 90%; overflow-y: auto;
         }
         .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; }
-        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.4em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
-        .info-panel h4 { color: #1B4965; margin: 15px 0 5px 0; }
-        .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.5; color: #444; margin-bottom: 15px; }
+        
+        /* Upgraded Panel Typography! Added the elegant serif font to headers */
+        .info-panel h3 { font-family: 'Georgia', serif; color: #1B4965; margin-top: 0; font-size: 1.5em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
+        .info-panel h4 { font-family: 'Georgia', serif; color: #1B4965; margin: 15px 0 5px 0; font-size: 1.1em;}
+        .info-panel p, .info-panel ul { font-size: 0.95em; line-height: 1.6; color: #444; margin-bottom: 15px; }
         .info-panel ul { padding-left: 20px; }
 
-        /* Custom Popup Styling */
-        .custom-popup h3 { color: #1B4965; margin: 0 0 5px 0; font-size: 1.3em; }
+        /* Upgraded Popup Typography */
+        .custom-popup h3 { font-family: 'Georgia', serif; color: #1B4965; margin: 0 0 5px 0; font-size: 1.4em; }
         .custom-popup .category { color: #666; font-style: italic; margin: 0 0 10px 0; }
         .custom-popup h4 { font-size: 0.85em; color: #888; letter-spacing: 1px; margin: 15px 0 2px 0; }
         .custom-popup p { margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.4; }
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; }
 
-        /* MOBILE RESPONSIVENESS */
+        /* UPGRADED MOBILE RESPONSIVENESS */
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
-            .map-section { height: 75vh; margin: 20px auto; width: 90%; } /* Changed to 90% so users can scroll past! */
+            
+            /* Reduced width to 85% to create a clear "Thumb Gutter" on the sides! */
+            .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
             #map { border-radius: 8px; }
+            
             .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
             .search-container input { width: 100%; }
-            .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 10%; width: 70%; max-height: 40vh; }
+            
+            /* Improved the mobile floating panel design */
+            .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 5%; width: 80%; max-height: 40vh; border-radius: 12px;}
             .arrow-container { left: 20px; }
         }
     </style>
@@ -138,7 +153,6 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script>
@@ -159,13 +173,21 @@
             attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
-        // This function decides which icon to use based on the Category!
+        // --- THE UPGRADED ICON DICTIONARY ---
         function getIconForCategory(category) {
-            var iconName = 'star'; // Default icon
-            var color = 'blue';
+            // Default icon if it doesn't match anything below
+            var iconName = 'star'; 
+            var color = 'cadetblue';
 
+            // Add your exact Category names from Excel here!
             if (category === 'Books & Knowledge') { iconName = 'book'; color = 'darkblue'; }
             else if (category === 'Zero Waste & Refill') { iconName = 'recycle'; color = 'green'; }
+            else if (category === 'Thrift & Vintage') { iconName = 'shirt'; color = 'purple'; }
+            else if (category === 'Dining') { iconName = 'utensils'; color = 'orange'; }
+            else if (category === 'Food & Drink') { iconName = 'mug-hot'; color = 'orange'; }
+            else if (category === 'Nature & Wildlife') { iconName = 'leaf'; color = 'darkgreen'; }
+            else if (category === 'Waterways') { iconName = 'water'; color = 'blue'; }
+            else if (category === 'Community') { iconName = 'users'; color = 'red'; }
             
             return L.AwesomeMarkers.icon({
                 icon: iconName,
@@ -174,20 +196,17 @@
             });
         }
 
-        // HERE IS PAPAPARSE DOING ITS JOB
-        // MAKE SURE THIS FILE NAME MATCHES EXACTLY WHAT YOU UPLOADED TO GITHUB!
+        // KEEP YOUR EXACT CSV NAME HERE
         Papa.parse("You_Ottawa_MASTER_v2.csv", {
             download: true,
-            header: true, // Tells it to read your column titles
+            header: true, 
             skipEmptyLines: true,
             complete: function(results) {
                 var data = results.data;
                 
-                // This loops through every single row in your Excel sheet
                 for (var i = 0; i < data.length; i++) {
                     var row = data[i];
                     
-                    // Build the popup using your exact column names
                     var popupContent = `
                         <div class="custom-popup">
                             <h3>${row.Place_Organization}</h3>
@@ -203,15 +222,14 @@
                         </div>
                     `;
 
-                    // Create the pin using your Latitude and Longitude columns
                     var customIcon = getIconForCategory(row.Category);
+                    
                     L.marker([row.Latitude, row.Longitude], {icon: customIcon})
                         .addTo(map)
                         .bindPopup(popupContent);
                 }
             }
         });
-
     </script>
 </body>
 </html>
