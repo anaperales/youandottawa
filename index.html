@@ -13,7 +13,6 @@
 
     <style>
         body {
-            /* Now using the beautiful, modern Montserrat font */
             font-family: 'Montserrat', sans-serif; 
             margin: 0;
             padding: 0;
@@ -36,7 +35,7 @@
             position: relative;
         }
         .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; }
-        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;}
+        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 20px; letter-spacing: 1px;}
         .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 2px; font-style: italic; }
         .arrow-container { position: absolute; bottom: 40px; left: 40px; }
         .arrow-down {
@@ -51,24 +50,25 @@
             60% { transform: translateY(-5px) rotate(45deg); }
         }
 
-        /* --- THE PARALLAX STORY SECTIONS --- */
+        /* --- THE CINEMATIC PARALLAX SECTIONS --- */
         .parallax-section {
-            height: 80vh; 
             background-attachment: fixed;
             background-position: center;
             background-size: cover;
             position: relative;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15vh 0; /* Creates breathing room at the top and bottom */
+            gap: 50vh; /* This huge gap makes the text blocks scroll up one by one! */
         }
         
         .parallax-1 { background-image: url('parliament.jpg'); }
         .parallax-2 { background-image: url('bridge.jpg'); }
         
-        /* The sleek transition band between photos */
         .parallax-spacer {
-            height: 12vh;
-            background-color: #12344a; /* Deep, rich blue */
+            height: 10vh;
+            background-color: #12344a; 
             border-top: 1px solid rgba(255,255,255,0.1);
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
@@ -77,23 +77,21 @@
             background: rgba(27, 73, 101, 0.92);
             color: white;
             margin-left: 10%;
-            padding: 50px 45px 40px 45px; /* Added more padding for elegance */
+            padding: 50px 45px 40px 45px; 
             border-radius: 8px;
             width: 45%;
             max-width: 650px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-            position: relative; /* Allows the EN/FR button to sit perfectly inside */
+            position: relative; 
         }
 
-        .story-text-box h3 { font-size: 2em; margin-top: 0; margin-bottom: 20px; color: #d1d5db; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px; }
-        .story-text-box p { font-size: 1.1em; line-height: 1.8; margin-bottom: 15px; font-weight: 300; }
+        .story-text-box p { font-size: 1.25em; line-height: 1.8; margin-bottom: 10px; font-weight: 300; font-family: 'Georgia', serif;}
         .story-text-box strong { font-weight: 500; letter-spacing: 0.5px; }
         
-        /* The New Elegant EN/FR Toggle Button */
         .lang-toggle-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: none;
             border: 1px solid rgba(255,255,255,0.4);
             color: rgba(255,255,255,0.8);
@@ -117,10 +115,8 @@
             max-width: none; margin: 0; z-index: 99999;
         }
         .map-section.fullscreen-mode #map { border-radius: 0; }
-
         #map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1; }
 
-        /* Custom Map Controls */
         .custom-map-controls {
             position: absolute; top: 70px; right: 20px; z-index: 1000;
             display: flex; flex-direction: column; gap: 10px;
@@ -133,7 +129,6 @@
         }
         .custom-btn:hover { background: #1B4965; color: white; }
 
-        /* Search Bar */
         .search-container {
             position: absolute; top: 20px; right: 20px; z-index: 1000;
             background: white; padding: 6px 12px; border-radius: 25px;
@@ -142,7 +137,6 @@
         .search-container input { border: none; padding: 8px 10px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 220px; border-radius: 25px; }
         .search-container i { color: #1B4965; padding: 0 10px 0 5px; }
 
-        /* Welcome Panel - Shifted Left to 60px to clear zoom buttons! */
         .info-toggle-btn {
             position: absolute; top: 20px; left: 60px; z-index: 999;
             background: rgba(255, 255, 255, 0.95); padding: 10px 18px; border-radius: 25px;
@@ -161,7 +155,6 @@
         .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.6; color: #444; margin-bottom: 12px; }
         .info-panel ul { padding-left: 20px; }
 
-        /* The Legend */
         .legend-panel {
             position: absolute; bottom: 30px; right: 20px; z-index: 1000;
             background: rgba(255, 255, 255, 0.95); padding: 18px; border-radius: 12px;
@@ -173,31 +166,88 @@
         .legend-item i { width: 22px; text-align: center; margin-right: 10px; font-size: 1.2em; }
         .dimmed { opacity: 0.3 !important; }
 
-        /* Popup Styling */
         .custom-popup h3 { color: #1B4965; margin: 0 0 5px 0; font-size: 1.3em; }
         .custom-popup .category { color: #666; font-style: italic; margin: 0 0 12px 0; font-size: 0.85em; }
-        .custom-popup h4 { font-size: 0.85em; color: #1B4965; letter-spacing: 1px; margin: 15px 0 4px 0; font-family: 'Montserrat', sans-serif; font-weight: 600; }
+        .custom-popup h4 { font-size: 0.85em; color: #1B4965; letter-spacing: 1px; margin: 15px 0 4px 0; font-weight: 600; }
         .custom-popup p { margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.5; }
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 20px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.9em; transition: 0.2s; }
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
+        /* --- THE NEW GUIDES & FOOTER SECTION --- */
+        .guides-section {
+            padding: 80px 10%;
+            background-color: #ffffff;
+            position: relative;
+        }
+        .guides-header { text-align: center; margin-bottom: 50px; }
+        .guides-header h2 { font-size: 2.5em; color: #1B4965; margin-bottom: 10px; }
+        
+        .guides-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .guide-card {
+            background: #f9f9f9;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .guide-avatar {
+            width: 70px; height: 70px;
+            background-color: #1B4965; color: white;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5em; font-weight: 600; font-family: 'Lora', serif;
+            margin-bottom: 20px;
+        }
+        .guide-card h3 { margin: 0 0 5px 0; font-size: 1.6em; color: #1B4965; }
+        .guide-role { color: #666; font-weight: 500; margin-bottom: 20px; font-size: 0.95em; letter-spacing: 1px; text-transform: uppercase; }
+        .guide-card p { line-height: 1.7; color: #444; font-size: 1.05em; }
+
+        .testimonial-block {
+            max-width: 800px; margin: 80px auto 60px auto;
+            text-align: center;
+        }
+        .testimonial-block p { font-family: 'Lora', serif; font-size: 1.5em; color: #1B4965; font-style: italic; line-height: 1.6; margin-bottom: 15px; }
+        .testimonial-block span { font-size: 0.9em; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        .footer-credits {
+            border-top: 1px solid #eaeaea;
+            padding-top: 40px; text-align: center; color: #555; line-height: 1.8;
+        }
+        .footer-credits h4 { color: #1B4965; margin: 20px 0 5px 0; }
+        .footer-credits a { color: #1B4965; font-weight: 600; text-decoration: none; }
+        .footer-credits a:hover { text-decoration: underline; }
+
+        /* Change EN/FR button color for the white background section */
+        .guides-section .lang-toggle-btn {
+            border-color: #1B4965; color: #1B4965; top: 30px;
+        }
+        .guides-section .lang-toggle-btn:hover { background: #1B4965; color: white; }
+
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
-            .parallax-section { background-attachment: scroll; height: auto; padding: 60px 20px; }
-            .parallax-spacer { height: 5vh; }
-            .story-text-box { width: 90%; margin: 0 auto; padding: 35px 25px 25px 25px; }
-            .lang-toggle-btn { top: 10px; right: 10px; }
-            .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
             
+            /* Reduced padding for mobile so gaps aren't too massive */
+            .parallax-section { padding: 5vh 0; gap: 10vh; background-attachment: scroll; } 
+            .story-text-box { width: 85%; margin: 0 auto; padding: 40px 25px; }
+            
+            .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
             .map-section.fullscreen-mode { width: 100vw; height: 100vh; margin: 0; padding: 0; }
+            
             .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
             .search-container input { width: 100%; }
-            .custom-map-controls { top: 60px; right: 10px; }
-            
             .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 5%; width: 80%; max-height: 40vh; }
-            .arrow-container { left: 20px; }
             .legend-panel { display: none; } 
+            
+            /* Stacks the guide cards on mobile */
+            .guides-grid { grid-template-columns: 1fr; }
+            .guides-section { padding: 60px 5%; }
         }
     </style>
 </head>
@@ -211,22 +261,27 @@
     </div>
 
     <div class="parallax-section parallax-1">
+        
         <div class="story-text-box">
             <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
-            
             <div class="lang-en">
                 <p>Ottawa is more than just Parliament Hill.</p>
                 <p>Even if you've lived here for years, the coolest hidden gems often stay under the radar.</p>
-                <br>
+            </div>
+            <div class="lang-fr">
+                <p>Ottawa est bien plus que la Colline du Parlement.</p>
+                <p>Même si vous habitez ici depuis des années, les initiatives les plus intéressantes et les joyaux cachés passent souvent inaperçus.</p>
+            </div>
+        </div>
+
+        <div class="story-text-box">
+            <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
+            <div class="lang-en">
                 <p><strong>Welcome to "You & Ottawa".</strong></p>
                 <p>This map was created to help us see our city differently.</p>
                 <p>Connecting the places we visit to the water that sustains us.</p>
             </div>
-            
             <div class="lang-fr">
-                <p>Ottawa est bien plus que la Colline du Parlement.</p>
-                <p>Même si vous habitez ici depuis des années, les initiatives les plus intéressantes et les joyaux cachés passent souvent inaperçus.</p>
-                <br>
                 <p><strong>Bienvenue à « You & Ottawa ».</strong></p>
                 <p>Cette carte a été créée pour nous aider à voir notre ville différemment.</p>
                 <p>En reliant les lieux que nous visitons à l'eau qui nous soutient.</p>
@@ -237,25 +292,36 @@
     <div class="parallax-spacer"></div>
 
     <div class="parallax-section parallax-2">
+        
         <div class="story-text-box">
             <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
-            
             <div class="lang-en">
-                <h3>The Context</h3>
                 <p><strong>Ottawa lives and breathes by the water.</strong></p>
+            </div>
+            <div class="lang-fr">
+                <p><strong>Ottawa vit au rythme de l'eau.</strong></p>
+            </div>
+        </div>
+
+        <div class="story-text-box">
+            <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
+            <div class="lang-en">
                 <p>Did you know our drinking water travels through 3,000km of pipes before returning to the watershed?</p>
                 <p>Every bite we eat and item we buy connects us to this cycle.</p>
-                <br>
+            </div>
+            <div class="lang-fr">
+                <p>Saviez-vous que notre eau potable parcourt 3 000 km de canalisations avant de retourner dans le bassin versant ?</p>
+                <p>Chaque bouchée que nous mangeons et chaque article que nous achetons nous relient à ce cycle.</p>
+            </div>
+        </div>
+
+        <div class="story-text-box">
+            <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
+            <div class="lang-en">
                 <p>This isn't just a map, it's an invitation to join the movement.</p>
                 <p>Use the guide below to find student-friendly events, sustainable shops, and projects where you can take real action.</p>
             </div>
-            
             <div class="lang-fr">
-                <h3>Le Contexte</h3>
-                <p><strong>Ottawa vit au rythme de l'eau.</strong></p>
-                <p>Saviez-vous que notre eau potable parcourt 3 000 km de canalisations avant de retourner dans le bassin versant ?</p>
-                <p>Chaque bouchée que nous mangeons et chaque article que nous achetons nous relient à ce cycle.</p>
-                <br>
                 <p>Ce n'est pas seulement une carte, c'est une invitation à rejoindre le mouvement.</p>
                 <p>Utilisez le guide ci-dessous pour trouver des événements étudiants, des boutiques durables et des projets où vous pouvez agir concrètement.</p>
             </div>
@@ -263,7 +329,6 @@
     </div>
 
     <div class="map-section" id="map-wrapper">
-        
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="search-box" placeholder="Search thrift, coffee, etc...">
@@ -310,6 +375,77 @@
         </div>
 
         <div id="map"></div>
+    </div>
+
+    <div class="guides-section">
+        <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
+        
+        <div class="guides-header">
+            <h2 class="lang-en">Your Guides</h2>
+            <h2 class="lang-fr">Vos Guides</h2>
+        </div>
+
+        <div class="guides-grid">
+            <div class="guide-card">
+                <div class="guide-avatar">AP</div>
+                <h3>Ana Perales</h3>
+                <div class="guide-role lang-en">Project Lead</div>
+                <div class="guide-role lang-fr">Chef de projet</div>
+                
+                <div class="lang-en">
+                    <p>Having moved to Ottawa for university, I quickly realized there's so much going on in the city, but it can be hard to know where to start.</p>
+                    <p>That's when I realized how powerful it could be to see the city differently, and why I created this interactive map: To help students and locals alike see Ottawa from a new point of view. It's never too late to start.</p>
+                    <p>This guide is meant to make discovering the city easy and rewarding, all while supporting a greener, healthier community.</p>
+                </div>
+                
+                <div class="lang-fr">
+                    <p>Après avoir choisi Ottawa pour mes études universitaires, j'ai rapidement compris que cette ville avait beaucoup à offrir, mais qu'il était difficile de savoir par où commencer.</p>
+                    <p>C'est alors que j'ai compris à quel point il pouvait être utile de voir la ville sous un autre angle, et c'est pourquoi j'ai créé cette carte interactive : Pour aider les étudiants et les habitants à découvrir Ottawa sous un nouveau jour. Il n'est jamais trop tard pour commencer.</p>
+                    <p>Ce guide a pour but de faciliter la découverte de la ville et de la rendre enrichissante, tout en favorisant une communauté plus verte et plus saine.</p>
+                </div>
+            </div>
+
+            <div class="guide-card">
+                <div class="guide-avatar">MB</div>
+                <h3>Makenze Blackburn</h3>
+                <div class="guide-role lang-en">Project Partner</div>
+                <div class="guide-role lang-fr">Partenaire de projet</div>
+                
+                <div class="lang-en">
+                    <p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p>
+                </div>
+                
+                <div class="lang-fr">
+                    <p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte numérique aux bénévoles et aux organisations sur le terrain qui rendent cette ville durable.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-block">
+            <p>"It's hard to aggregate all the activities and resources fragmented across Ottawa regions and suburbs/neighborhoods. You guys are doing great work, but you don't have to do it all!"</p>
+            <span class="lang-en">Early User Feedback - Anonymous Student</span>
+            <span class="lang-fr">Commentaires des premiers utilisateurs - Étudiant anonyme</span>
+        </div>
+
+        <div class="footer-credits">
+            <h4 class="lang-en">Land Acknowledgement</h4>
+            <h4 class="lang-fr">Reconnaissance du Territoire</h4>
+            
+            <p class="lang-en" style="margin-bottom: 30px;">We acknowledge that the land on which this map focuses is the unceded territory of the Algonquin Anishinabe Nation.</p>
+            <p class="lang-fr" style="margin-bottom: 30px;">Nous reconnaissons que la terre sur laquelle cette carte se concentre est le territoire non cédé de la Nation Algonquine Anishinabe.</p>
+            
+            <p>
+                <strong class="lang-en">Feedback or Questions?</strong>
+                <strong class="lang-fr">Des questions ou des commentaires ?</strong>
+                <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
+            </p>
+            
+            <p style="margin-top: 30px;">
+                <span class="lang-en">Created by</span><span class="lang-fr">Créé par</span> Ana Perales<br>
+                <span class="lang-en">In partnership with</span><span class="lang-fr">En partenariat avec</span> Makenze Blackburn<br>
+                <span class="lang-en">Supported by</span><span class="lang-fr">Soutenu par</span> Waterlution Y4RC
+            </p>
+        </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
