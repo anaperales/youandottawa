@@ -16,7 +16,7 @@
             font-family: 'Montserrat', sans-serif; 
             margin: 0;
             padding: 0;
-            background-color: #f4f6f8;
+            background-color: #1B4965; /* Unified dark background */
             color: #333;
             overflow-x: hidden;
         }
@@ -59,8 +59,8 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding: 15vh 0; /* Creates breathing room at the top and bottom */
-            gap: 50vh; /* This huge gap makes the text blocks scroll up one by one! */
+            padding: 15vh 0; 
+            gap: 25vh; /* REDUCED GAP so the blocks flow closer together! */
         }
         
         .parallax-1 { background-image: url('parliament.jpg'); }
@@ -77,15 +77,15 @@
             background: rgba(27, 73, 101, 0.92);
             color: white;
             margin-left: 10%;
-            padding: 50px 45px 40px 45px; 
+            padding: 40px 35px; /* Adjusted padding */
             border-radius: 8px;
-            width: 45%;
-            max-width: 650px;
+            width: 38%; /* REDUCED WIDTH so it isn't as elongated! */
+            max-width: 550px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             position: relative; 
         }
 
-        .story-text-box p { font-size: 1.25em; line-height: 1.8; margin-bottom: 10px; font-weight: 300; font-family: 'Georgia', serif;}
+        .story-text-box p { font-size: 1.15em; line-height: 1.7; margin-bottom: 10px; font-weight: 300; font-family: 'Georgia', serif;}
         .story-text-box strong { font-weight: 500; letter-spacing: 0.5px; }
         
         .lang-toggle-btn {
@@ -115,7 +115,7 @@
             max-width: none; margin: 0; z-index: 99999;
         }
         .map-section.fullscreen-mode #map { border-radius: 0; }
-        #map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1; }
+        #map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1; }
 
         .custom-map-controls {
             position: absolute; top: 70px; right: 20px; z-index: 1000;
@@ -169,18 +169,20 @@
         .custom-popup h3 { color: #1B4965; margin: 0 0 5px 0; font-size: 1.3em; }
         .custom-popup .category { color: #666; font-style: italic; margin: 0 0 12px 0; font-size: 0.85em; }
         .custom-popup h4 { font-size: 0.85em; color: #1B4965; letter-spacing: 1px; margin: 15px 0 4px 0; font-weight: 600; }
-        .custom-popup p { margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.5; }
+        .custom-popup p { margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.5; color: #333; }
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 20px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.9em; transition: 0.2s; }
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* --- THE NEW GUIDES & FOOTER SECTION --- */
+        /* --- THE NEW UNIFIED BLUE GUIDES & FOOTER SECTION --- */
         .guides-section {
             padding: 80px 10%;
-            background-color: #ffffff;
+            background-color: #1B4965; /* Unified dark blue background! */
+            color: white;
             position: relative;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
         .guides-header { text-align: center; margin-bottom: 50px; }
-        .guides-header h2 { font-size: 2.5em; color: #1B4965; margin-bottom: 10px; }
+        .guides-header h2 { font-size: 2.5em; color: white; margin-bottom: 10px; }
         
         .guides-grid {
             display: grid;
@@ -190,62 +192,52 @@
             margin: 0 auto;
         }
         .guide-card {
-            background: #f9f9f9;
+            background: #12344a; /* Slightly deeper blue for the cards */
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
         }
         .guide-avatar {
             width: 70px; height: 70px;
-            background-color: #1B4965; color: white;
+            background-color: white; color: #1B4965;
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             font-size: 1.5em; font-weight: 600; font-family: 'Lora', serif;
             margin-bottom: 20px;
         }
-        .guide-card h3 { margin: 0 0 5px 0; font-size: 1.6em; color: #1B4965; }
-        .guide-role { color: #666; font-weight: 500; margin-bottom: 20px; font-size: 0.95em; letter-spacing: 1px; text-transform: uppercase; }
-        .guide-card p { line-height: 1.7; color: #444; font-size: 1.05em; }
+        .guide-card h3 { margin: 0 0 5px 0; font-size: 1.6em; color: white; }
+        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 20px; font-size: 0.95em; letter-spacing: 1px; text-transform: uppercase; }
+        .guide-card p { line-height: 1.7; color: #d1d5db; font-size: 1.05em; }
 
         .testimonial-block {
             max-width: 800px; margin: 80px auto 60px auto;
             text-align: center;
         }
-        .testimonial-block p { font-family: 'Lora', serif; font-size: 1.5em; color: #1B4965; font-style: italic; line-height: 1.6; margin-bottom: 15px; }
-        .testimonial-block span { font-size: 0.9em; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .testimonial-block p { font-family: 'Lora', serif; font-size: 1.5em; color: white; font-style: italic; line-height: 1.6; margin-bottom: 15px; }
+        .testimonial-block span { font-size: 0.9em; color: #a1a5ab; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
         .footer-credits {
-            border-top: 1px solid #eaeaea;
-            padding-top: 40px; text-align: center; color: #555; line-height: 1.8;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 40px; text-align: center; color: #d1d5db; line-height: 1.8;
         }
-        .footer-credits h4 { color: #1B4965; margin: 20px 0 5px 0; }
-        .footer-credits a { color: #1B4965; font-weight: 600; text-decoration: none; }
-        .footer-credits a:hover { text-decoration: underline; }
+        .footer-credits h4 { color: white; margin: 20px 0 5px 0; }
+        .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
+        .footer-credits a:hover { color: white; text-decoration: underline; }
 
-        /* Change EN/FR button color for the white background section */
-        .guides-section .lang-toggle-btn {
-            border-color: #1B4965; color: #1B4965; top: 30px;
-        }
-        .guides-section .lang-toggle-btn:hover { background: #1B4965; color: white; }
+        .guides-section .lang-toggle-btn { top: 30px; right: 30px; }
 
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
-            
-            /* Reduced padding for mobile so gaps aren't too massive */
-            .parallax-section { padding: 5vh 0; gap: 10vh; background-attachment: scroll; } 
-            .story-text-box { width: 85%; margin: 0 auto; padding: 40px 25px; }
-            
+            .parallax-section { padding: 5vh 0; gap: 5vh; background-attachment: scroll; } 
+            .story-text-box { width: 85%; margin: 0 auto; padding: 35px 25px; }
             .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
             .map-section.fullscreen-mode { width: 100vw; height: 100vh; margin: 0; padding: 0; }
-            
             .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
             .search-container input { width: 100%; }
             .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 5%; width: 80%; max-height: 40vh; }
             .legend-panel { display: none; } 
-            
-            /* Stacks the guide cards on mobile */
             .guides-grid { grid-template-columns: 1fr; }
             .guides-section { padding: 60px 5%; }
         }
@@ -441,9 +433,9 @@
             </p>
             
             <p style="margin-top: 30px;">
-                <span class="lang-en">Created by</span><span class="lang-fr">Créé par</span> Ana Perales<br>
-                <span class="lang-en">In partnership with</span><span class="lang-fr">En partenariat avec</span> Makenze Blackburn<br>
-                <span class="lang-en">Supported by</span><span class="lang-fr">Soutenu par</span> Waterlution Y4RC
+                <span class="lang-en">Created by</span><span class="lang-fr">Créé par</span> | Ana Perales<br>
+                <span class="lang-en">In partnership with</span><span class="lang-fr">En partenariat avec</span> | Makenze Blackburn<br>
+                <span class="lang-en">Supported by</span><span class="lang-fr">Soutenu par</span> | Waterlution Y4RC
             </p>
         </div>
     </div>
@@ -453,7 +445,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script>
-        // GLOBAL EN/FR LOGIC
         var isEnglish = true;
         function toggleLanguage() {
             var englishElements = document.querySelectorAll('.lang-en');
@@ -570,10 +561,11 @@
                     
                     marker.addTo(map);
 
+                    // UPGRADED SEARCH: Now scans ALL columns for matches!
                     allMapMarkers.push({
                         marker: marker,
                         category: row.Category,
-                        searchableText: (row.Place_Organization + " " + row.Category + " " + row.The_Mission).toLowerCase()
+                        searchableText: (row.Place_Organization + " " + row.Category + " " + row.The_Mission + " " + row.Why_Matters + " " + row.Action_Item + " " + row.Address).toLowerCase()
                     });
                 }
             }
