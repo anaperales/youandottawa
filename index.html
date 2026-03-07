@@ -16,7 +16,7 @@
             font-family: 'Montserrat', sans-serif; 
             margin: 0;
             padding: 0;
-            background-color: #1B4965; /* Unified dark background */
+            background-color: #1B4965;
             color: #333;
             overflow-x: hidden;
         }
@@ -31,12 +31,22 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
             position: relative;
         }
-        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; }
-        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 20px; letter-spacing: 1px;}
+
+        /* NEW: The Decorative Hero Box! */
+        .hero-box {
+            border: 2px solid rgba(255,255,255,0.2);
+            padding: 50px 80px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.03);
+            text-align: center;
+        }
+
+        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; }
+        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px;}
         .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 2px; font-style: italic; }
+        
         .arrow-container { position: absolute; bottom: 40px; left: 40px; }
         .arrow-down {
             display: inline-block; width: 15px; height: 15px;
@@ -60,48 +70,45 @@
             flex-direction: column;
             align-items: flex-start;
             padding: 15vh 0; 
-            gap: 25vh; /* REDUCED GAP so the blocks flow closer together! */
+            gap: 25vh; 
         }
         
         .parallax-1 { background-image: url('parliament.jpg'); }
         .parallax-2 { background-image: url('bridge.jpg'); }
         
-        .parallax-spacer {
-            height: 10vh;
-            background-color: #12344a; 
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        /* NEW: Photo Credits */
+        .photo-credit {
+            position: absolute; top: 15px; left: 20px;
+            background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.8);
+            padding: 6px 12px; border-radius: 4px;
+            font-size: 0.75em; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
         }
-        
+        .photo-credit i { margin-right: 5px; }
+
         .story-text-box {
-            background: rgba(27, 73, 101, 0.92);
+            /* Toned down the transparency for better readability! */
+            background: rgba(27, 73, 101, 0.98);
             color: white;
             margin-left: 10%;
-            padding: 40px 35px; /* Adjusted padding */
+            padding: 45px 40px; 
             border-radius: 8px;
-            width: 38%; /* REDUCED WIDTH so it isn't as elongated! */
-            max-width: 550px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            /* Made the box skinnier to elongate the scroll */
+            width: 32%; 
+            max-width: 480px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
             position: relative; 
         }
 
-        .story-text-box p { font-size: 1.15em; line-height: 1.7; margin-bottom: 10px; font-weight: 300; font-family: 'Georgia', serif;}
+        /* Text made one size bigger! */
+        .story-text-box p { font-size: 1.3em; line-height: 1.7; margin-bottom: 12px; font-weight: 300; font-family: 'Georgia', serif;}
         .story-text-box strong { font-weight: 500; letter-spacing: 0.5px; }
         
         .lang-toggle-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: 1px solid rgba(255,255,255,0.4);
-            color: rgba(255,255,255,0.8);
-            padding: 5px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.8em;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
-            transition: 0.3s;
+            position: absolute; top: 15px; right: 15px;
+            background: none; border: 1px solid rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.8); padding: 5px 12px;
+            border-radius: 20px; cursor: pointer; font-size: 0.8em;
+            font-family: 'Montserrat', sans-serif; font-weight: 500; transition: 0.3s;
         }
         .lang-toggle-btn:hover { background: white; color: #1B4965; border-color: white; }
         
@@ -144,7 +151,7 @@
         }
         .info-panel {
             position: absolute; top: 20px; left: 60px; width: 290px;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px);
             padding: 25px; border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 85%; overflow-y: auto;
         }
@@ -173,42 +180,42 @@
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 20px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.9em; transition: 0.2s; }
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* --- THE NEW UNIFIED BLUE GUIDES & FOOTER SECTION --- */
+        /* --- THE GUIDES & FOOTER SECTION --- */
         .guides-section {
             padding: 80px 10%;
-            background-color: #1B4965; /* Unified dark blue background! */
+            background-color: #1B4965; 
             color: white;
             position: relative;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
-        .guides-header { text-align: center; margin-bottom: 50px; }
-        .guides-header h2 { font-size: 2.5em; color: white; margin-bottom: 10px; }
         
         .guides-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            max-width: 1000px;
+            gap: 30px;
+            max-width: 900px;
             margin: 0 auto;
         }
+        
+        /* SHRUNK THE GUIDE CARDS DOWN! */
         .guide-card {
-            background: #12344a; /* Slightly deeper blue for the cards */
-            padding: 40px;
+            background: #12344a; 
+            padding: 25px 30px; 
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             position: relative;
         }
         .guide-avatar {
-            width: 70px; height: 70px;
+            width: 50px; height: 50px; 
             background-color: white; color: #1B4965;
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-size: 1.5em; font-weight: 600; font-family: 'Lora', serif;
-            margin-bottom: 20px;
+            font-size: 1.2em; font-weight: 600; font-family: 'Lora', serif;
+            margin-bottom: 15px;
         }
-        .guide-card h3 { margin: 0 0 5px 0; font-size: 1.6em; color: white; }
-        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 20px; font-size: 0.95em; letter-spacing: 1px; text-transform: uppercase; }
-        .guide-card p { line-height: 1.7; color: #d1d5db; font-size: 1.05em; }
+        .guide-card h3 { margin: 0 0 5px 0; font-size: 1.4em; color: white; }
+        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 15px; font-size: 0.85em; letter-spacing: 1px; text-transform: uppercase; }
+        .guide-card p { line-height: 1.6; color: #d1d5db; font-size: 0.95em; }
 
         .testimonial-block {
             max-width: 800px; margin: 80px auto 60px auto;
@@ -217,19 +224,25 @@
         .testimonial-block p { font-family: 'Lora', serif; font-size: 1.5em; color: white; font-style: italic; line-height: 1.6; margin-bottom: 15px; }
         .testimonial-block span { font-size: 0.9em; color: #a1a5ab; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
+        /* UPDATED FOOTER FORMATTING */
         .footer-credits {
             border-top: 1px solid rgba(255,255,255,0.2);
             padding-top: 40px; text-align: center; color: #d1d5db; line-height: 1.8;
         }
-        .footer-credits h4 { color: white; margin: 20px 0 5px 0; }
+        .footer-credits h4 { color: white; margin: 20px 0 5px 0; font-size: 1.2em; }
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
         .footer-credits a:hover { color: white; text-decoration: underline; }
+        
+        /* Format fix for the "Created by | Ana" lines */
+        .credits-list { margin-top: 30px; font-size: 1.05em; line-height: 2; }
+        .credits-list strong { color: white; font-weight: 500; }
 
         .guides-section .lang-toggle-btn { top: 30px; right: 30px; }
 
         @media (max-width: 768px) {
+            .hero-box { padding: 30px 20px; width: 80%; border: none; background: transparent; }
             .hero-section h1 { font-size: 2.5em; }
-            .hero-section h2 { font-size: 1em; padding: 0 20px; }
+            .hero-section h2 { font-size: 1em; }
             .parallax-section { padding: 5vh 0; gap: 5vh; background-attachment: scroll; } 
             .story-text-box { width: 85%; margin: 0 auto; padding: 35px 25px; }
             .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
@@ -246,14 +259,18 @@
 <body>
 
     <div class="hero-section">
-        <h1>You & Ottawa</h1>
-        <h2>a student-led guide to the city's hidden gems</h2>
-        <div class="scroll-text">scroll down to start!</div>
+        <div class="hero-box">
+            <h1>You & Ottawa</h1>
+            <h2>a student-led guide to the city's hidden gems</h2>
+            <div class="scroll-text">scroll down to start!</div>
+        </div>
         <div class="arrow-container"><div class="arrow-down"></div></div>
     </div>
 
     <div class="parallax-section parallax-1">
         
+        <div class="photo-credit"><i class="fa-solid fa-camera"></i> Photo by Benoit Debaix on Unsplash</div>
+
         <div class="story-text-box">
             <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
             <div class="lang-en">
@@ -281,10 +298,10 @@
         </div>
     </div>
 
-    <div class="parallax-spacer"></div>
-
     <div class="parallax-section parallax-2">
         
+        <div class="photo-credit"><i class="fa-solid fa-camera"></i> Photo by Alessio Patron on Unsplash</div>
+
         <div class="story-text-box">
             <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
             <div class="lang-en">
@@ -371,11 +388,6 @@
 
     <div class="guides-section">
         <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
-        
-        <div class="guides-header">
-            <h2 class="lang-en">Your Guides</h2>
-            <h2 class="lang-fr">Vos Guides</h2>
-        </div>
 
         <div class="guides-grid">
             <div class="guide-card">
@@ -432,10 +444,10 @@
                 <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
             </p>
             
-            <p style="margin-top: 30px;">
-                <span class="lang-en">Created by</span><span class="lang-fr">Créé par</span> | Ana Perales<br>
-                <span class="lang-en">In partnership with</span><span class="lang-fr">En partenariat avec</span> | Makenze Blackburn<br>
-                <span class="lang-en">Supported by</span><span class="lang-fr">Soutenu par</span> | Waterlution Y4RC
+            <p class="credits-list">
+                <span class="lang-en">Created by</span><span class="lang-fr">Créé par</span> | <strong>Ana Perales</strong><br>
+                <span class="lang-en">In partnership with</span><span class="lang-fr">En partenariat avec</span> | <strong>Makenze Blackburn</strong><br>
+                <span class="lang-en">Supported by</span><span class="lang-fr">Soutenu par</span> | <strong>Waterlution Y4RC</strong>
             </p>
         </div>
     </div>
@@ -561,7 +573,6 @@
                     
                     marker.addTo(map);
 
-                    // UPGRADED SEARCH: Now scans ALL columns for matches!
                     allMapMarkers.push({
                         marker: marker,
                         category: row.Category,
