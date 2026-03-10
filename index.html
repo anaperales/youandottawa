@@ -8,61 +8,26 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif; 
-            margin: 0;
-            padding: 0;
-            background-color: #1B4965;
-            color: #333;
-            overflow-x: hidden;
-        }
-        
+        body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #1B4965; color: #333; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: 'Lora', serif; }
 
-        /* --- GLOBAL LANGUAGE CSS ENGINE --- */
         .lang-fr { display: none; }
         body.fr-active .lang-en { display: none !important; }
-        body.fr-active div.lang-fr, 
-        body.fr-active h2.lang-fr, 
-        body.fr-active h3.lang-fr, 
-        body.fr-active h4.lang-fr, 
-        body.fr-active p.lang-fr { display: block !important; }
-        body.fr-active span.lang-fr, 
-        body.fr-active strong.lang-fr { display: inline !important; } 
+        body.fr-active div.lang-fr, body.fr-active h2.lang-fr, body.fr-active h3.lang-fr, body.fr-active h4.lang-fr, body.fr-active p.lang-fr { display: block !important; }
+        body.fr-active span.lang-fr, body.fr-active strong.lang-fr { display: inline !important; } 
 
-        /* The Hero Cover Page */
-        .hero-section {
-            height: 100vh;
-            background-color: #1B4965;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .hero-box {
-            border: 2px solid rgba(255,255,255,0.2);
-            padding: 50px 80px;
-            border-radius: 15px;
-            background: rgba(255,255,255,0.03);
-            text-align: center;
-        }
-
+        .hero-section { height: 100vh; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; }
+        
+        /* Removed the hero-box background/border styling as requested! */
         .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; }
         .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif;}
         .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 2px; font-style: italic; font-family: 'Montserrat', sans-serif;}
         
         .arrow-container { position: absolute; bottom: 40px; left: 40px; }
-        .arrow-down {
-            display: inline-block; width: 15px; height: 15px;
-            border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab;
-            transform: rotate(45deg); animation: gentle-bounce 2s infinite;
-        }
+        .arrow-down { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab; transform: rotate(45deg); animation: gentle-bounce 2s infinite; }
 
         @keyframes gentle-bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); }
@@ -70,124 +35,47 @@
             60% { transform: translateY(-5px) rotate(45deg); }
         }
 
-        /* --- THE CINEMATIC PARALLAX SECTIONS --- */
-        .parallax-section {
-            background-attachment: fixed;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 15vh 0; 
-        }
-        
+        .parallax-section { background-attachment: fixed; background-position: center; background-size: cover; position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 15vh 0; }
         .parallax-1 { background-image: url('parliament.jpg'); }
         .parallax-2 { background-image: url('bridge.jpg'); }
         
-        .photo-credit {
-            position: absolute; top: 15px; left: 20px;
-            background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.8);
-            padding: 10px 14px; border-radius: 25px;
-            font-size: 0.8em; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;
-            cursor: pointer; display: flex; align-items: center;
-            transition: background 0.3s;
-        }
+        .photo-credit { position: absolute; top: 15px; left: 20px; background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.8); padding: 10px 14px; border-radius: 25px; font-size: 0.8em; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; cursor: pointer; display: flex; align-items: center; transition: background 0.3s; }
         .photo-credit:hover { background: rgba(0,0,0,0.8); }
         .photo-credit i { font-size: 1.1em; transition: 0.3s; }
         .credit-text { display: none; margin-left: 8px; white-space: nowrap; }
         .photo-credit.show-text i { margin-right: 2px; }
         .photo-credit.show-text .credit-text { display: inline-block; }
 
-        /* THE UPDATED STORY TEXT BOX (Shrunk padding/width, tweaked transparency) */
-        .story-text-box {
-            background: rgba(27, 73, 101, 0.95); /* A tiny bit more translucent! */
-            color: white;
-            margin-left: 10%;
-            padding: 40px 35px; /* Shrunk the borders! */
-            border-radius: 8px;
-            width: 32%; 
-            max-width: 440px; /* Takes up a bit less space */
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-            position: relative; 
-        }
-
+        .story-text-box { background: rgba(27, 73, 101, 0.95); color: white; margin-left: 10%; padding: 40px 35px; border-radius: 8px; width: 32%; max-width: 440px; box-shadow: 0 15px 40px rgba(0,0,0,0.5); position: relative; }
         .story-text-box p { font-size: 1.3em; line-height: 1.7; margin-bottom: 12px; font-weight: 300; font-family: 'Georgia', serif;}
         .story-text-box strong { font-weight: 500; letter-spacing: 0.5px; }
-        
         .text-spacer { height: 35px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 35px; }
-        
-        .lang-toggle-btn {
-            position: absolute; top: 15px; right: 15px;
-            background: none; border: 1px solid rgba(255,255,255,0.4);
-            color: rgba(255,255,255,0.8); padding: 5px 12px;
-            border-radius: 20px; cursor: pointer; font-size: 0.8em;
-            font-family: 'Montserrat', sans-serif; font-weight: 500; transition: 0.3s;
-        }
+        .lang-toggle-btn { position: absolute; top: 15px; right: 15px; background: none; border: 1px solid rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8em; font-family: 'Montserrat', sans-serif; font-weight: 500; transition: 0.3s; }
         .lang-toggle-btn:hover { background: white; color: #1B4965; border-color: white; }
 
-        /* --- The Map Section --- */
-        .map-section { 
-            position: relative; 
-            width: 85vw; 
-            height: 75vh; 
-            min-height: 600px; 
-            max-width: 1400px; 
-            margin: 60px auto; 
-            transition: all 0.3s ease; 
-        }
-        
-        .map-section.fullscreen-mode {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            max-width: none; margin: 0; z-index: 99999;
-        }
+        .map-section { position: relative; width: 85vw; height: 75vh; min-height: 600px; max-width: 1400px; margin: 60px auto; transition: all 0.3s ease; }
+        .map-section.fullscreen-mode { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; max-width: none; margin: 0; z-index: 99999; }
         .map-section.fullscreen-mode #map { border-radius: 0; }
         #map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1; }
 
-        .custom-map-controls {
-            position: absolute; top: 70px; right: 20px; z-index: 1000;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .custom-btn {
-            background: white; border: none; width: 40px; height: 40px;
-            border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            cursor: pointer; color: #1B4965; font-size: 1.2em;
-            display: flex; justify-content: center; align-items: center; transition: 0.2s;
-        }
+        .custom-map-controls { position: absolute; top: 70px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .custom-btn { background: white; border: none; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.2em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .custom-btn:hover { background: #1B4965; color: white; }
 
-        /* --- THE SEARCH BAR WITH AUTOCOMPLETE --- */
         .search-container { position: absolute; top: 20px; right: 20px; z-index: 1000; }
-        
-        .search-input-box {
-            background: white; padding: 6px 12px; border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center;
-        }
+        .search-input-box { background: white; padding: 6px 12px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; }
         .search-input-box input { border: none; padding: 8px 10px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 220px; background: transparent;}
         .search-input-box i { color: #1B4965; padding: 0 10px 0 5px; }
 
-        .search-suggestions {
-            position: absolute; top: 100%; left: 0; width: 100%;
-            background: white; border-radius: 12px; margin-top: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none;
-        }
+        .search-suggestions { position: absolute; top: 100%; left: 0; width: 100%; background: white; border-radius: 12px; margin-top: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; }
         .suggestion-item { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
         .suggestion-item:last-child { border-bottom: none; }
         .suggestion-item:hover { background-color: #f4f6f8; }
         .suggestion-item strong { color: #1B4965; font-size: 0.9em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px;}
         .suggestion-item span { color: #888; font-size: 0.75em; font-style: italic; }
 
-        .info-toggle-btn {
-            position: absolute; top: 20px; left: 60px; z-index: 999;
-            background: rgba(255, 255, 255, 0.95); padding: 10px 18px; border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; 
-        }
-        .info-panel {
-            position: absolute; top: 20px; left: 60px; width: 290px;
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px);
-            padding: 25px; border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 85%; overflow-y: auto;
-        }
+        .info-toggle-btn { position: absolute; top: 20px; left: 60px; z-index: 999; background: rgba(255, 255, 255, 0.95); padding: 10px 18px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
+        .info-panel { position: absolute; top: 20px; left: 60px; width: 290px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 85%; overflow-y: auto; }
         .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; transition: 0.2s; }
         .close-btn:hover { color: #1B4965; transform: scale(1.1); }
         .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.4em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
@@ -195,11 +83,7 @@
         .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.6; color: #444; margin-bottom: 12px; }
         .info-panel ul { padding-left: 20px; }
 
-        .legend-panel {
-            position: absolute; bottom: 30px; right: 20px; z-index: 1000;
-            background: rgba(255, 255, 255, 0.95); padding: 18px; border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.85em; max-width: 220px;
-        }
+        .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.95); padding: 18px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.85em; max-width: 220px; }
         .legend-panel h4 { margin: 0 0 12px 0; color: #1B4965; border-bottom: 1px solid #ccc; padding-bottom: 8px; font-size: 1.1em; }
         .legend-item { display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; transition: opacity 0.2s; font-weight: 500;}
         .legend-item:hover { opacity: 0.6; }
@@ -213,54 +97,16 @@
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 20px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.9em; transition: 0.2s; font-family: 'Montserrat', sans-serif;}
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* --- THE 3-COLUMN GUIDES SECTION --- */
-        .guides-section {
-            padding: 80px 5%; 
-            background-color: #1B4965; 
-            color: white;
-            position: relative;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .guides-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .guide-card {
-            background: #12344a; 
-            padding: 30px; 
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            position: relative;
-        }
-        .guide-avatar {
-            width: 50px; height: 50px; 
-            background-color: white; color: #1B4965;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.2em; font-weight: 600; font-family: 'Lora', serif;
-            margin-bottom: 15px;
-        }
+        .guides-section { padding: 80px 5%; background-color: #1B4965; color: white; position: relative; border-top: 1px solid rgba(255,255,255,0.1); }
+        .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .guide-card { background: #12344a; padding: 30px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); position: relative; }
+        .guide-avatar { width: 50px; height: 50px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2em; font-weight: 600; font-family: 'Lora', serif; margin-bottom: 15px; }
         .guide-card h3 { margin: 0 0 5px 0; font-size: 1.3em; color: white; }
         .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 15px; font-size: 0.8em; letter-spacing: 1px; text-transform: uppercase; }
         .guide-card p { line-height: 1.6; color: #d1d5db; font-size: 0.9em; margin-bottom: 10px; }
 
-        /* UPDATED FOOTER CREDITS (Names Removed) */
-        .footer-credits {
-            border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 50px; margin-top: 60px; 
-            text-align: center; color: #d1d5db; line-height: 1.8;
-            font-family: 'Montserrat', sans-serif; 
-        }
-        .footer-credits h4 { 
-            font-family: 'Montserrat', sans-serif; color: white; 
-            margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; 
-            text-transform: uppercase; letter-spacing: 1px;
-        }
+        .footer-credits { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 50px; margin-top: 60px; text-align: center; color: #d1d5db; line-height: 1.8; font-family: 'Montserrat', sans-serif; }
+        .footer-credits h4 { font-family: 'Montserrat', sans-serif; color: white; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
         .footer-credits a:hover { color: white; text-decoration: underline; }
         .credits-list { margin-top: 40px; font-size: 1.05em; line-height: 2; }
@@ -268,9 +114,8 @@
         .guides-section .lang-toggle-btn { top: 30px; right: 30px; }
 
         @media (max-width: 768px) {
-            .hero-box { padding: 30px 20px; width: 80%; border: none; background: transparent; }
             .hero-section h1 { font-size: 2.5em; }
-            .hero-section h2 { font-size: 1em; }
+            .hero-section h2 { font-size: 1em; padding: 0 20px;}
             .parallax-section { padding: 5vh 0; background-attachment: scroll; } 
             .story-text-box { width: 85%; margin: 0 auto; padding: 35px 25px; }
             .map-section { width: 90vw; height: 75vh; margin: 20px auto; padding-bottom: 40px; } 
@@ -287,11 +132,9 @@
 <body>
 
     <div class="hero-section">
-        <div class="hero-box">
-            <h1>You & Ottawa</h1>
-            <h2>a student-led guide to the city's hidden gems</h2>
-            <div class="scroll-text">scroll down to start!</div>
-        </div>
+        <h1>You & Ottawa</h1>
+        <h2>a student-led guide to the city's hidden gems</h2>
+        <div class="scroll-text">scroll down to start!</div>
         <div class="arrow-container"><div class="arrow-down"></div></div>
     </div>
 
@@ -299,7 +142,6 @@
         <div class="photo-credit" onclick="this.classList.toggle('show-text')">
             <i class="fa-solid fa-camera"></i><span class="credit-text">Photo by Benoit Debaix on Unsplash</span>
         </div>
-
         <div class="story-text-box">
             <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
             <div class="lang-en">
@@ -325,7 +167,6 @@
         <div class="photo-credit" onclick="this.classList.toggle('show-text')">
             <i class="fa-solid fa-camera"></i><span class="credit-text">Photo by Alessio Patron on Unsplash</span>
         </div>
-
         <div class="story-text-box">
             <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
             <div class="lang-en">
@@ -408,12 +249,12 @@
                 <div class="guide-role lang-en">Project Lead</div>
                 <div class="guide-role lang-fr">Chef de projet</div>
                 <div class="lang-en">
-                    <p>Having moved to Ottawa for university, I quickly realized there's so much going on in the city, but it can be hard to know where to start.</p>
-                    <p>That's why I created this interactive map: To help students and locals alike see Ottawa from a new point of view. It's never too late to start.</p>
+                    <p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems.</p>
+                    <p>I combined my background in geospatial technologies with my passion for community action to build this interactive map. My goal is to help students and locals see Ottawa from a new, greener point of view. It's never too late to start.</p>
                 </div>
                 <div class="lang-fr">
-                    <p>Après avoir choisi Ottawa pour mes études universitaires, j'ai rapidement compris qu'il était difficile de savoir par où commencer.</p>
-                    <p>C'est pourquoi j'ai créé cette carte : Pour aider les étudiants et les habitants à découvrir Ottawa sous un nouveau jour.</p>
+                    <p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville.</p>
+                    <p>J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire pour créer cette carte. Mon but est d'aider les étudiants et les résidents à voir Ottawa sous un nouvel angle, plus écologique.</p>
                 </div>
             </div>
 
@@ -504,10 +345,12 @@
             userMarker = L.circleMarker(e.latlng, { radius: 8, fillColor: "#007bff", color: "#ffffff", weight: 2, opacity: 1, fillOpacity: 0.9 }).addTo(map).bindPopup("You are here!").openPopup();
         });
 
-        // --- NEW: SUGGEST A SPOT BUTTON LINK ---
+        // --- THE TALLY REDIRECT ALERT ---
         document.getElementById('suggest-btn').onclick = function() {
-            // We will replace this URL later!
-            window.open('https://tally.so', '_blank'); 
+            var userConfirmed = confirm("You are being redirected to our secure form to suggest a new spot. Ready?");
+            if (userConfirmed) {
+                window.open('https://tally.so/r/b5kNoe', '_blank'); 
+            }
         };
 
         function getIconForCategory(category) {
