@@ -25,20 +25,14 @@
 
         /* --- GLOBAL LANGUAGE CSS ENGINE --- */
         .lang-fr { display: none; }
-        
-        /* When French is active, hide English */
         body.fr-active .lang-en { display: none !important; }
-        
-        /* When French is active, show French elements correctly based on their type */
         body.fr-active div.lang-fr, 
         body.fr-active h2.lang-fr, 
         body.fr-active h3.lang-fr, 
         body.fr-active h4.lang-fr, 
         body.fr-active p.lang-fr { display: block !important; }
-        
         body.fr-active span.lang-fr, 
-        body.fr-active strong.lang-fr { display: inline !important; } /* Keeps text perfectly on one line! */
-
+        body.fr-active strong.lang-fr { display: inline !important; } 
 
         /* The Hero Cover Page */
         .hero-section {
@@ -85,8 +79,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding: 10vh 0; /* Tightened top/bottom padding */
-            gap: 8vh; /* DRAMATICALLY SHORTENED GAP BETWEEN BOXES! */
+            padding: 15vh 0; 
         }
         
         .parallax-1 { background-image: url('parliament.jpg'); }
@@ -110,16 +103,19 @@
             background: rgba(27, 73, 101, 0.98);
             color: white;
             margin-left: 10%;
-            padding: 45px 40px; 
+            padding: 55px 50px; 
             border-radius: 8px;
-            width: 32%; 
-            max-width: 480px;
+            width: 35%; 
+            max-width: 500px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.5);
             position: relative; 
         }
 
         .story-text-box p { font-size: 1.3em; line-height: 1.7; margin-bottom: 12px; font-weight: 300; font-family: 'Georgia', serif;}
         .story-text-box strong { font-weight: 500; letter-spacing: 0.5px; }
+        
+        /* A little invisible box to create the exact spacing you wanted between texts */
+        .text-spacer { height: 35px; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 35px; }
         
         .lang-toggle-btn {
             position: absolute; top: 15px; right: 15px;
@@ -130,8 +126,16 @@
         }
         .lang-toggle-btn:hover { background: white; color: #1B4965; border-color: white; }
 
-        /* --- The Map Section --- */
-        .map-section { position: relative; width: 100%; height: 750px; max-width: 1300px; margin: 60px auto; transition: all 0.3s ease; }
+        /* --- THE FLUID RESPONSIVE MAP SECTION --- */
+        .map-section { 
+            position: relative; 
+            width: 85vw; /* ALWAYS 85% of the screen width */
+            height: 75vh; /* ALWAYS 75% of the screen height */
+            min-height: 600px; /* Never gets too squished */
+            max-width: 1400px; /* Caps out on massive monitors */
+            margin: 60px auto; 
+            transition: all 0.3s ease; 
+        }
         
         .map-section.fullscreen-mode {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -152,10 +156,8 @@
         }
         .custom-btn:hover { background: #1B4965; color: white; }
 
-        /* --- THE UPGRADED SEARCH BAR WITH AUTOCOMPLETE DROPDOWN --- */
-        .search-container {
-            position: absolute; top: 20px; right: 20px; z-index: 1000;
-        }
+        /* --- THE UPGRADED SEARCH BAR WITH AUTOCOMPLETE --- */
+        .search-container { position: absolute; top: 20px; right: 20px; z-index: 1000; }
         
         .search-input-box {
             background: white; padding: 6px 12px; border-radius: 25px;
@@ -164,15 +166,12 @@
         .search-input-box input { border: none; padding: 8px 10px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 220px; background: transparent;}
         .search-input-box i { color: #1B4965; padding: 0 10px 0 5px; }
 
-        /* The Autocomplete Dropdown */
         .search-suggestions {
             position: absolute; top: 100%; left: 0; width: 100%;
             background: white; border-radius: 12px; margin-top: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none;
         }
-        .suggestion-item {
-            padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s;
-        }
+        .suggestion-item { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
         .suggestion-item:last-child { border-bottom: none; }
         .suggestion-item:hover { background-color: #f4f6f8; }
         .suggestion-item strong { color: #1B4965; font-size: 0.9em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px;}
@@ -214,9 +213,9 @@
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 20px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.9em; transition: 0.2s; font-family: 'Montserrat', sans-serif;}
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* --- THE GUIDES & FOOTER SECTION --- */
+        /* --- THE 3-COLUMN GUIDES SECTION --- */
         .guides-section {
-            padding: 80px 10%;
+            padding: 80px 5%; /* Wider padding to fit 3 columns */
             background-color: #1B4965; 
             color: white;
             position: relative;
@@ -225,15 +224,15 @@
         
         .guides-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr); /* FORCES 3 COLUMNS! */
             gap: 30px;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
         .guide-card {
             background: #12344a; 
-            padding: 25px 30px; 
+            padding: 30px; 
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             position: relative;
@@ -246,52 +245,41 @@
             font-size: 1.2em; font-weight: 600; font-family: 'Lora', serif;
             margin-bottom: 15px;
         }
-        .guide-card h3 { margin: 0 0 5px 0; font-size: 1.4em; color: white; }
-        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 15px; font-size: 0.85em; letter-spacing: 1px; text-transform: uppercase; }
-        .guide-card p { line-height: 1.6; color: #d1d5db; font-size: 0.95em; }
+        .guide-card h3 { margin: 0 0 5px 0; font-size: 1.3em; color: white; }
+        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 15px; font-size: 0.8em; letter-spacing: 1px; text-transform: uppercase; }
+        .guide-card p { line-height: 1.6; color: #d1d5db; font-size: 0.9em; margin-bottom: 10px; }
 
         /* FOOTER CREDITS */
         .footer-credits {
             border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 50px; 
-            margin-top: 60px; 
-            text-align: center; 
-            color: #d1d5db; 
-            line-height: 1.8;
+            padding-top: 50px; margin-top: 60px; 
+            text-align: center; color: #d1d5db; line-height: 1.8;
             font-family: 'Montserrat', sans-serif; 
         }
-        
         .footer-credits h4 { 
-            font-family: 'Montserrat', sans-serif; 
-            color: white; 
-            margin: 0 0 15px 0; 
-            font-size: 1.1em; 
-            font-weight: 700; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif; color: white; 
+            margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
         .footer-credits a:hover { color: white; text-decoration: underline; }
-        
         .credits-list { margin-top: 40px; font-size: 1.05em; line-height: 2; }
         .credits-list strong { color: white; font-weight: 500; }
-
         .guides-section .lang-toggle-btn { top: 30px; right: 30px; }
 
         @media (max-width: 768px) {
             .hero-box { padding: 30px 20px; width: 80%; border: none; background: transparent; }
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; }
-            .parallax-section { padding: 5vh 0; gap: 5vh; background-attachment: scroll; } 
+            .parallax-section { padding: 5vh 0; background-attachment: scroll; } 
             .story-text-box { width: 85%; margin: 0 auto; padding: 35px 25px; }
-            .map-section { height: 75vh; margin: 20px auto; width: 85%; padding-bottom: 40px; } 
+            .map-section { width: 90vw; height: 75vh; margin: 20px auto; padding-bottom: 40px; } 
             .map-section.fullscreen-mode { width: 100vw; height: 100vh; margin: 0; padding: 0; }
             .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
             .search-input-box input { width: 100%; }
             .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 5%; width: 80%; max-height: 40vh; }
             .legend-panel { display: none; } 
-            .guides-grid { grid-template-columns: 1fr; }
+            .guides-grid { grid-template-columns: 1fr; } /* Stacks cards on mobile */
             .guides-section { padding: 60px 5%; }
         }
     </style>
@@ -308,10 +296,8 @@
     </div>
 
     <div class="parallax-section parallax-1">
-        
         <div class="photo-credit" onclick="this.classList.toggle('show-text')">
-            <i class="fa-solid fa-camera"></i>
-            <span class="credit-text">Photo by Benoit Debaix on Unsplash</span>
+            <i class="fa-solid fa-camera"></i><span class="credit-text">Photo by Benoit Debaix on Unsplash</span>
         </div>
 
         <div class="story-text-box">
@@ -319,21 +305,15 @@
             <div class="lang-en">
                 <p>Ottawa is more than just Parliament Hill.</p>
                 <p>Even if you've lived here for years, the coolest hidden gems often stay under the radar.</p>
-            </div>
-            <div class="lang-fr">
-                <p>Ottawa est bien plus que la Colline du Parlement.</p>
-                <p>Même si vous habitez ici depuis des années, les initiatives les plus intéressantes et les joyaux cachés passent souvent inaperçus.</p>
-            </div>
-        </div>
-
-        <div class="story-text-box">
-            <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
-            <div class="lang-en">
-                <p><strong>Welcome to "You & Ottawa".</strong></p>
+                
+                <div class="text-spacer"></div> <p><strong>Welcome to "You & Ottawa".</strong></p>
                 <p>This map was created to help us see our city differently.</p>
                 <p>Connecting the places we visit to the water that sustains us.</p>
             </div>
             <div class="lang-fr">
+                <p>Ottawa est bien plus que la Colline du Parlement.</p>
+                <p>Même si vous habitez ici depuis des années, les initiatives les plus intéressantes et les joyaux cachés passent souvent inaperçus.</p>
+                <div class="text-spacer"></div>
                 <p><strong>Bienvenue à « You & Ottawa ».</strong></p>
                 <p>Cette carte a été créée pour nous aider à voir notre ville différemment.</p>
                 <p>En reliant les lieux que nous visitons à l'eau qui nous soutient.</p>
@@ -342,41 +322,31 @@
     </div>
 
     <div class="parallax-section parallax-2">
-        
         <div class="photo-credit" onclick="this.classList.toggle('show-text')">
-            <i class="fa-solid fa-camera"></i>
-            <span class="credit-text">Photo by Alessio Patron on Unsplash</span>
+            <i class="fa-solid fa-camera"></i><span class="credit-text">Photo by Alessio Patron on Unsplash</span>
         </div>
 
         <div class="story-text-box">
             <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
             <div class="lang-en">
                 <p><strong>Ottawa lives and breathes by the water.</strong></p>
-            </div>
-            <div class="lang-fr">
-                <p><strong>Ottawa vit au rythme de l'eau.</strong></p>
-            </div>
-        </div>
+                
+                <div class="text-spacer"></div>
 
-        <div class="story-text-box">
-            <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
-            <div class="lang-en">
                 <p>Did you know our drinking water travels through 3,000km of pipes before returning to the watershed?</p>
                 <p>Every bite we eat and item we buy connects us to this cycle.</p>
-            </div>
-            <div class="lang-fr">
-                <p>Saviez-vous que notre eau potable parcourt 3 000 km de canalisations avant de retourner dans le bassin versant ?</p>
-                <p>Chaque bouchée que nous mangeons et chaque article que nous achetons nous relient à ce cycle.</p>
-            </div>
-        </div>
+                
+                <div class="text-spacer"></div>
 
-        <div class="story-text-box">
-            <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | FR</button>
-            <div class="lang-en">
                 <p>This isn't just a map, it's an invitation to join the movement.</p>
                 <p>Use the guide below to find student-friendly events, sustainable shops, and projects where you can take real action.</p>
             </div>
             <div class="lang-fr">
+                <p><strong>Ottawa vit au rythme de l'eau.</strong></p>
+                <div class="text-spacer"></div>
+                <p>Saviez-vous que notre eau potable parcourt 3 000 km de canalisations avant de retourner dans le bassin versant ?</p>
+                <p>Chaque bouchée que nous mangeons et chaque article que nous achetons nous relient à ce cycle.</p>
+                <div class="text-spacer"></div>
                 <p>Ce n'est pas seulement une carte, c'est une invitation à rejoindre le mouvement.</p>
                 <p>Utilisez le guide ci-dessous pour trouver des événements étudiants, des boutiques durables et des projets où vous pouvez agir concrètement.</p>
             </div>
@@ -384,7 +354,6 @@
     </div>
 
     <div class="map-section" id="map-wrapper">
-        
         <div class="search-container">
             <div class="search-input-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -404,17 +373,14 @@
             <button id="close-info-btn" class="close-btn">✖</button>
             <h3>Welcome to the Map!</h3>
             <p>This interactive map connects Ottawa’s waterways with local sustainability action.</p>
-            
             <h4>How to Use This Map</h4>
             <ul>
                 <li><b>Search:</b> Type a name to find specific hidden gems.</li>
                 <li><b>Explore:</b> Click any icon on the map to see the story and details.</li>
                 <li><b>Navigate:</b> Zoom in on the map to find spots near you!</li>
             </ul>
-            
             <h4>About the Project</h4>
             <p>Created by <b>Ana Perales</b> as part of the Waterlution Y4RC Cohort. This guide challenges the idea that there is "nothing to do" in Ottawa by making the invisible water footprint visible through local action.</p>
-            
             <h4>Feedback or Questions?</h4>
             <p>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a></p>
         </div>
@@ -432,7 +398,6 @@
             <div class="legend-item" data-category="Waterways"><i class="fa-solid fa-water" style="color: blue;"></i> Waterways</div>
             <div class="legend-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color: black;"></i> Zero Waste & Refill</div>
         </div>
-
         <div id="map"></div>
     </div>
 
@@ -445,17 +410,13 @@
                 <h3>Ana Perales</h3>
                 <div class="guide-role lang-en">Project Lead</div>
                 <div class="guide-role lang-fr">Chef de projet</div>
-                
                 <div class="lang-en">
                     <p>Having moved to Ottawa for university, I quickly realized there's so much going on in the city, but it can be hard to know where to start.</p>
-                    <p>That's when I realized how powerful it could be to see the city differently, and why I created this interactive map: To help students and locals alike see Ottawa from a new point of view. It's never too late to start.</p>
-                    <p>This guide is meant to make discovering the city easy and rewarding, all while supporting a greener, healthier community.</p>
+                    <p>That's why I created this interactive map: To help students and locals alike see Ottawa from a new point of view. It's never too late to start.</p>
                 </div>
-                
                 <div class="lang-fr">
-                    <p>Après avoir choisi Ottawa pour mes études universitaires, j'ai rapidement compris que cette ville avait beaucoup à offrir, mais qu'il était difficile de savoir par où commencer.</p>
-                    <p>C'est alors que j'ai compris à quel point il pouvait être utile de voir la ville sous un autre angle, et c'est pourquoi j'ai créé cette carte interactive : Pour aider les étudiants et les habitants à découvrir Ottawa sous un nouveau jour. Il n'est jamais trop tard pour commencer.</p>
-                    <p>Ce guide a pour but de faciliter la découverte de la ville et de la rendre enrichissante, tout en favorisant une communauté plus verte et plus saine.</p>
+                    <p>Après avoir choisi Ottawa pour mes études universitaires, j'ai rapidement compris qu'il était difficile de savoir par où commencer.</p>
+                    <p>C'est pourquoi j'ai créé cette carte : Pour aider les étudiants et les habitants à découvrir Ottawa sous un nouveau jour.</p>
                 </div>
             </div>
 
@@ -464,13 +425,27 @@
                 <h3>Makenze Blackburn</h3>
                 <div class="guide-role lang-en">Project Partner</div>
                 <div class="guide-role lang-fr">Partenaire de projet</div>
-                
                 <div class="lang-en">
                     <p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p>
                 </div>
-                
                 <div class="lang-fr">
-                    <p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte numérique aux bénévoles et aux organisations sur le terrain qui rendent cette ville durable.</p>
+                    <p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p>
+                </div>
+            </div>
+
+            <div class="guide-card">
+                <div class="guide-avatar"><i class="fa-solid fa-users"></i></div>
+                <h3 class="lang-en">The Volunteers</h3>
+                <h3 class="lang-fr">Les Bénévoles</h3>
+                <div class="guide-role lang-en">Community Team</div>
+                <div class="guide-role lang-fr">Équipe Communautaire</div>
+                <div class="lang-en">
+                    <p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events:</p>
+                    <p><strong>Jack Bisson, Brett Stockwell, Kira Fair, & Akshayan Sivanesan.</strong></p>
+                </div>
+                <div class="lang-fr">
+                    <p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements :</p>
+                    <p><strong>Jack Bisson, Brett Stockwell, Kira Fair, & Akshayan Sivanesan.</strong></p>
                 </div>
             </div>
         </div>
@@ -478,16 +453,13 @@
         <div class="footer-credits">
             <h4 class="lang-en">Land Acknowledgement</h4>
             <h4 class="lang-fr">Reconnaissance du Territoire</h4>
-            
             <p class="lang-en" style="margin-bottom: 30px;">We acknowledge that the land on which this map focuses is the unceded territory of the Algonquin Anishinabe Nation.</p>
             <p class="lang-fr" style="margin-bottom: 30px;">Nous reconnaissons que la terre sur laquelle cette carte se concentre est le territoire non cédé de la Nation Algonquine Anishinabe.</p>
-            
             <p>
                 <strong class="lang-en">Feedback or Questions?</strong>
                 <strong class="lang-fr">Des questions ou des commentaires ?</strong>
                 <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
             </p>
-            
             <p class="credits-list">
                 <span class="lang-en">Created by</span><span class="lang-fr">Créé par</span> | <strong>Ana Perales</strong><br>
                 <span class="lang-en">In partnership with</span><span class="lang-fr">En partenariat avec</span> | <strong>Makenze Blackburn</strong><br>
@@ -501,10 +473,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script>
-        // GLOBAL LANGUAGE TOGGLE (Triggers CSS instead of JS blocking)
-        function toggleLanguage() {
-            document.body.classList.toggle('fr-active');
-        }
+        function toggleLanguage() { document.body.classList.toggle('fr-active'); }
 
         document.getElementById('close-info-btn').onclick = function() {
             document.getElementById('info-panel').style.display = 'none';
@@ -517,48 +486,31 @@
         };
 
         var map = L.map('map').setView([45.424, -75.695], 12);
-
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+            maxZoom: 19, attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
         document.getElementById('fullscreen-btn').onclick = function() {
             var mapWrapper = document.getElementById('map-wrapper');
             var icon = this.querySelector('i');
-            
             mapWrapper.classList.toggle('fullscreen-mode');
-            
             if (mapWrapper.classList.contains('fullscreen-mode')) {
-                icon.classList.remove('fa-expand');
-                icon.classList.add('fa-compress');
+                icon.classList.remove('fa-expand'); icon.classList.add('fa-compress');
             } else {
-                icon.classList.remove('fa-compress');
-                icon.classList.add('fa-expand');
+                icon.classList.remove('fa-compress'); icon.classList.add('fa-expand');
             }
-            
             setTimeout(function() { map.invalidateSize(); }, 300);
         };
 
         var userMarker = null;
-        document.getElementById('locate-btn').onclick = function() {
-            map.locate({setView: true, maxZoom: 15});
-        };
-
+        document.getElementById('locate-btn').onclick = function() { map.locate({setView: true, maxZoom: 15}); };
         map.on('locationfound', function(e) {
             if (userMarker) { map.removeLayer(userMarker); }
-            userMarker = L.circleMarker(e.latlng, {
-                radius: 8, fillColor: "#007bff", color: "#ffffff", weight: 2, opacity: 1, fillOpacity: 0.9
-            }).addTo(map).bindPopup("You are here!").openPopup();
-        });
-
-        map.on('locationerror', function(e) {
-            alert("Could not find your location. Please check your browser permissions.");
+            userMarker = L.circleMarker(e.latlng, { radius: 8, fillColor: "#007bff", color: "#ffffff", weight: 2, opacity: 1, fillOpacity: 0.9 }).addTo(map).bindPopup("You are here!").openPopup();
         });
 
         function getIconForCategory(category) {
             var iconName = 'star'; var color = 'cadetblue';
-
             if (category === 'Books & Knowledge') { iconName = 'book'; color = 'darkblue'; }
             else if (category === 'Circular Economy') { iconName = 'arrows-rotate'; color = 'green'; }
             else if (category === 'Community Action') { iconName = 'hands-holding-circle'; color = 'orange'; }
@@ -569,7 +521,6 @@
             else if (category === 'Thrift & Vintage') { iconName = 'shirt'; color = 'purple'; }
             else if (category === 'Waterways') { iconName = 'water'; color = 'blue'; }
             else if (category === 'Zero Waste & Refill') { iconName = 'recycle'; color = 'black'; }
-            
             return L.AwesomeMarkers.icon({ icon: iconName, markerColor: color, prefix: 'fa' });
         }
 
@@ -577,12 +528,9 @@
         var activeFilterCategory = "All"; 
 
         Papa.parse("You_Ottawa_MASTER_v2.csv", {
-            download: true,
-            header: true, 
-            skipEmptyLines: true,
+            download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
                 var data = results.data;
-                
                 for (var i = 0; i < data.length; i++) {
                     var row = data[i];
                     var popupContent = `
@@ -590,26 +538,17 @@
                             <h3>${row.Place_Organization}</h3>
                             <p class="category">${row.Category}</p>
                             <p>📍 ${row.Address}</p>
-                            <h4>THE MISSION</h4>
-                            <p>${row.The_Mission}</p>
-                            <h4>WHY IT MATTERS</h4>
-                            <p>${row.Why_Matters}</p>
-                            <h4>ACT</h4>
-                            <p>${row.Action_Item}</p>
+                            <h4>THE MISSION</h4><p>${row.The_Mission}</p>
+                            <h4>WHY IT MATTERS</h4><p>${row.Why_Matters}</p>
+                            <h4>ACT</h4><p>${row.Action_Item}</p>
                             <a href="${row.Website_Link}" class="plan-visit-btn" target="_blank">PLAN YOUR VISIT</a>
                         </div>
                     `;
-
                     var customIcon = getIconForCategory(row.Category);
-                    var marker = L.marker([row.Latitude, row.Longitude], {icon: customIcon})
-                                  .bindPopup(popupContent);
-                    
+                    var marker = L.marker([row.Latitude, row.Longitude], {icon: customIcon}).bindPopup(popupContent);
                     marker.addTo(map);
-
                     allMapMarkers.push({
-                        marker: marker,
-                        title: row.Place_Organization, /* Saved explicitly for the dropdown */
-                        category: row.Category,
+                        marker: marker, title: row.Place_Organization, category: row.Category,
                         searchableText: (row.Place_Organization + " " + row.Category + " " + row.The_Mission + " " + row.Why_Matters + " " + row.Action_Item + " " + row.Address).toLowerCase()
                     });
                 }
@@ -619,8 +558,7 @@
         function filterMap() {
             var searchQuery = document.getElementById('search-box').value.toLowerCase();
             var suggestionsContainer = document.getElementById('search-suggestions');
-            suggestionsContainer.innerHTML = ''; // Clear out the old suggestions
-            
+            suggestionsContainer.innerHTML = ''; 
             var matchCount = 0;
 
             allMapMarkers.forEach(function(item) {
@@ -629,20 +567,14 @@
 
                 if (matchesSearch && matchesCategory) {
                     if (!map.hasLayer(item.marker)) map.addLayer(item.marker);
-                    
-                    // --- AUTOCOMPLETE LOGIC ---
                     if (searchQuery !== '' && matchCount < 5) {
                         var div = document.createElement('div');
                         div.className = 'suggestion-item';
                         div.innerHTML = '<strong>' + item.title + '</strong><span>' + item.category + '</span>';
-                        
-                        // What happens when they click a suggestion:
                         div.onclick = function() {
                             document.getElementById('search-box').value = item.title;
                             suggestionsContainer.style.display = 'none';
-                            filterMap(); // Re-filter map to just this one
-                            
-                            // Fly to the pin and pop it open!
+                            filterMap(); 
                             map.setView(item.marker.getLatLng(), 16);
                             item.marker.openPopup();
                         };
@@ -653,18 +585,11 @@
                     if (map.hasLayer(item.marker)) map.removeLayer(item.marker);
                 }
             });
-
-            // Show or hide the dropdown box
-            if (searchQuery !== '' && matchCount > 0) {
-                suggestionsContainer.style.display = 'block';
-            } else {
-                suggestionsContainer.style.display = 'none';
-            }
+            if (searchQuery !== '' && matchCount > 0) { suggestionsContainer.style.display = 'block'; } 
+            else { suggestionsContainer.style.display = 'none'; }
         }
 
         document.getElementById('search-box').addEventListener('input', filterMap);
-
-        // Hide dropdown if they click anywhere else on the screen
         document.addEventListener('click', function(e) {
             if (!document.querySelector('.search-container').contains(e.target)) {
                 document.getElementById('search-suggestions').style.display = 'none';
@@ -675,7 +600,6 @@
         legendItems.forEach(function(item) {
             item.addEventListener('click', function() {
                 var clickedCategory = this.getAttribute('data-category');
-
                 if (activeFilterCategory === clickedCategory) {
                     activeFilterCategory = "All";
                     legendItems.forEach(i => i.classList.remove('dimmed')); 
@@ -684,11 +608,9 @@
                     legendItems.forEach(i => i.classList.add('dimmed'));
                     this.classList.remove('dimmed');
                 }
-                
                 filterMap(); 
             });
         });
-
     </script>
 </body>
 </html>
