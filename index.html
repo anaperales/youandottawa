@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -21,7 +24,6 @@
 
         .hero-section { height: 100vh; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; }
         
-        /* Removed the hero-box background/border styling as requested! */
         .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; }
         .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif;}
         .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 2px; font-style: italic; font-family: 'Montserrat', sans-serif;}
@@ -75,12 +77,15 @@
         .suggestion-item span { color: #888; font-size: 0.75em; font-style: italic; }
 
         .info-toggle-btn { position: absolute; top: 20px; left: 60px; z-index: 999; background: rgba(255, 255, 255, 0.95); padding: 10px 18px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
+        
         .info-panel { position: absolute; top: 20px; left: 60px; width: 290px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 85%; overflow-y: auto; }
         .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; transition: 0.2s; }
         .close-btn:hover { color: #1B4965; transform: scale(1.1); }
-        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.4em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
-        .info-panel h4 { color: #1B4965; margin: 18px 0 8px 0; font-size: 1.1em;}
-        .info-panel p, .info-panel ul { font-size: 0.9em; line-height: 1.6; color: #444; margin-bottom: 12px; }
+        
+        /* SHRUNK FONTS IN THE WELCOME PANEL */
+        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.3em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
+        .info-panel h4 { color: #1B4965; margin: 15px 0 5px 0; font-size: 1.0em;} /* Shrunk */
+        .info-panel p, .info-panel ul { font-size: 0.82em; line-height: 1.6; color: #444; margin-bottom: 12px; } /* Shrunk */
         .info-panel ul { padding-left: 20px; }
 
         .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.95); padding: 18px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.85em; max-width: 220px; }
@@ -217,10 +222,12 @@
                 <li><b>Explore:</b> Click any icon on the map to see the story and details.</li>
                 <li><b>Navigate:</b> Zoom in on the map to find spots near you!</li>
             </ul>
+            
+            <h4>Suggest a Spot</h4>
+            <p>Know a great sustainable initiative? Click the <b>+ button</b> on the right to suggest a spot!</p>
+            
             <h4>About the Project</h4>
             <p>Created by <b>Ana Perales</b> as part of the Waterlution Y4RC Cohort. This guide challenges the idea that there is "nothing to do" in Ottawa by making the invisible water footprint visible through local action.</p>
-            <h4>Feedback or Questions?</h4>
-            <p>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a></p>
         </div>
 
         <div class="legend-panel">
@@ -254,7 +261,7 @@
                 </div>
                 <div class="lang-fr">
                     <p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville.</p>
-                    <p>J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire pour créer cette carte. Mon but est d'aider les étudiants et les résidents à voir Ottawa sous un nouvel angle, plus écologique.</p>
+                    <p>J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire pour créer cette carte interactive. Mon but est d'aider les étudiants et les résidents à voir Ottawa sous un nouvel angle, plus écologique.</p>
                 </div>
             </div>
 
@@ -308,6 +315,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
     <script>
         function toggleLanguage() { document.body.classList.toggle('fr-active'); }
 
@@ -325,6 +334,37 @@
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19, attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
+
+        // --- NEW: THE GLOBAL ADDRESS SEARCH (GEOCODER) ---
+        // This adds a standard search icon to the map that lets people search ANY real-world address!
+        L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+        .on('markgeocode', function(e) {
+            var bbox = e.geocode.bbox;
+            var poly = L.polygon([
+                bbox.getSouthEast(),
+                bbox.getNorthEast(),
+                bbox.getNorthWest(),
+                bbox.getSouthWest()
+            ]);
+            map.fitBounds(poly.getBounds());
+        })
+        .addTo(map);
+
+        // --- NEW: FETCH THE CYCLING JSON ---
+        // This looks for your file and draws the green dashed pathways automatically!
+        fetch('cycling.json')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: function (feature) {
+                        return {color: '#28a745', weight: 3, dashArray: '5, 5', opacity: 0.7};
+                    }
+                }).addTo(map);
+            })
+            .catch(err => console.log("Cycling data not found yet. Keep building!"));
+
 
         document.getElementById('fullscreen-btn').onclick = function() {
             var mapWrapper = document.getElementById('map-wrapper');
@@ -345,7 +385,6 @@
             userMarker = L.circleMarker(e.latlng, { radius: 8, fillColor: "#007bff", color: "#ffffff", weight: 2, opacity: 1, fillOpacity: 0.9 }).addTo(map).bindPopup("You are here!").openPopup();
         });
 
-        // --- THE TALLY REDIRECT ALERT ---
         document.getElementById('suggest-btn').onclick = function() {
             var userConfirmed = confirm("You are being redirected to our secure form to suggest a new spot. Ready?");
             if (userConfirmed) {
@@ -359,6 +398,10 @@
             else if (category === 'Circular Economy') { iconName = 'arrows-rotate'; color = 'green'; }
             else if (category === 'Community Action') { iconName = 'hands-holding-circle'; color = 'orange'; }
             else if (category === 'Eco-Stories') { iconName = 'leaf'; color = 'cadetblue'; }
+            
+            // WE WILL UPGRADE THIS TOMORROW FOR YOUR LANDMARKS!
+            else if (category === 'Landmark') { iconName = 'map-pin'; color = 'orange'; } 
+            
             else if (category === 'Indigenous Culture') { iconName = 'fire'; color = 'red'; }
             else if (category === 'Nature & Wildlife') { iconName = 'tree'; color = 'darkgreen'; }
             else if (category === 'Sustainable Dining') { iconName = 'utensils'; color = 'darkred'; }
