@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
-    
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,7 +22,6 @@
         body.fr-active span.lang-fr, body.fr-active strong.lang-fr { display: inline !important; } 
 
         .hero-section { height: 100vh; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; }
-        
         .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; }
         .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif;}
         .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 2px; font-style: italic; font-family: 'Montserrat', sans-serif;}
@@ -60,46 +58,48 @@
         .map-section.fullscreen-mode #map { border-radius: 0; }
         #map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1; }
 
-        .custom-map-controls { position: absolute; top: 70px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
-        .custom-btn { background: white; border: none; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.2em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+        /* SHRUNK CUSTOM CONTROLS & MOVED DOWN TO CLEAR GEOCODER */
+        .custom-map-controls { position: absolute; top: 80px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+        .custom-btn { background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.1em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .custom-btn:hover { background: #1B4965; color: white; }
 
-        .search-container { position: absolute; top: 20px; right: 20px; z-index: 1000; }
-        .search-input-box { background: white; padding: 6px 12px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; }
-        .search-input-box input { border: none; padding: 8px 10px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 220px; background: transparent;}
-        .search-input-box i { color: #1B4965; padding: 0 10px 0 5px; }
+        /* MOVED MAIN SEARCH BAR TO TOP CENTER & SHRUNK SLIGHTLY */
+        .search-container { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); z-index: 1000; }
+        .search-input-box { background: white; padding: 5px 10px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; }
+        .search-input-box input { border: none; padding: 6px 8px; outline: none; font-size: 0.9em; font-family: 'Montserrat', sans-serif; width: 200px; background: transparent;}
+        .search-input-box i { color: #1B4965; padding: 0 8px 0 5px; font-size: 0.9em; }
 
         .search-suggestions { position: absolute; top: 100%; left: 0; width: 100%; background: white; border-radius: 12px; margin-top: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; }
-        .suggestion-item { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
+        .suggestion-item { padding: 10px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
         .suggestion-item:last-child { border-bottom: none; }
         .suggestion-item:hover { background-color: #f4f6f8; }
-        .suggestion-item strong { color: #1B4965; font-size: 0.9em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px;}
-        .suggestion-item span { color: #888; font-size: 0.75em; font-style: italic; }
+        .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px;}
+        .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        .info-toggle-btn { position: absolute; top: 20px; left: 60px; z-index: 999; background: rgba(255, 255, 255, 0.95); padding: 10px 18px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
-        
-        .info-panel { position: absolute; top: 20px; left: 60px; width: 290px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 85%; overflow-y: auto; }
-        .close-btn { float: right; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #666; transition: 0.2s; }
+        /* SHRUNK INFO PANEL */
+        .info-toggle-btn { position: absolute; top: 20px; left: 60px; z-index: 999; background: rgba(255, 255, 255, 0.95); padding: 8px 15px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-size: 0.9em; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
+        .info-panel { position: absolute; top: 20px; left: 60px; width: 260px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 85%; overflow-y: auto; }
+        .close-btn { float: right; background: none; border: none; font-size: 1.1em; cursor: pointer; color: #666; transition: 0.2s; }
         .close-btn:hover { color: #1B4965; transform: scale(1.1); }
-        
-        /* SHRUNK FONTS IN THE WELCOME PANEL */
-        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.3em; border-bottom: 2px solid #1B4965; padding-bottom: 10px; }
-        .info-panel h4 { color: #1B4965; margin: 15px 0 5px 0; font-size: 1.0em;} /* Shrunk */
-        .info-panel p, .info-panel ul { font-size: 0.82em; line-height: 1.6; color: #444; margin-bottom: 12px; } /* Shrunk */
-        .info-panel ul { padding-left: 20px; }
+        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.2em; border-bottom: 2px solid #1B4965; padding-bottom: 8px; }
+        .info-panel h4 { color: #1B4965; margin: 15px 0 5px 0; font-size: 0.95em;}
+        .info-panel p, .info-panel ul { font-size: 0.8em; line-height: 1.6; color: #444; margin-bottom: 10px; }
+        .info-panel ul { padding-left: 18px; }
 
-        .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.95); padding: 18px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.85em; max-width: 220px; }
-        .legend-panel h4 { margin: 0 0 12px 0; color: #1B4965; border-bottom: 1px solid #ccc; padding-bottom: 8px; font-size: 1.1em; }
-        .legend-item { display: flex; align-items: center; margin-bottom: 8px; cursor: pointer; transition: opacity 0.2s; font-weight: 500;}
+        /* SHRUNK LEGEND */
+        .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.8em; max-width: 200px; }
+        .legend-panel h4 { margin: 0 0 10px 0; color: #1B4965; border-bottom: 1px solid #ccc; padding-bottom: 8px; font-size: 1.05em; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 6px; cursor: pointer; transition: opacity 0.2s; font-weight: 500;}
         .legend-item:hover { opacity: 0.6; }
-        .legend-item i { width: 22px; text-align: center; margin-right: 10px; font-size: 1.2em; }
+        .legend-item i { width: 20px; text-align: center; margin-right: 8px; font-size: 1.1em; }
         .dimmed { opacity: 0.3 !important; }
 
-        .custom-popup h3 { color: #1B4965; margin: 0 0 5px 0; font-size: 1.3em; }
-        .custom-popup .category { color: #666; font-style: italic; margin: 0 0 12px 0; font-size: 0.85em; }
-        .custom-popup h4 { font-size: 0.85em; color: #1B4965; letter-spacing: 1px; margin: 15px 0 4px 0; font-weight: 600; font-family: 'Montserrat', sans-serif;}
-        .custom-popup p { margin: 0 0 10px 0; font-size: 0.95em; line-height: 1.5; color: #333; }
-        .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 10px; margin-top: 20px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.9em; transition: 0.2s; font-family: 'Montserrat', sans-serif;}
+        /* SHRUNK POPUPS */
+        .custom-popup h3 { color: #1B4965; margin: 0 0 4px 0; font-size: 1.2em; }
+        .custom-popup .category { color: #666; font-style: italic; margin: 0 0 10px 0; font-size: 0.8em; }
+        .custom-popup h4 { font-size: 0.8em; color: #1B4965; letter-spacing: 1px; margin: 12px 0 3px 0; font-weight: 600; font-family: 'Montserrat', sans-serif;}
+        .custom-popup p { margin: 0 0 8px 0; font-size: 0.9em; line-height: 1.4; color: #333; }
+        .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 8px; margin-top: 15px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.85em; transition: 0.2s; font-family: 'Montserrat', sans-serif;}
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
         .guides-section { padding: 80px 5%; background-color: #1B4965; color: white; position: relative; border-top: 1px solid rgba(255,255,255,0.1); }
@@ -125,7 +125,7 @@
             .story-text-box { width: 85%; margin: 0 auto; padding: 35px 25px; }
             .map-section { width: 90vw; height: 75vh; margin: 20px auto; padding-bottom: 40px; } 
             .map-section.fullscreen-mode { width: 100vw; height: 100vh; margin: 0; padding: 0; }
-            .search-container { width: 80%; top: 10px; right: 10%; left: 10%; }
+            .search-container { width: 80%; top: 10px; left: 50%; transform: translateX(-50%); }
             .search-input-box input { width: 100%; }
             .info-panel, .info-toggle-btn { top: auto; bottom: 20px; left: 5%; width: 80%; max-height: 40vh; }
             .legend-panel { display: none; } 
@@ -199,7 +199,7 @@
         <div class="search-container">
             <div class="search-input-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search-box" placeholder="Search thrift, coffee, etc...">
+                <input type="text" id="search-box" placeholder="Search the guide...">
             </div>
             <div id="search-suggestions" class="search-suggestions"></div>
         </div>
@@ -222,10 +222,8 @@
                 <li><b>Explore:</b> Click any icon on the map to see the story and details.</li>
                 <li><b>Navigate:</b> Zoom in on the map to find spots near you!</li>
             </ul>
-            
             <h4>Suggest a Spot</h4>
             <p>Know a great sustainable initiative? Click the <b>+ button</b> on the right to suggest a spot!</p>
-            
             <h4>About the Project</h4>
             <p>Created by <b>Ana Perales</b> as part of the Waterlution Y4RC Cohort. This guide challenges the idea that there is "nothing to do" in Ottawa by making the invisible water footprint visible through local action.</p>
         </div>
@@ -314,7 +312,6 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     
     <script>
@@ -335,25 +332,18 @@
             maxZoom: 19, attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
-        // --- NEW: THE GLOBAL ADDRESS SEARCH (GEOCODER) ---
-        // This adds a standard search icon to the map that lets people search ANY real-world address!
         L.Control.geocoder({
             defaultMarkGeocode: false
         })
         .on('markgeocode', function(e) {
             var bbox = e.geocode.bbox;
             var poly = L.polygon([
-                bbox.getSouthEast(),
-                bbox.getNorthEast(),
-                bbox.getNorthWest(),
-                bbox.getSouthWest()
+                bbox.getSouthEast(), bbox.getNorthEast(), bbox.getNorthWest(), bbox.getSouthWest()
             ]);
             map.fitBounds(poly.getBounds());
         })
         .addTo(map);
 
-        // --- NEW: FETCH THE CYCLING JSON ---
-        // This looks for your file and draws the green dashed pathways automatically!
         fetch('cycling.json')
             .then(response => response.json())
             .then(data => {
@@ -364,7 +354,6 @@
                 }).addTo(map);
             })
             .catch(err => console.log("Cycling data not found yet. Keep building!"));
-
 
         document.getElementById('fullscreen-btn').onclick = function() {
             var mapWrapper = document.getElementById('map-wrapper');
@@ -398,10 +387,7 @@
             else if (category === 'Circular Economy') { iconName = 'arrows-rotate'; color = 'green'; }
             else if (category === 'Community Action') { iconName = 'hands-holding-circle'; color = 'orange'; }
             else if (category === 'Eco-Stories') { iconName = 'leaf'; color = 'cadetblue'; }
-            
-            // WE WILL UPGRADE THIS TOMORROW FOR YOUR LANDMARKS!
             else if (category === 'Landmark') { iconName = 'map-pin'; color = 'orange'; } 
-            
             else if (category === 'Indigenous Culture') { iconName = 'fire'; color = 'red'; }
             else if (category === 'Nature & Wildlife') { iconName = 'tree'; color = 'darkgreen'; }
             else if (category === 'Sustainable Dining') { iconName = 'utensils'; color = 'darkred'; }
