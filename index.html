@@ -97,14 +97,13 @@
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 8px; margin-top: 15px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.85em; transition: 0.2s; font-family: 'Montserrat', sans-serif;}
         .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* --- THE SHRUNK 3-COLUMN GUIDES SECTION (DESKTOP) --- */
         .guides-section { padding: 60px 5%; background-color: #1B4965; color: white; position: relative; border-top: 1px solid rgba(255,255,255,0.1); }
-        .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; } /* Reduced max-width and gap */
-        .guide-card { background: #12344a; padding: 20px 25px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); position: relative; } /* Tighter padding */
-        .guide-avatar { width: 45px; height: 45px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1em; font-weight: 600; font-family: 'Lora', serif; margin-bottom: 12px; } /* Smaller circle */
-        .guide-card h3 { margin: 0 0 4px 0; font-size: 1.15em; color: white; } /* Scaled down header */
+        .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .guide-card { background: #12344a; padding: 20px 25px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); position: relative; }
+        .guide-avatar { width: 45px; height: 45px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1em; font-weight: 600; font-family: 'Lora', serif; margin-bottom: 12px; }
+        .guide-card h3 { margin: 0 0 4px 0; font-size: 1.15em; color: white; }
         .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 10px; font-size: 0.75em; letter-spacing: 1px; text-transform: uppercase; }
-        .guide-card p { line-height: 1.5; color: #d1d5db; font-size: 0.85em; margin-bottom: 10px; } /* Slightly smaller text */
+        .guide-card p { line-height: 1.5; color: #d1d5db; font-size: 0.85em; margin-bottom: 10px; }
 
         .footer-credits { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 50px; margin-top: 60px; text-align: center; color: #d1d5db; line-height: 1.8; font-family: 'Montserrat', sans-serif; }
         .footer-credits h4 { font-family: 'Montserrat', sans-serif; color: white; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
@@ -114,9 +113,6 @@
         .credits-list strong { color: white; font-weight: 500; }
         .guides-section .lang-toggle-btn { top: 30px; right: 30px; }
 
-        /* ================================================================= */
-        /* --- THE MOBILE EXPERIENCE RULES --- */
-        /* ================================================================= */
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px;}
@@ -155,11 +151,10 @@
             .legend-item { margin-bottom: 5px; }
             .legend-item i { font-size: 1em; width: 15px; margin-right: 5px; }
 
-            /* --- EVEN SMALLER MOBILE GUIDE CARDS --- */
             .guides-section { padding: 40px 5%; }
-            .guides-grid { grid-template-columns: 1fr; gap: 15px; } /* Very tight gap */
-            .guide-card { padding: 15px 15px; } /* Minimal padding */
-            .guide-avatar { width: 35px; height: 35px; font-size: 0.9em; margin-bottom: 8px; } /* Tiny circle */
+            .guides-grid { grid-template-columns: 1fr; gap: 15px; }
+            .guide-card { padding: 15px 15px; }
+            .guide-avatar { width: 35px; height: 35px; font-size: 0.9em; margin-bottom: 8px; }
             .guide-card h3 { font-size: 1em; margin-bottom: 2px; }
             .guide-role { font-size: 0.7em; margin-bottom: 8px; }
             .guide-card p { font-size: 0.8em; line-height: 1.4; margin-bottom: 6px; }
@@ -248,7 +243,7 @@
         <div id="info-panel" class="info-panel">
             <button id="close-info-btn" class="close-btn">✖</button>
             <h3>Welcome to the Map!</h3>
-            <p>This interactive map connects Ottawa’s waterways with local sustainability action.</p>
+            <p>This interactive map connects Ottawa's waterways with local sustainability action.</p>
             <h4>How to Use This Map</h4>
             <ul>
                 <li><b>Search:</b> Type a name to find specific hidden gems.</li>
@@ -347,23 +342,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <script>
-        function toggleLanguage() { document.body.classList.toggle('fr-active'); }
+        // --- LANGUAGE TOGGLE ---
+        // Tracks current language state
+        var currentLang = 'en';
 
+        function toggleLanguage() {
+            document.body.classList.toggle('fr-active');
+            currentLang = document.body.classList.contains('fr-active') ? 'fr' : 'en';
+            // Rebuild all open popups to reflect new language
+            rebuildAllPopups();
+        }
+
+        // --- INFO PANEL ---
         document.getElementById('close-info-btn').onclick = function() {
             document.getElementById('info-panel').style.display = 'none';
             document.getElementById('open-info-btn').style.display = 'block';
         };
-
         document.getElementById('open-info-btn').onclick = function() {
             document.getElementById('info-panel').style.display = 'block';
             document.getElementById('open-info-btn').style.display = 'none';
         };
 
+        // --- MAP SETUP ---
         var map = L.map('map').setView([45.424, -75.695], 12);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19, attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
+        // --- FULLSCREEN ---
         document.getElementById('fullscreen-btn').onclick = function() {
             var mapWrapper = document.getElementById('map-wrapper');
             var icon = this.querySelector('i');
@@ -376,6 +382,7 @@
             setTimeout(function() { map.invalidateSize(); }, 300);
         };
 
+        // --- LOCATE ME ---
         var userMarker = null;
         document.getElementById('locate-btn').onclick = function() { map.locate({setView: true, maxZoom: 15}); };
         map.on('locationfound', function(e) {
@@ -383,20 +390,20 @@
             userMarker = L.circleMarker(e.latlng, { radius: 8, fillColor: "#007bff", color: "#ffffff", weight: 2, opacity: 1, fillOpacity: 0.9 }).addTo(map).bindPopup("You are here!").openPopup();
         });
 
+        // --- SUGGEST A SPOT ---
         document.getElementById('suggest-btn').onclick = function() {
             var userConfirmed = confirm("You are being redirected to our secure form to suggest a new spot. Ready?");
-            if (userConfirmed) {
-                window.open('https://tally.so/r/b5kNoe', '_blank'); 
-            }
+            if (userConfirmed) { window.open('https://tally.so/r/b5kNoe', '_blank'); }
         };
 
+        // --- CATEGORY ICONS ---
         function getIconForCategory(category) {
             var iconName = 'star'; var color = 'cadetblue';
             if (category === 'Books & Knowledge') { iconName = 'book'; color = 'darkblue'; }
             else if (category === 'Circular Economy') { iconName = 'arrows-rotate'; color = 'green'; }
             else if (category === 'Community Action') { iconName = 'hands-holding-circle'; color = 'orange'; }
             else if (category === 'Eco-Stories') { iconName = 'leaf'; color = 'cadetblue'; }
-            else if (category === 'Landmark') { iconName = 'map-pin'; color = 'orange'; } 
+            else if (category === 'Landmark') { iconName = 'map-pin'; color = 'orange'; }
             else if (category === 'Indigenous Culture') { iconName = 'fire'; color = 'red'; }
             else if (category === 'Nature & Wildlife') { iconName = 'tree'; color = 'darkgreen'; }
             else if (category === 'Sustainable Dining') { iconName = 'utensils'; color = 'darkred'; }
@@ -406,8 +413,40 @@
             return L.AwesomeMarkers.icon({ icon: iconName, markerColor: color, prefix: 'fa' });
         }
 
-        var allMapMarkers = []; 
-        var activeFilterCategory = "All"; 
+        // --- BUILD POPUP CONTENT (bilingual) ---
+        function buildPopupContent(row, lang) {
+            var isFr = lang === 'fr';
+            var mission    = isFr && row.The_Mission_FR    ? row.The_Mission_FR    : row.The_Mission;
+            var why        = isFr && row.Why_Matters_FR    ? row.Why_Matters_FR    : row.Why_Matters;
+            var action     = isFr && row.Action_Item_FR    ? row.Action_Item_FR    : row.Action_Item;
+            var missionLbl = isFr ? 'LA MISSION'          : 'THE MISSION';
+            var whyLbl     = isFr ? 'POURQUOI ÇA COMPTE'  : 'WHY IT MATTERS';
+            var actLbl     = isFr ? 'AGIR'                : 'ACT';
+            var visitLbl   = isFr ? 'PLANIFIER MA VISITE' : 'PLAN YOUR VISIT';
+
+            return `
+                <div class="custom-popup">
+                    <h3>${row.Place_Organization}</h3>
+                    <p class="category">${row.Category}</p>
+                    <p>📍 ${row.Address}</p>
+                    <h4>${missionLbl}</h4><p>${mission}</p>
+                    <h4>${whyLbl}</h4><p>${why}</p>
+                    <h4>${actLbl}</h4><p>${action}</p>
+                    <a href="${row.Website_Link}" class="plan-visit-btn" target="_blank">${visitLbl}</a>
+                </div>
+            `;
+        }
+
+        // --- MARKERS ---
+        var allMapMarkers = [];
+        var activeFilterCategory = "All";
+
+        // Rebuilds popup content for all markers when language switches
+        function rebuildAllPopups() {
+            allMapMarkers.forEach(function(item) {
+                item.marker.setPopupContent(buildPopupContent(item.row, currentLang));
+            });
+        }
 
         Papa.parse("You_Ottawa_MASTER_v2.csv", {
             download: true, header: true, skipEmptyLines: true,
@@ -415,32 +454,26 @@
                 var data = results.data;
                 for (var i = 0; i < data.length; i++) {
                     var row = data[i];
-                    var popupContent = `
-                        <div class="custom-popup">
-                            <h3>${row.Place_Organization}</h3>
-                            <p class="category">${row.Category}</p>
-                            <p>📍 ${row.Address}</p>
-                            <h4>THE MISSION</h4><p>${row.The_Mission}</p>
-                            <h4>WHY IT MATTERS</h4><p>${row.Why_Matters}</p>
-                            <h4>ACT</h4><p>${row.Action_Item}</p>
-                            <a href="${row.Website_Link}" class="plan-visit-btn" target="_blank">PLAN YOUR VISIT</a>
-                        </div>
-                    `;
                     var customIcon = getIconForCategory(row.Category);
-                    var marker = L.marker([row.Latitude, row.Longitude], {icon: customIcon}).bindPopup(popupContent);
+                    var marker = L.marker([row.Latitude, row.Longitude], {icon: customIcon})
+                                  .bindPopup(buildPopupContent(row, currentLang));
                     marker.addTo(map);
                     allMapMarkers.push({
-                        marker: marker, title: row.Place_Organization, category: row.Category,
+                        marker: marker,
+                        row: row,
+                        title: row.Place_Organization,
+                        category: row.Category,
                         searchableText: (row.Place_Organization + " " + row.Category + " " + row.The_Mission + " " + row.Why_Matters + " " + row.Action_Item + " " + row.Address).toLowerCase()
                     });
                 }
             }
         });
 
+        // --- SEARCH ---
         function filterMap() {
             var searchQuery = document.getElementById('search-box').value.toLowerCase();
             var suggestionsContainer = document.getElementById('search-suggestions');
-            suggestionsContainer.innerHTML = ''; 
+            suggestionsContainer.innerHTML = '';
             var matchCount = 0;
 
             allMapMarkers.forEach(function(item) {
@@ -456,7 +489,7 @@
                         div.onclick = function() {
                             document.getElementById('search-box').value = item.title;
                             suggestionsContainer.style.display = 'none';
-                            filterMap(); 
+                            filterMap();
                             map.setView(item.marker.getLatLng(), 16);
                             item.marker.openPopup();
                         };
@@ -467,7 +500,7 @@
                     if (map.hasLayer(item.marker)) map.removeLayer(item.marker);
                 }
             });
-            if (searchQuery !== '' && matchCount > 0) { suggestionsContainer.style.display = 'block'; } 
+            if (searchQuery !== '' && matchCount > 0) { suggestionsContainer.style.display = 'block'; }
             else { suggestionsContainer.style.display = 'none'; }
         }
 
@@ -478,19 +511,20 @@
             }
         });
 
+        // --- LEGEND FILTER ---
         var legendItems = document.querySelectorAll('.legend-item');
         legendItems.forEach(function(item) {
             item.addEventListener('click', function() {
                 var clickedCategory = this.getAttribute('data-category');
                 if (activeFilterCategory === clickedCategory) {
                     activeFilterCategory = "All";
-                    legendItems.forEach(i => i.classList.remove('dimmed')); 
+                    legendItems.forEach(i => i.classList.remove('dimmed'));
                 } else {
                     activeFilterCategory = clickedCategory;
                     legendItems.forEach(i => i.classList.add('dimmed'));
                     this.classList.remove('dimmed');
                 }
-                filterMap(); 
+                filterMap();
             });
         });
     </script>
