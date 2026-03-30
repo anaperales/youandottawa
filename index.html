@@ -26,36 +26,17 @@
         body.fr-active strong.lang-fr { display: inline !important; }
 
         /* ===================== STICKY LANG PILL ===================== */
-        .lang-pill {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 999999;
-            background: rgba(27,73,101,0.92);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 0.78em;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            letter-spacing: 1px;
-            cursor: pointer;
-            backdrop-filter: blur(6px);
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
+        .lang-pill { position: fixed; bottom: 24px; right: 24px; z-index: 999999; background: rgba(27,73,101,0.92); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.78em; font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 1px; cursor: pointer; backdrop-filter: blur(6px); transition: background 0.2s, transform 0.1s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .lang-pill:hover { background: rgba(255,255,255,0.15); transform: scale(1.04); }
 
         /* ===================== HERO ===================== */
         .hero-section { height: 100vh; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; overflow: hidden; }
-        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; overflow: hidden; white-space: nowrap; border-right: 2px solid rgba(255,255,255,0.6); width: 0; animation: typeTitle 1.4s steps(11) forwards 0.5s, blinkCaret 0.7s step-end 4, removeCaret 0s forwards 3.3s; }
-        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; opacity: 0; animation: fadeUp 1s ease forwards 2.2s; }
-        .scroll-text { color: #a1a5ab; font-size: 0.9em; letter-spacing: 2px; font-style: italic; font-family: 'Montserrat', sans-serif; opacity: 0; animation: fadeUp 1s ease forwards 2.8s; }
-        .arrow-container { position: absolute; bottom: 40px; left: 40px; opacity: 0; animation: fadeUp 1s ease forwards 3.2s; }
-        .arrow-down { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab; transform: rotate(45deg); animation: gentle-bounce 2s infinite 3.5s; }
+        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; overflow: hidden; white-space: nowrap; border-right: 2px solid rgba(255,255,255,0.6); width: 0; animation: typeTitle 1.6s steps(12) forwards 0.5s, blinkCaret 0.7s step-end 5, removeCaret 0s forwards 3.5s; }
+        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; opacity: 0; animation: fadeUp 1s ease forwards 2.4s; }
+        .hero-arrow-container { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); opacity: 0; animation: fadeUp 1s ease forwards 3.0s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .hero-arrow { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab; transform: rotate(45deg); animation: gentle-bounce 2s infinite 3.5s; }
 
-        @keyframes typeTitle { to { width: 6.6em; } }
+        @keyframes typeTitle { to { width: 7.5em; } }
         @keyframes blinkCaret { 50% { border-color: transparent; } }
         @keyframes removeCaret { to { border-right: none; } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -73,13 +54,14 @@
         .fade-divider { width: 50px; height: 1px; background: rgba(255,255,255,0.2); margin: 30px auto; opacity: 0; }
         .fade-line.line-3 { font-size: 1.6em; font-weight: 600; }
         .fade-line.line-4 { font-size: 1.1em; font-weight: 300; color: #a1a5ab; margin-top: 10px; }
-        .fade-line.line-5 { font-size: 0.85em; letter-spacing: 2px; color: rgba(255,255,255,0.4); font-family: 'Montserrat', sans-serif; margin-top: 40px; }
+        .fade-story-arrow { opacity: 0; margin-top: 50px; display: flex; flex-direction: column; align-items: center; }
+        .fade-arrow-inner { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid rgba(161,165,171,0.6); border-right: 2px solid rgba(161,165,171,0.6); transform: rotate(45deg); animation: gentle-bounce 2s infinite; }
         .fade-story-section.is-visible .fade-line.line-1 { animation: storyFade 1s ease forwards 0.2s; }
         .fade-story-section.is-visible .fade-line.line-2 { animation: storyFade 1s ease forwards 0.8s; }
         .fade-story-section.is-visible .fade-divider { animation: storyFade 0.6s ease forwards 1.4s; }
         .fade-story-section.is-visible .fade-line.line-3 { animation: storyFade 1s ease forwards 1.8s; }
         .fade-story-section.is-visible .fade-line.line-4 { animation: storyFade 1s ease forwards 2.4s; }
-        .fade-story-section.is-visible .fade-line.line-5 { animation: storyFade 1s ease forwards 3.2s; }
+        .fade-story-section.is-visible .fade-story-arrow { animation: storyFade 1s ease forwards 3.2s; }
         @keyframes storyFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ===================== MAP ===================== */
@@ -121,12 +103,12 @@
         .legend-header h4 { margin: 0; color: #1B4965; font-size: 1em; }
         .legend-toggle-btn { background: none; border: none; color: #1B4965; cursor: pointer; font-size: 0.85em; padding: 0; line-height: 1; transition: transform 0.2s; }
         .legend-toggle-btn.collapsed { transform: rotate(180deg); }
-        .legend-body { overflow: hidden; transition: max-height 0.3s ease; max-height: 400px; }
+        .legend-body { overflow: hidden; transition: max-height 0.3s ease; max-height: 500px; }
         .legend-body.collapsed { max-height: 0; }
-        .legend-item { display: flex; align-items: center; margin-bottom: 5px; cursor: pointer; transition: opacity 0.2s; font-weight: 500; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; cursor: pointer; transition: opacity 0.2s; font-weight: 500; gap: 2px; }
         .legend-item:hover { opacity: 0.6; }
-        .legend-item i { width: 18px; text-align: center; margin-right: 7px; font-size: 1em; }
-        .legend-item .star-icon { width: 18px; text-align: center; margin-right: 7px; font-size: 1em; color: #c9a227; }
+        .legend-item i { width: 18px; text-align: center; margin-right: 5px; font-size: 1em; flex-shrink: 0; }
+        .legend-star { width: 18px; text-align: center; margin-right: 5px; font-size: 1em; color: #c9a227; flex-shrink: 0; }
         .dimmed { opacity: 0.3 !important; }
 
         /* ===================== POPUPS ===================== */
@@ -134,10 +116,10 @@
         .custom-popup .category { color: #666; font-style: italic; margin: 0 0 10px 0; font-size: 0.8em; }
         .custom-popup h4 { font-size: 0.85em; color: #1B4965; margin: 12px 0 3px 0; font-weight: 700; font-family: 'Montserrat', sans-serif; }
         .custom-popup p { margin: 0 0 8px 0; font-size: 0.9em; line-height: 1.4; color: #333; }
-        .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 8px; margin-top: 15px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.85em; transition: 0.2s; font-family: 'Montserrat', sans-serif; }
-        .custom-popup .plan-visit-btn:hover { background-color: #12344a; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 8px; margin-top: 12px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.85em; transition: 0.2s; font-family: 'Montserrat', sans-serif; }
+        .custom-popup .plan-visit-btn:hover { background-color: #12344a; }
         .directions-row { display: flex; gap: 8px; margin-top: 12px; }
-        .directions-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px 6px; border-radius: 20px; font-size: 0.75em; font-weight: 600; font-family: 'Montserrat', sans-serif; text-decoration: none; transition: 0.2s; border: 1.5px solid; }
+        .directions-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px 4px; border-radius: 20px; font-size: 0.72em; font-weight: 600; font-family: 'Montserrat', sans-serif; text-decoration: none; transition: 0.2s; border: 1.5px solid; }
         .directions-btn.google { color: #1B4965; border-color: #1B4965; background: transparent; }
         .directions-btn.google:hover { background: #1B4965; color: white; }
         .directions-btn.apple { color: #555; border-color: #aaa; background: transparent; }
@@ -145,9 +127,7 @@
 
         /* ===================== SCROLL CARDS (after map) ===================== */
         .scroll-cards-section { position: relative; background-color: #12344a; padding: 70px 0 80px; overflow: hidden; }
-        .cards-bg-img { position: absolute; inset: 0; background-attachment: scroll; background-position: center; background-size: cover; opacity: 0.08; pointer-events: none; }
-        .cards-bg-1 { background-image: url('parliament.jpg'); }
-        .cards-bg-2 { background-image: url('bridge.jpg'); right: 50%; }
+        .cards-bg-img { position: absolute; inset: 0; background-image: url('bridge.jpg'); background-position: center; background-size: cover; opacity: 0.07; pointer-events: none; }
         .scroll-cards-label { position: relative; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 28px; }
         .scroll-cards-track { position: relative; display: flex; gap: 20px; overflow-x: auto; padding: 10px 5% 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .scroll-cards-track::-webkit-scrollbar { display: none; }
@@ -158,7 +138,7 @@
         .scroll-card p strong { color: white; font-weight: 500; }
         .scroll-cards-hint { position: relative; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.72em; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; margin-top: 10px; }
 
-        /* ===================== GUIDES ===================== */
+        /* ===================== GUIDES — DESKTOP ===================== */
         .guides-section { padding: 60px 5%; background-color: #1B4965; color: white; position: relative; border-top: 1px solid rgba(255,255,255,0.1); }
         .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1000px; margin: 0 auto; }
         .guide-card { background: #12344a; padding: 20px 25px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
@@ -167,13 +147,25 @@
         .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 10px; font-size: 0.75em; letter-spacing: 1px; text-transform: uppercase; }
         .guide-card p { line-height: 1.5; color: #d1d5db; font-size: 0.85em; margin-bottom: 10px; }
 
+        /* ===================== GUIDES — MOBILE LIST ===================== */
+        .guides-list { display: none; flex-direction: column; max-width: 560px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
+        .guides-list-item { background: #12344a; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .guides-list-item:last-child { border-bottom: none; }
+        .guides-list-header { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+        .guide-avatar-sm { width: 38px; height: 38px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.9em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
+        .guides-list-header-text h3 { color: white; margin: 0 0 2px 0; font-size: 1em; font-family: 'Lora', serif; }
+        .guides-list-header-text .guide-role { margin-bottom: 0; font-size: 0.68em; }
+        .guides-list-item p { color: #d1d5db; font-size: 0.82em; line-height: 1.6; margin: 0; padding-left: 52px; }
+
         /* ===================== FOOTER ===================== */
         .footer-credits { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 50px; margin-top: 60px; text-align: center; color: #d1d5db; line-height: 1.8; font-family: 'Montserrat', sans-serif; }
         .footer-credits h4 { font-family: 'Montserrat', sans-serif; color: white; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
         .footer-credits a:hover { color: white; text-decoration: underline; }
-        .credits-list { margin-top: 40px; font-size: 1.05em; line-height: 2; }
-        .credits-list strong { color: white; font-weight: 500; }
+        .credits-list { margin-top: 30px; font-size: 0.9em; line-height: 2; color: rgba(255,255,255,0.5); }
+        .credits-list strong { color: rgba(255,255,255,0.7); font-weight: 500; }
+        .copyright-line { margin-top: 20px; font-size: 0.78em; color: rgba(255,255,255,0.35); font-family: 'Montserrat', sans-serif; }
+        .disclaimer-line { margin-top: 8px; font-size: 0.72em; color: rgba(255,255,255,0.3); font-family: 'Montserrat', sans-serif; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; padding-bottom: 40px; }
 
         /* ===================== MOBILE ===================== */
         @media (max-width: 768px) {
@@ -192,13 +184,10 @@
             .info-panel { top: 65px; left: 5%; width: 78%; max-height: 45vh; padding: 13px; box-sizing: border-box; }
             .legend-panel { display: block; bottom: 20px; left: 10px; right: auto; max-width: 145px; padding: 8px; font-size: 0.7em; }
             .scroll-card { min-width: 220px; }
+            /* Switch to list on mobile */
+            .guides-grid { display: none; }
+            .guides-list { display: flex; }
             .guides-section { padding: 40px 5%; }
-            .guides-grid { grid-template-columns: 1fr; gap: 15px; }
-            .guide-card { padding: 15px; }
-            .guide-avatar { width: 35px; height: 35px; font-size: 0.9em; margin-bottom: 8px; }
-            .guide-card h3 { font-size: 1em; }
-            .guide-role { font-size: 0.7em; margin-bottom: 8px; }
-            .guide-card p { font-size: 0.8em; line-height: 1.4; }
         }
     </style>
 </head>
@@ -211,10 +200,10 @@
     <div class="hero-section">
         <h1>You & Ottawa</h1>
         <h2 class="lang-en">a student-led guide to the city's hidden gems</h2>
-        <h2 class="lang-fr" style="opacity:0;animation:fadeUp 1s ease forwards 2.2s;">un guide étudiant sur les joyaux cachés de la ville</h2>
-        <div class="scroll-text lang-en">scroll down to start!</div>
-        <div class="scroll-text lang-fr">faites défiler pour commencer !</div>
-        <div class="arrow-container"><div class="arrow-down"></div></div>
+        <h2 class="lang-fr" style="opacity:0;animation:fadeUp 1s ease forwards 2.4s;">un guide étudiant sur les joyaux cachés de la ville</h2>
+        <div class="hero-arrow-container">
+            <div class="hero-arrow"></div>
+        </div>
     </div>
 
     <!-- ===================== FADE STORY ===================== -->
@@ -225,7 +214,7 @@
             <div class="fade-divider"></div>
             <p class="fade-line line-3">Welcome to "You & Ottawa".</p>
             <p class="fade-line line-4">This map was created to help us see our city differently — connecting the places we visit to the water that sustains us.</p>
-            <p class="fade-line line-5">scroll to explore ↓</p>
+            <div class="fade-story-arrow"><div class="fade-arrow-inner"></div></div>
         </div>
         <div class="lang-fr">
             <p class="fade-line line-1">Ottawa est bien plus que la Colline du Parlement.</p>
@@ -233,7 +222,7 @@
             <div class="fade-divider"></div>
             <p class="fade-line line-3">Bienvenue à « You & Ottawa ».</p>
             <p class="fade-line line-4">Cette carte a été créée pour nous aider à voir notre ville différemment — en reliant les lieux que nous visitons à l'eau qui nous soutient.</p>
-            <p class="fade-line line-5">faites défiler pour explorer ↓</p>
+            <div class="fade-story-arrow"><div class="fade-arrow-inner"></div></div>
         </div>
     </div>
 
@@ -254,7 +243,6 @@
             <button class="custom-btn" id="suggest-btn" title="Suggest a Spot!"><i class="fa-solid fa-plus"></i></button>
         </div>
 
-        <!-- Info toggle — only one button, language handled inside panel -->
         <button id="open-info-btn" class="info-toggle-btn">
             <span class="lang-en">About this Map</span>
             <span class="lang-fr">À propos</span>
@@ -264,29 +252,29 @@
             <button id="close-info-btn" class="close-btn">✖</button>
             <div class="lang-en">
                 <h3>Welcome to the Map!</h3>
-                <p>An independent community initiative originally developed through the Waterlution Y4RC program — connecting Ottawa's waterways with local sustainability action.</p>
+                <p>An independent community initiative, originally developed through the Waterlution Y4RC program — connecting Ottawa's waterways with local sustainability action.</p>
                 <h4>How to Use</h4>
                 <ul>
                     <li><b>Search:</b> Find specific spots by name.</li>
                     <li><b>Explore:</b> Click any icon for the full story.</li>
                     <li><b>Filter:</b> Use the legend to filter by category.</li>
-                    <li><b>Navigate:</b> Zoom in to find spots near you!</li>
+                    <li><b>Directions:</b> Each popup has Google & Apple Maps links.</li>
                 </ul>
                 <h4>Suggest a Spot</h4>
                 <p>Know a hidden gem? Click the <b>+</b> button to suggest it!</p>
             </div>
             <div class="lang-fr">
                 <h3>Bienvenue sur la carte !</h3>
-                <p>Une initiative communautaire indépendante, développée à l'origine dans le cadre du programme Waterlution Y4RC — reliant les cours d'eau d'Ottawa aux actions locales pour la durabilité.</p>
+                <p>Une initiative communautaire indépendante, développée à l'origine dans le cadre du programme Waterlution Y4RC.</p>
                 <h4>Comment utiliser</h4>
                 <ul>
                     <li><b>Rechercher :</b> Trouvez un endroit par son nom.</li>
                     <li><b>Explorer :</b> Cliquez sur une icône pour l'histoire complète.</li>
                     <li><b>Filtrer :</b> Utilisez la légende pour filtrer par catégorie.</li>
-                    <li><b>Naviguer :</b> Zoomez pour trouver des endroits près de vous !</li>
+                    <li><b>Itinéraire :</b> Chaque fiche contient des liens Google et Apple Maps.</li>
                 </ul>
                 <h4>Suggérer un endroit</h4>
-                <p>Connaissez un joyau caché ? Cliquez sur le bouton <b>+</b> pour le suggérer !</p>
+                <p>Connaissez un joyau caché ? Cliquez sur le bouton <b>+</b> !</p>
             </div>
         </div>
 
@@ -294,7 +282,7 @@
             <div class="legend-header">
                 <h4 class="lang-en">Categories</h4>
                 <h4 class="lang-fr">Catégories</h4>
-                <button class="legend-toggle-btn" id="legend-toggle-btn" title="Collapse">▲</button>
+                <button class="legend-toggle-btn" id="legend-toggle-btn">▲</button>
             </div>
             <div class="legend-body" id="legend-body">
                 <div class="legend-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color:darkblue;"></i><span class="lang-en">Books & Knowledge</span><span class="lang-fr">Livres & Savoirs</span></div>
@@ -302,7 +290,7 @@
                 <div class="legend-item" data-category="Community Action"><i class="fa-solid fa-hands-holding-circle" style="color:orange;"></i><span class="lang-en">Community Action</span><span class="lang-fr">Action Communautaire</span></div>
                 <div class="legend-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color:cadetblue;"></i><span class="lang-en">Eco-Stories</span><span class="lang-fr">Éco-Récits</span></div>
                 <div class="legend-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color:red;"></i><span class="lang-en">Indigenous Culture</span><span class="lang-fr">Culture Autochtone</span></div>
-                <div class="legend-item" data-category="Landmark"><span class="star-icon">★</span><span class="lang-en">Landmarks</span><span class="lang-fr">Repères</span></div>
+                <div class="legend-item" data-category="Landmark"><span class="legend-star">★</span><span class="lang-en">Landmarks</span><span class="lang-fr">Repères</span></div>
                 <div class="legend-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color:darkgreen;"></i><span class="lang-en">Nature & Wildlife</span><span class="lang-fr">Nature & Faune</span></div>
                 <div class="legend-item" data-category="Sustainable Dining"><i class="fa-solid fa-utensils" style="color:darkred;"></i><span class="lang-en">Sustainable Dining</span><span class="lang-fr">Restauration Durable</span></div>
                 <div class="legend-item" data-category="Thrift & Vintage"><i class="fa-solid fa-shirt" style="color:purple;"></i><span class="lang-en">Thrift & Vintage</span><span class="lang-fr">Friperies & Vintage</span></div>
@@ -316,8 +304,7 @@
 
     <!-- ===================== SCROLL CARDS (after map) ===================== -->
     <div class="scroll-cards-section">
-        <div class="cards-bg-img cards-bg-1"></div>
-        <div class="cards-bg-img cards-bg-2"></div>
+        <div class="cards-bg-img"></div>
         <div class="scroll-cards-label lang-en">did you know?</div>
         <div class="scroll-cards-label lang-fr">le saviez-vous ?</div>
         <div class="scroll-cards-track">
@@ -346,7 +333,7 @@
         <div class="scroll-cards-hint lang-fr">← glissez pour explorer →</div>
     </div>
 
-    <!-- ===================== GUIDES ===================== -->
+    <!-- ===================== GUIDES — DESKTOP (3 cards) ===================== -->
     <div class="guides-section">
         <div class="guides-grid">
             <div class="guide-card">
@@ -354,43 +341,66 @@
                 <h3>Ana Perales</h3>
                 <div class="guide-role lang-en">Project Lead</div>
                 <div class="guide-role lang-fr">Chef de projet</div>
-                <div class="lang-en">
-                    <p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems.</p>
-                    <p>I combined my background in geospatial technologies with my passion for community action to build this interactive map. My goal is to help students and locals see Ottawa from a new, greener point of view.</p>
-                </div>
-                <div class="lang-fr">
-                    <p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville.</p>
-                    <p>J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire pour créer cette carte interactive.</p>
-                </div>
+                <div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div>
+                <div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div>
             </div>
-
             <div class="guide-card">
                 <div class="guide-avatar">MB</div>
                 <h3>Makenze Blackburn</h3>
                 <div class="guide-role lang-en">Project Partner</div>
                 <div class="guide-role lang-fr">Partenaire de projet</div>
-                <div class="lang-en">
-                    <p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p>
-                </div>
-                <div class="lang-fr">
-                    <p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p>
-                </div>
+                <div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div>
+                <div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div>
             </div>
-
             <div class="guide-card">
                 <div class="guide-avatar"><i class="fa-solid fa-users"></i></div>
                 <h3 class="lang-en">The Volunteers</h3>
                 <h3 class="lang-fr">Les Bénévoles</h3>
                 <div class="guide-role lang-en">Community Team</div>
                 <div class="guide-role lang-fr">Équipe Communautaire</div>
-                <div class="lang-en">
-                    <p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events:</p>
-                    <p><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan, & Norah Bello.</strong></p>
+                <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events:</p><p><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
+                <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements :</p><p><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
+            </div>
+        </div>
+
+        <!-- GUIDES — MOBILE (compact list) -->
+        <div class="guides-list">
+            <div class="guides-list-item">
+                <div class="guides-list-header">
+                    <div class="guide-avatar-sm">AP</div>
+                    <div class="guides-list-header-text">
+                        <h3>Ana Perales</h3>
+                        <div class="guide-role lang-en">Project Lead</div>
+                        <div class="guide-role lang-fr">Chef de projet</div>
+                    </div>
                 </div>
-                <div class="lang-fr">
-                    <p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements :</p>
-                    <p><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan, & Norah Bello.</strong></p>
+                <div class="lang-en"><p>Environmental Science student combining geospatial tech and community action to build this interactive map of Ottawa's hidden sustainable gems.</p></div>
+                <div class="lang-fr"><p>Étudiante en sciences de l'environnement combinant les technologies géospatiales et l'action communautaire pour créer cette carte interactive.</p></div>
+            </div>
+            <div class="guides-list-item">
+                <div class="guides-list-header">
+                    <div class="guide-avatar-sm">MB</div>
+                    <div class="guides-list-header-text">
+                        <h3>Makenze Blackburn</h3>
+                        <div class="guide-role lang-en">Project Partner</div>
+                        <div class="guide-role lang-fr">Partenaire de projet</div>
+                    </div>
                 </div>
+                <div class="lang-en"><p>Leads team coordination and community outreach, connecting the map to real-world organizations and events across Ottawa.</p></div>
+                <div class="lang-fr"><p>Dirige la coordination de l'équipe et l'engagement communautaire, reliant la carte aux organisations sur le terrain.</p></div>
+            </div>
+            <div class="guides-list-item">
+                <div class="guides-list-header">
+                    <div class="guide-avatar-sm" style="background: rgba(255,255,255,0.15); color: white;"><i class="fa-solid fa-users" style="font-size:0.85em;"></i></div>
+                    <div class="guides-list-header-text">
+                        <h3 class="lang-en">The Volunteers</h3>
+                        <h3 class="lang-fr">Les Bénévoles</h3>
+                        <div class="guide-role lang-en">Community Team</div>
+                        <div class="guide-role lang-fr">Équipe Communautaire</div>
+                    </div>
+                </div>
+                <div class="lang-en"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — helping source hidden gems, test the map, and bring it to community events.</p></div>
+                <div class="lang-fr"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — ils aident à trouver de nouveaux endroits, à tester la carte et à la présenter lors d'événements.</p></div>
             </div>
         </div>
 
@@ -404,11 +414,16 @@
                 <strong class="lang-fr">Des questions ou des commentaires ?</strong>
                 <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
             </p>
-            <p class="credits-list">
+            <div class="credits-list">
                 <span class="lang-en">An independent community initiative, originally developed through</span>
                 <span class="lang-fr">Une initiative communautaire indépendante, développée à l'origine dans le cadre de</span>
                 | <strong>Waterlution Y4RC</strong>
-            </p>
+            </div>
+            <div class="copyright-line">© 2025–2026 Ana Perales. All rights reserved.</div>
+            <div class="disclaimer-line">
+                <span class="lang-en">The information on this map is provided for community awareness purposes only. While we strive to keep listings accurate, we are not responsible for changes to business hours, addresses, or services. Links to external websites are provided for convenience — we are not responsible for their content or privacy practices.</span>
+                <span class="lang-fr">Les informations sur cette carte sont fournies à des fins de sensibilisation communautaire uniquement. Nous ne sommes pas responsables des modifications apportées aux horaires, adresses ou services des établissements. Les liens vers des sites externes sont fournis à titre indicatif — nous ne sommes pas responsables de leur contenu.</span>
+            </div>
         </div>
     </div>
 
@@ -460,7 +475,7 @@
         };
 
         // ===================== MAP =====================
-        var map = L.map('map').setView([45.424, -75.695], 12);
+        var map = L.map('map').setView([45.421, -75.690], 13);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19, attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
@@ -493,7 +508,7 @@
             if (category === 'Landmark') {
                 return L.divIcon({
                     className: '',
-                    html: '<div style="font-size:22px;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));">★</div>',
+                    html: '<div style="font-size:22px;line-height:1;color:#c9a227;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5));">★</div>',
                     iconSize: [24, 24],
                     iconAnchor: [12, 12],
                     popupAnchor: [0, -14]
@@ -516,13 +531,13 @@
         // ===================== DIRECTIONS =====================
         function buildDirectionsButtons(lat, lon, lang) {
             var isFr = lang === 'fr';
-            var googleLabel = isFr ? 'Google Maps' : 'Google Maps';
-            var appleLabel  = isFr ? 'Plans (Apple)' : 'Apple Maps';
-            var googleUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + lat + ',' + lon;
-            var appleUrl  = 'https://maps.apple.com/?daddr=' + lat + ',' + lon;
+            var gLabel = 'Google Maps';
+            var aLabel = isFr ? 'Plans (Apple)' : 'Apple Maps';
+            var gUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + lat + ',' + lon;
+            var aUrl = 'https://maps.apple.com/?daddr=' + lat + ',' + lon;
             return '<div class="directions-row">'
-                + '<a href="' + googleUrl + '" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> ' + googleLabel + '</a>'
-                + '<a href="' + appleUrl  + '" target="_blank" class="directions-btn apple"><i class="fa-brands fa-apple"></i> ' + appleLabel  + '</a>'
+                + '<a href="' + gUrl + '" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> ' + gLabel + '</a>'
+                + '<a href="' + aUrl + '" target="_blank" class="directions-btn apple"><i class="fa-brands fa-apple"></i> ' + aLabel + '</a>'
                 + '</div>';
         }
 
@@ -536,7 +551,7 @@
             var whyLbl     = isFr ? 'POURQUOI ÇA COMPTE'  : 'WHY IT MATTERS';
             var actLbl     = isFr ? 'AGIR'                : 'ACT';
             var visitLbl   = isFr ? 'PLANIFIER MA VISITE' : 'PLAN YOUR VISIT';
-            var directionsHtml = buildDirectionsButtons(row.Latitude, row.Longitude, lang);
+            var hasWebsite = row.Website_Link && row.Website_Link.trim() !== '' && row.Website_Link.trim() !== 'undefined';
             return '<div class="custom-popup">'
                 + '<h3>' + row.Place_Organization + '</h3>'
                 + '<p class="category">' + row.Category + '</p>'
@@ -544,8 +559,8 @@
                 + '<h4>' + missionLbl + '</h4><p>' + mission + '</p>'
                 + '<h4>' + whyLbl + '</h4><p>' + why + '</p>'
                 + '<h4>' + actLbl + '</h4><p>' + action + '</p>'
-                + directionsHtml
-                + '<a href="' + row.Website_Link + '" class="plan-visit-btn" target="_blank">' + visitLbl + '</a>'
+                + buildDirectionsButtons(row.Latitude, row.Longitude, lang)
+                + (hasWebsite ? '<a href="' + row.Website_Link + '" class="plan-visit-btn" target="_blank">' + visitLbl + '</a>' : '')
                 + '</div>';
         }
 
