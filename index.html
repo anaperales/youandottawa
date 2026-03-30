@@ -31,37 +31,40 @@
 
         /* ===================== HERO ===================== */
         .hero-section { height: 100vh; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; overflow: hidden; }
-        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; overflow: hidden; white-space: nowrap; border-right: 2px solid rgba(255,255,255,0.6); width: 0; animation: typeTitle 1.6s steps(12) forwards 0.5s, blinkCaret 0.7s step-end 5, removeCaret 0s forwards 3.5s; }
-        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; opacity: 0; animation: fadeUp 1s ease forwards 2.4s; }
-        .hero-arrow-container { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); opacity: 0; animation: fadeUp 1s ease forwards 3.0s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .hero-arrow { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab; transform: rotate(45deg); animation: gentle-bounce 2s infinite 3.5s; }
+        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; overflow: hidden; white-space: nowrap; border-right: 2px solid rgba(255,255,255,0.6); width: 0; }
+        .hero-section h1.typing { animation: typeTitle 1.6s steps(12) forwards, blinkCaret 0.7s step-end 5; }
+        .hero-section h1.typed { width: 7.5em; border-right: none; }
+        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; opacity: 0; transition: opacity 0.8s ease; }
+        .hero-section h2.visible { opacity: 1; }
+        .hero-arrow-container { position: absolute; bottom: 40px; left: 40px; opacity: 0; transition: opacity 0.8s ease; }
+        .hero-arrow-container.visible { opacity: 1; }
+        .hero-arrow { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab; transform: rotate(45deg); animation: gentle-bounce 2s infinite; }
 
-        @keyframes typeTitle { to { width: 7.5em; } }
+        @keyframes typeTitle { from { width: 0; } to { width: 7.5em; } }
         @keyframes blinkCaret { 50% { border-color: transparent; } }
-        @keyframes removeCaret { to { border-right: none; } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes gentle-bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); }
             40% { transform: translateY(-10px) rotate(45deg); }
             60% { transform: translateY(-5px) rotate(45deg); }
         }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ===================== FADE STORY ===================== */
-        .fade-story-section { background-color: #1B4965; padding: 100px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; }
+        .fade-story-section { background-color: #1B4965; padding: 100px 20px 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; position: relative; }
         .fade-line { color: white; opacity: 0; font-family: 'Lora', serif; line-height: 1.8; max-width: 560px; margin: 0 auto; }
         .fade-line.line-1 { font-size: 1.6em; font-weight: 400; }
         .fade-line.line-2 { font-size: 1.1em; font-weight: 300; color: #a1a5ab; margin-top: 10px; }
         .fade-divider { width: 50px; height: 1px; background: rgba(255,255,255,0.2); margin: 30px auto; opacity: 0; }
         .fade-line.line-3 { font-size: 1.6em; font-weight: 600; }
         .fade-line.line-4 { font-size: 1.1em; font-weight: 300; color: #a1a5ab; margin-top: 10px; }
-        .fade-story-arrow { opacity: 0; margin-top: 50px; display: flex; flex-direction: column; align-items: center; }
-        .fade-arrow-inner { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid rgba(161,165,171,0.6); border-right: 2px solid rgba(161,165,171,0.6); transform: rotate(45deg); animation: gentle-bounce 2s infinite; }
+        .story-arrow-container { position: absolute; bottom: 30px; left: 40px; opacity: 0; }
+        .story-arrow { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid rgba(161,165,171,0.6); border-right: 2px solid rgba(161,165,171,0.6); transform: rotate(45deg); animation: gentle-bounce 2s infinite; }
         .fade-story-section.is-visible .fade-line.line-1 { animation: storyFade 1s ease forwards 0.2s; }
         .fade-story-section.is-visible .fade-line.line-2 { animation: storyFade 1s ease forwards 0.8s; }
         .fade-story-section.is-visible .fade-divider { animation: storyFade 0.6s ease forwards 1.4s; }
         .fade-story-section.is-visible .fade-line.line-3 { animation: storyFade 1s ease forwards 1.8s; }
         .fade-story-section.is-visible .fade-line.line-4 { animation: storyFade 1s ease forwards 2.4s; }
-        .fade-story-section.is-visible .fade-story-arrow { animation: storyFade 1s ease forwards 3.2s; }
+        .fade-story-section.is-visible .story-arrow-container { animation: storyFade 1s ease forwards 3.2s; }
         @keyframes storyFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ===================== MAP ===================== */
@@ -82,12 +85,12 @@
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        /* ===================== MAP CONTROLS ===================== */
+        /* ===================== MAP CONTROLS (desktop) ===================== */
         .custom-map-controls { position: absolute; top: 75px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
         .custom-btn { background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.1em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .custom-btn:hover { background: #1B4965; color: white; }
 
-        /* ===================== INFO PANEL ===================== */
+        /* ===================== INFO PANEL (desktop) ===================== */
         .info-toggle-btn { position: absolute; top: 20px; left: 60px; z-index: 999; background: rgba(255,255,255,0.95); padding: 6px 13px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-size: 0.82em; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
         .info-panel { position: absolute; top: 20px; left: 60px; width: 230px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 16px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 80%; overflow-y: auto; }
         .close-btn { float: right; background: none; border: none; font-size: 1em; cursor: pointer; color: #666; transition: 0.2s; }
@@ -97,7 +100,7 @@
         .info-panel p, .info-panel ul { font-size: 0.76em; line-height: 1.6; color: #444; margin-bottom: 8px; }
         .info-panel ul { padding-left: 16px; }
 
-        /* ===================== LEGEND ===================== */
+        /* ===================== LEGEND (desktop) ===================== */
         .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.95); padding: 12px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.75em; max-width: 200px; }
         .legend-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 6px; }
         .legend-header h4 { margin: 0; color: #1B4965; font-size: 1em; }
@@ -110,6 +113,37 @@
         .legend-item i { width: 18px; text-align: center; margin-right: 5px; font-size: 1em; flex-shrink: 0; }
         .legend-star { width: 18px; text-align: center; margin-right: 5px; font-size: 1em; color: #c9a227; flex-shrink: 0; }
         .dimmed { opacity: 0.3 !important; }
+
+        /* ===================== MOBILE MAP CONTROLS ===================== */
+        .mobile-map-bar { display: none; position: absolute; bottom: 0; left: 0; right: 0; z-index: 1001; background: rgba(27,73,101,0.95); backdrop-filter: blur(8px); padding: 10px 16px; border-top: 1px solid rgba(255,255,255,0.15); flex-direction: row; justify-content: space-around; align-items: center; border-radius: 0 0 12px 12px; }
+        .mobile-map-btn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 20px; padding: 7px 14px; font-size: 0.72em; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s; letter-spacing: 0.5px; }
+        .mobile-map-btn:hover { background: rgba(255,255,255,0.22); }
+        .mobile-map-btn i { font-size: 0.9em; }
+
+        /* ===================== BOTTOM DRAWERS (mobile) ===================== */
+        .drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 10000; }
+        .drawer-overlay.open { display: block; }
+        .bottom-drawer { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10001; background: white; border-radius: 20px 20px 0 0; padding: 20px; max-height: 75vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); }
+        .bottom-drawer.open { transform: translateY(0); }
+        .drawer-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 16px; }
+        .drawer-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 1.1em; color: #888; cursor: pointer; }
+        .drawer-close:hover { color: #1B4965; }
+
+        /* Info drawer content */
+        .info-drawer h3 { color: #1B4965; font-size: 1.1em; border-bottom: 2px solid #1B4965; padding-bottom: 8px; margin-top: 0; }
+        .info-drawer h4 { color: #1B4965; font-size: 0.9em; margin: 14px 0 4px; }
+        .info-drawer p, .info-drawer ul { font-size: 0.82em; color: #444; line-height: 1.6; margin-bottom: 8px; }
+        .info-drawer ul { padding-left: 18px; }
+
+        /* Legend drawer content */
+        .legend-drawer h3 { color: #1B4965; font-size: 1.1em; border-bottom: 2px solid #1B4965; padding-bottom: 8px; margin-top: 0; }
+        .legend-drawer-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9em; font-weight: 500; color: #333; cursor: pointer; gap: 4px; transition: opacity 0.2s; }
+        .legend-drawer-item:last-child { border-bottom: none; }
+        .legend-drawer-item:hover { opacity: 0.6; }
+        .legend-drawer-item i { width: 24px; text-align: center; font-size: 1.1em; flex-shrink: 0; margin-right: 4px; }
+        .legend-drawer-item .drawer-star { width: 24px; text-align: center; font-size: 1.1em; color: #c9a227; flex-shrink: 0; margin-right: 4px; }
+        .legend-drawer-item.dimmed { opacity: 0.3; }
+        .legend-drawer-active-label { font-size: 0.72em; color: #1B4965; font-family: 'Montserrat', sans-serif; margin-bottom: 12px; font-weight: 500; }
 
         /* ===================== POPUPS ===================== */
         .custom-popup h3 { color: #1B4965; margin: 0 0 4px 0; font-size: 1.2em; }
@@ -125,7 +159,7 @@
         .directions-btn.apple { color: #555; border-color: #aaa; background: transparent; }
         .directions-btn.apple:hover { background: #555; color: white; border-color: #555; }
 
-        /* ===================== SCROLL CARDS (after map) ===================== */
+        /* ===================== SCROLL CARDS ===================== */
         .scroll-cards-section { position: relative; background-color: #12344a; padding: 70px 0 80px; overflow: hidden; }
         .cards-bg-img { position: absolute; inset: 0; background-image: url('bridge.jpg'); background-position: center; background-size: cover; opacity: 0.07; pointer-events: none; }
         .scroll-cards-label { position: relative; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 28px; }
@@ -164,30 +198,47 @@
         .footer-credits a:hover { color: white; text-decoration: underline; }
         .credits-list { margin-top: 30px; font-size: 0.9em; line-height: 2; color: rgba(255,255,255,0.5); }
         .credits-list strong { color: rgba(255,255,255,0.7); font-weight: 500; }
-        .copyright-line { margin-top: 20px; font-size: 0.78em; color: rgba(255,255,255,0.35); font-family: 'Montserrat', sans-serif; }
-        .disclaimer-line { margin-top: 8px; font-size: 0.72em; color: rgba(255,255,255,0.3); font-family: 'Montserrat', sans-serif; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; padding-bottom: 40px; }
+        .copyright-line { margin-top: 20px; font-size: 0.78em; color: rgba(255,255,255,0.35); }
+        .disclaimer-line { margin-top: 8px; font-size: 0.72em; color: rgba(255,255,255,0.3); max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; padding-bottom: 40px; }
 
         /* ===================== MOBILE ===================== */
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
-            .fade-story-section { padding: 70px 20px; min-height: 50vh; }
+            .fade-story-section { padding: 70px 20px 60px; min-height: 50vh; }
             .fade-line.line-1, .fade-line.line-3 { font-size: 1.3em; }
             .lang-pill { bottom: 16px; right: 16px; }
-            .map-section { width: 95vw; height: 80vh; margin: 20px auto; padding-bottom: 40px; }
-            .map-section.fullscreen-mode { width: 100vw; height: 100vh; margin: 0; padding: 0; }
-            .search-container { width: 90%; top: 10px; left: 50%; transform: translateX(-50%); }
+
+            /* Map on mobile: shorter, full width, bottom bar visible */
+            .map-section { width: 100vw; height: 60vh; min-height: 380px; margin: 20px 0; border-radius: 0; }
+            .map-section.fullscreen-mode { width: 100vw; height: 100vh; margin: 0; }
+            #map { border-radius: 0; }
+
+            /* Hide desktop panels on mobile */
+            .info-toggle-btn { display: none !important; }
+            .info-panel { display: none !important; }
+            .legend-panel { display: none !important; }
+            .custom-map-controls { display: none; }
+
+            /* Show mobile bar */
+            .mobile-map-bar { display: flex; }
+
+            /* Search on mobile */
+            .search-container { width: 88%; top: 10px; left: 50%; transform: translateX(-50%); right: auto; }
             .search-input-box { width: 100%; box-sizing: border-box; }
             .search-input-box input { width: 100%; font-size: 0.95em; }
-            .custom-map-controls { top: 65px; right: 10px; }
-            .info-toggle-btn { top: 65px; left: 10px; font-size: 0.78em; padding: 6px 10px; }
-            .info-panel { top: 65px; left: 5%; width: 78%; max-height: 45vh; padding: 13px; box-sizing: border-box; }
-            .legend-panel { display: block; bottom: 20px; left: 10px; right: auto; max-width: 145px; padding: 8px; font-size: 0.7em; }
-            .scroll-card { min-width: 220px; }
-            /* Switch to list on mobile */
+
+            /* Cards on mobile: smaller, proper spacing */
+            .scroll-cards-section { padding: 50px 0 60px; }
+            .scroll-cards-track { padding: 10px 20px 20px; gap: 14px; }
+            .scroll-card { min-width: 200px; max-width: 220px; padding: 20px 18px; }
+            .scroll-card .card-num { font-size: 1.8em; margin-bottom: 8px; }
+            .scroll-card p { font-size: 0.85em; line-height: 1.6; }
+
+            /* Guides mobile */
+            .guides-section { padding: 40px 5%; }
             .guides-grid { display: none; }
             .guides-list { display: flex; }
-            .guides-section { padding: 40px 5%; }
         }
     </style>
 </head>
@@ -196,12 +247,70 @@
     <!-- STICKY LANG PILL -->
     <button class="lang-pill" onclick="toggleLanguage()">EN | FR</button>
 
+    <!-- DRAWER OVERLAY -->
+    <div class="drawer-overlay" id="drawer-overlay" onclick="closeAllDrawers()"></div>
+
+    <!-- INFO DRAWER (mobile) -->
+    <div class="bottom-drawer info-drawer" id="info-drawer">
+        <div class="drawer-handle"></div>
+        <button class="drawer-close" onclick="closeAllDrawers()">✖</button>
+        <div class="lang-en">
+            <h3>Welcome to the Map!</h3>
+            <p>An independent community initiative, originally developed through the Waterlution Y4RC program — connecting Ottawa's waterways with local sustainability action.</p>
+            <h4>How to Use</h4>
+            <ul>
+                <li><b>Search:</b> Find specific spots by name.</li>
+                <li><b>Explore:</b> Tap any icon for the full story.</li>
+                <li><b>Filter:</b> Use the Categories button to filter by type.</li>
+                <li><b>Directions:</b> Each popup has Google & Apple Maps links.</li>
+            </ul>
+            <h4>Suggest a Spot</h4>
+            <p>Know a hidden gem? Tap the <b>+</b> button to suggest it!</p>
+        </div>
+        <div class="lang-fr">
+            <h3>Bienvenue sur la carte !</h3>
+            <p>Une initiative communautaire indépendante, développée à l'origine dans le cadre du programme Waterlution Y4RC.</p>
+            <h4>Comment utiliser</h4>
+            <ul>
+                <li><b>Rechercher :</b> Trouvez un endroit par son nom.</li>
+                <li><b>Explorer :</b> Appuyez sur une icône pour l'histoire complète.</li>
+                <li><b>Filtrer :</b> Utilisez le bouton Catégories pour filtrer.</li>
+                <li><b>Itinéraire :</b> Chaque fiche contient des liens Google et Apple Maps.</li>
+            </ul>
+            <h4>Suggérer un endroit</h4>
+            <p>Connaissez un joyau caché ? Appuyez sur le bouton <b>+</b> !</p>
+        </div>
+    </div>
+
+    <!-- LEGEND DRAWER (mobile) -->
+    <div class="bottom-drawer legend-drawer" id="legend-drawer">
+        <div class="drawer-handle"></div>
+        <button class="drawer-close" onclick="closeAllDrawers()">✖</button>
+        <h3 class="lang-en">Categories</h3>
+        <h3 class="lang-fr">Catégories</h3>
+        <div class="legend-drawer-active-label lang-en" id="drawer-active-label"></div>
+        <div class="legend-drawer-active-label lang-fr" id="drawer-active-label-fr"></div>
+        <div id="legend-drawer-items">
+            <div class="legend-drawer-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color:darkblue;"></i><span class="lang-en">Books & Knowledge</span><span class="lang-fr">Livres & Savoirs</span></div>
+            <div class="legend-drawer-item" data-category="Circular Economy"><i class="fa-solid fa-arrows-rotate" style="color:green;"></i><span class="lang-en">Circular Economy</span><span class="lang-fr">Économie Circulaire</span></div>
+            <div class="legend-drawer-item" data-category="Community Action"><i class="fa-solid fa-hands-holding-circle" style="color:orange;"></i><span class="lang-en">Community Action</span><span class="lang-fr">Action Communautaire</span></div>
+            <div class="legend-drawer-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color:cadetblue;"></i><span class="lang-en">Eco-Stories</span><span class="lang-fr">Éco-Récits</span></div>
+            <div class="legend-drawer-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color:red;"></i><span class="lang-en">Indigenous Culture</span><span class="lang-fr">Culture Autochtone</span></div>
+            <div class="legend-drawer-item" data-category="Landmark"><span class="drawer-star">★</span><span class="lang-en">Landmarks</span><span class="lang-fr">Repères</span></div>
+            <div class="legend-drawer-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color:darkgreen;"></i><span class="lang-en">Nature & Wildlife</span><span class="lang-fr">Nature & Faune</span></div>
+            <div class="legend-drawer-item" data-category="Sustainable Dining"><i class="fa-solid fa-utensils" style="color:darkred;"></i><span class="lang-en">Sustainable Dining</span><span class="lang-fr">Restauration Durable</span></div>
+            <div class="legend-drawer-item" data-category="Thrift & Vintage"><i class="fa-solid fa-shirt" style="color:purple;"></i><span class="lang-en">Thrift & Vintage</span><span class="lang-fr">Friperies & Vintage</span></div>
+            <div class="legend-drawer-item" data-category="Waterways"><i class="fa-solid fa-water" style="color:blue;"></i><span class="lang-en">Waterways</span><span class="lang-fr">Cours d'Eau</span></div>
+            <div class="legend-drawer-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color:black;"></i><span class="lang-en">Zero Waste & Refill</span><span class="lang-fr">Zéro Déchet & Recharge</span></div>
+        </div>
+    </div>
+
     <!-- ===================== HERO ===================== -->
     <div class="hero-section">
-        <h1>You & Ottawa</h1>
-        <h2 class="lang-en">a student-led guide to the city's hidden gems</h2>
-        <h2 class="lang-fr" style="opacity:0;animation:fadeUp 1s ease forwards 2.4s;">un guide étudiant sur les joyaux cachés de la ville</h2>
-        <div class="hero-arrow-container">
+        <h1 id="hero-title"></h1>
+        <h2 id="hero-subtitle-en" class="lang-en">a student-led guide to the city's hidden gems</h2>
+        <h2 id="hero-subtitle-fr" class="lang-fr">un guide étudiant sur les joyaux cachés de la ville</h2>
+        <div class="hero-arrow-container" id="hero-arrow">
             <div class="hero-arrow"></div>
         </div>
     </div>
@@ -214,7 +323,6 @@
             <div class="fade-divider"></div>
             <p class="fade-line line-3">Welcome to "You & Ottawa".</p>
             <p class="fade-line line-4">This map was created to help us see our city differently — connecting the places we visit to the water that sustains us.</p>
-            <div class="fade-story-arrow"><div class="fade-arrow-inner"></div></div>
         </div>
         <div class="lang-fr">
             <p class="fade-line line-1">Ottawa est bien plus que la Colline du Parlement.</p>
@@ -222,7 +330,9 @@
             <div class="fade-divider"></div>
             <p class="fade-line line-3">Bienvenue à « You & Ottawa ».</p>
             <p class="fade-line line-4">Cette carte a été créée pour nous aider à voir notre ville différemment — en reliant les lieux que nous visitons à l'eau qui nous soutient.</p>
-            <div class="fade-story-arrow"><div class="fade-arrow-inner"></div></div>
+        </div>
+        <div class="story-arrow-container">
+            <div class="story-arrow"></div>
         </div>
     </div>
 
@@ -237,22 +347,25 @@
             <div id="search-suggestions" class="search-suggestions"></div>
         </div>
 
+        <!-- Desktop controls -->
         <div class="custom-map-controls">
-            <button class="custom-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
-            <button class="custom-btn" id="fullscreen-btn" title="Toggle Fullscreen"><i class="fa-solid fa-expand"></i></button>
-            <button class="custom-btn" id="suggest-btn" title="Suggest a Spot!"><i class="fa-solid fa-plus"></i></button>
+            <button class="custom-btn" id="locate-btn"><i class="fa-solid fa-location-crosshairs"></i></button>
+            <button class="custom-btn" id="fullscreen-btn"><i class="fa-solid fa-expand"></i></button>
+            <button class="custom-btn" id="suggest-btn"><i class="fa-solid fa-plus"></i></button>
         </div>
 
+        <!-- Desktop info toggle -->
         <button id="open-info-btn" class="info-toggle-btn">
             <span class="lang-en">About this Map</span>
             <span class="lang-fr">À propos</span>
         </button>
 
+        <!-- Desktop info panel -->
         <div id="info-panel" class="info-panel">
             <button id="close-info-btn" class="close-btn">✖</button>
             <div class="lang-en">
                 <h3>Welcome to the Map!</h3>
-                <p>An independent community initiative, originally developed through the Waterlution Y4RC program — connecting Ottawa's waterways with local sustainability action.</p>
+                <p>An independent community initiative, originally developed through the Waterlution Y4RC program.</p>
                 <h4>How to Use</h4>
                 <ul>
                     <li><b>Search:</b> Find specific spots by name.</li>
@@ -261,7 +374,7 @@
                     <li><b>Directions:</b> Each popup has Google & Apple Maps links.</li>
                 </ul>
                 <h4>Suggest a Spot</h4>
-                <p>Know a hidden gem? Click the <b>+</b> button to suggest it!</p>
+                <p>Know a hidden gem? Click the <b>+</b> button!</p>
             </div>
             <div class="lang-fr">
                 <h3>Bienvenue sur la carte !</h3>
@@ -278,6 +391,7 @@
             </div>
         </div>
 
+        <!-- Desktop legend -->
         <div class="legend-panel" id="legend-panel">
             <div class="legend-header">
                 <h4 class="lang-en">Categories</h4>
@@ -299,10 +413,30 @@
             </div>
         </div>
 
+        <!-- Mobile bottom bar -->
+        <div class="mobile-map-bar">
+            <button class="mobile-map-btn" onclick="openDrawer('info-drawer')">
+                <i class="fa-solid fa-circle-info"></i>
+                <span class="lang-en">About</span><span class="lang-fr">À propos</span>
+            </button>
+            <button class="mobile-map-btn" id="mobile-locate-btn">
+                <i class="fa-solid fa-location-crosshairs"></i>
+                <span class="lang-en">Locate Me</span><span class="lang-fr">Me localiser</span>
+            </button>
+            <button class="mobile-map-btn" onclick="openDrawer('legend-drawer')">
+                <i class="fa-solid fa-list"></i>
+                <span class="lang-en">Categories</span><span class="lang-fr">Catégories</span>
+            </button>
+            <button class="mobile-map-btn" id="mobile-suggest-btn">
+                <i class="fa-solid fa-plus"></i>
+                <span class="lang-en">Suggest</span><span class="lang-fr">Suggérer</span>
+            </button>
+        </div>
+
         <div id="map"></div>
     </div>
 
-    <!-- ===================== SCROLL CARDS (after map) ===================== -->
+    <!-- ===================== SCROLL CARDS ===================== -->
     <div class="scroll-cards-section">
         <div class="cards-bg-img"></div>
         <div class="scroll-cards-label lang-en">did you know?</div>
@@ -310,7 +444,7 @@
         <div class="scroll-cards-track">
             <div class="scroll-card">
                 <div class="card-num">01</div>
-                <div class="lang-en"><p>Ottawa <strong>lives and breathes by the water.</strong> The Ottawa River watershed covers over 146,000 km² of land.</p></div>
+                <div class="lang-en"><p>Ottawa <strong>lives and breathes by the water.</strong> The Ottawa River watershed covers over 146,000 km².</p></div>
                 <div class="lang-fr"><p>Ottawa <strong>vit au rythme de l'eau.</strong> Le bassin versant de la rivière des Outaouais couvre plus de 146 000 km².</p></div>
             </div>
             <div class="scroll-card">
@@ -333,7 +467,7 @@
         <div class="scroll-cards-hint lang-fr">← glissez pour explorer →</div>
     </div>
 
-    <!-- ===================== GUIDES — DESKTOP (3 cards) ===================== -->
+    <!-- ===================== GUIDES — DESKTOP ===================== -->
     <div class="guides-section">
         <div class="guides-grid">
             <div class="guide-card">
@@ -358,12 +492,12 @@
                 <h3 class="lang-fr">Les Bénévoles</h3>
                 <div class="guide-role lang-en">Community Team</div>
                 <div class="guide-role lang-fr">Équipe Communautaire</div>
-                <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events:</p><p><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
-                <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements :</p><p><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
+                <div class="lang-en"><p>A massive thank you to our dedicated volunteers:<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
+                <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués :<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
             </div>
         </div>
 
-        <!-- GUIDES — MOBILE (compact list) -->
+        <!-- GUIDES — MOBILE LIST -->
         <div class="guides-list">
             <div class="guides-list-item">
                 <div class="guides-list-header">
@@ -374,8 +508,8 @@
                         <div class="guide-role lang-fr">Chef de projet</div>
                     </div>
                 </div>
-                <div class="lang-en"><p>Environmental Science student combining geospatial tech and community action to build this interactive map of Ottawa's hidden sustainable gems.</p></div>
-                <div class="lang-fr"><p>Étudiante en sciences de l'environnement combinant les technologies géospatiales et l'action communautaire pour créer cette carte interactive.</p></div>
+                <div class="lang-en"><p>Environmental Science student combining geospatial tech and community action to map Ottawa's hidden sustainable gems.</p></div>
+                <div class="lang-fr"><p>Étudiante en sciences de l'environnement combinant les technologies géospatiales et l'action communautaire.</p></div>
             </div>
             <div class="guides-list-item">
                 <div class="guides-list-header">
@@ -386,12 +520,12 @@
                         <div class="guide-role lang-fr">Partenaire de projet</div>
                     </div>
                 </div>
-                <div class="lang-en"><p>Leads team coordination and community outreach, connecting the map to real-world organizations and events across Ottawa.</p></div>
-                <div class="lang-fr"><p>Dirige la coordination de l'équipe et l'engagement communautaire, reliant la carte aux organisations sur le terrain.</p></div>
+                <div class="lang-en"><p>Leads team coordination and community outreach across Ottawa.</p></div>
+                <div class="lang-fr"><p>Dirige la coordination de l'équipe et l'engagement communautaire.</p></div>
             </div>
             <div class="guides-list-item">
                 <div class="guides-list-header">
-                    <div class="guide-avatar-sm" style="background: rgba(255,255,255,0.15); color: white;"><i class="fa-solid fa-users" style="font-size:0.85em;"></i></div>
+                    <div class="guide-avatar-sm" style="background:rgba(255,255,255,0.15);color:white;"><i class="fa-solid fa-users" style="font-size:0.85em;"></i></div>
                     <div class="guides-list-header-text">
                         <h3 class="lang-en">The Volunteers</h3>
                         <h3 class="lang-fr">Les Bénévoles</h3>
@@ -399,16 +533,16 @@
                         <div class="guide-role lang-fr">Équipe Communautaire</div>
                     </div>
                 </div>
-                <div class="lang-en"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — helping source hidden gems, test the map, and bring it to community events.</p></div>
-                <div class="lang-fr"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — ils aident à trouver de nouveaux endroits, à tester la carte et à la présenter lors d'événements.</p></div>
+                <div class="lang-en"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — sourcing hidden gems, testing the map, and bringing it to community events.</p></div>
+                <div class="lang-fr"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — ils trouvent de nouveaux endroits, testent la carte et la présentent lors d'événements.</p></div>
             </div>
         </div>
 
         <div class="footer-credits">
             <h4 class="lang-en">Land Acknowledgement</h4>
             <h4 class="lang-fr">Reconnaissance du Territoire</h4>
-            <p class="lang-en" style="margin-bottom: 30px;">We acknowledge that the land on which this map focuses is the unceded territory of the Algonquin Anishinabe Nation.</p>
-            <p class="lang-fr" style="margin-bottom: 30px;">Nous reconnaissons que la terre sur laquelle cette carte se concentre est le territoire non cédé de la Nation Algonquine Anishinabe.</p>
+            <p class="lang-en" style="margin-bottom:30px;">We acknowledge that the land on which this map focuses is the unceded territory of the Algonquin Anishinabe Nation.</p>
+            <p class="lang-fr" style="margin-bottom:30px;">Nous reconnaissons que la terre sur laquelle cette carte se concentre est le territoire non cédé de la Nation Algonquine Anishinabe.</p>
             <p>
                 <strong class="lang-en">Feedback or Questions?</strong>
                 <strong class="lang-fr">Des questions ou des commentaires ?</strong>
@@ -421,8 +555,8 @@
             </div>
             <div class="copyright-line">© 2025–2026 Ana Perales. All rights reserved.</div>
             <div class="disclaimer-line">
-                <span class="lang-en">The information on this map is provided for community awareness purposes only. While we strive to keep listings accurate, we are not responsible for changes to business hours, addresses, or services. Links to external websites are provided for convenience — we are not responsible for their content or privacy practices.</span>
-                <span class="lang-fr">Les informations sur cette carte sont fournies à des fins de sensibilisation communautaire uniquement. Nous ne sommes pas responsables des modifications apportées aux horaires, adresses ou services des établissements. Les liens vers des sites externes sont fournis à titre indicatif — nous ne sommes pas responsables de leur contenu.</span>
+                <span class="lang-en">The information on this map is provided for community awareness purposes only. We are not responsible for changes to business hours, addresses, or services. Links to external websites are provided for convenience — we are not responsible for their content or privacy practices.</span>
+                <span class="lang-fr">Les informations sur cette carte sont fournies à des fins de sensibilisation communautaire uniquement. Nous ne sommes pas responsables des modifications apportées aux horaires, adresses ou services. Les liens vers des sites externes sont fournis à titre indicatif.</span>
             </div>
         </div>
     </div>
@@ -441,6 +575,54 @@
             triggerFadeStory();
         }
 
+        // ===================== TYPEWRITER (looping) =====================
+        var heroTitle = document.getElementById('hero-title');
+        var heroSubtitleEn = document.getElementById('hero-subtitle-en');
+        var heroSubtitleFr = document.getElementById('hero-subtitle-fr');
+        var heroArrow = document.getElementById('hero-arrow');
+        var titleText = 'You & Ottawa';
+        var typingDone = false;
+
+        function runTypewriter() {
+            // Reset
+            heroTitle.textContent = '';
+            heroTitle.className = '';
+            heroTitle.style.width = '0';
+            heroTitle.style.borderRight = '2px solid rgba(255,255,255,0.6)';
+            heroSubtitleEn.classList.remove('visible');
+            heroSubtitleFr.classList.remove('visible');
+            heroArrow.classList.remove('visible');
+
+            // Type character by character
+            var i = 0;
+            var speed = 110;
+            function typeChar() {
+                if (i < titleText.length) {
+                    heroTitle.textContent += titleText.charAt(i);
+                    i++;
+                    setTimeout(typeChar, speed);
+                } else {
+                    // Blink caret then remove
+                    setTimeout(function() {
+                        heroTitle.style.borderRight = 'none';
+                        heroSubtitleEn.classList.add('visible');
+                        heroSubtitleFr.classList.add('visible');
+                        heroArrow.classList.add('visible');
+                        typingDone = true;
+                    }, 600);
+                }
+            }
+            typeChar();
+        }
+
+        // First run on load
+        setTimeout(runTypewriter, 500);
+
+        // Loop every 9 seconds after first completion
+        setInterval(function() {
+            runTypewriter();
+        }, 9000);
+
         // ===================== FADE STORY =====================
         function triggerFadeStory() {
             var s = document.getElementById('fade-story');
@@ -454,7 +636,17 @@
             });
         }, { threshold: 0.2 }).observe(document.getElementById('fade-story'));
 
-        // ===================== INFO PANEL =====================
+        // ===================== DRAWERS (mobile) =====================
+        function openDrawer(id) {
+            document.getElementById('drawer-overlay').classList.add('open');
+            document.getElementById(id).classList.add('open');
+        }
+        function closeAllDrawers() {
+            document.getElementById('drawer-overlay').classList.remove('open');
+            document.querySelectorAll('.bottom-drawer').forEach(function(d) { d.classList.remove('open'); });
+        }
+
+        // ===================== INFO PANEL (desktop) =====================
         var infoPanel = document.getElementById('info-panel');
         var openInfoBtn = document.getElementById('open-info-btn');
         document.getElementById('close-info-btn').onclick = function() {
@@ -466,12 +658,10 @@
             openInfoBtn.style.display = 'none';
         };
 
-        // ===================== LEGEND COLLAPSE =====================
-        var legendBody = document.getElementById('legend-body');
-        var legendToggleBtn = document.getElementById('legend-toggle-btn');
-        legendToggleBtn.onclick = function() {
-            legendBody.classList.toggle('collapsed');
-            legendToggleBtn.classList.toggle('collapsed');
+        // ===================== LEGEND COLLAPSE (desktop) =====================
+        document.getElementById('legend-toggle-btn').onclick = function() {
+            document.getElementById('legend-body').classList.toggle('collapsed');
+            this.classList.toggle('collapsed');
         };
 
         // ===================== MAP =====================
@@ -480,6 +670,7 @@
             maxZoom: 19, attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(map);
 
+        // Fullscreen (desktop)
         document.getElementById('fullscreen-btn').onclick = function() {
             var w = document.getElementById('map-wrapper');
             var icon = this.querySelector('i');
@@ -489,19 +680,25 @@
             setTimeout(function() { map.invalidateSize(); }, 300);
         };
 
+        // Locate Me
         var userMarker = null;
-        document.getElementById('locate-btn').onclick = function() { map.locate({setView: true, maxZoom: 15}); };
+        function locateMe() { map.locate({setView: true, maxZoom: 15}); }
+        document.getElementById('locate-btn').onclick = locateMe;
+        document.getElementById('mobile-locate-btn').onclick = locateMe;
         map.on('locationfound', function(e) {
             if (userMarker) map.removeLayer(userMarker);
             userMarker = L.circleMarker(e.latlng, { radius: 8, fillColor: "#007bff", color: "#fff", weight: 2, opacity: 1, fillOpacity: 0.9 }).addTo(map).bindPopup("You are here!").openPopup();
         });
 
-        document.getElementById('suggest-btn').onclick = function() {
+        // Suggest
+        function suggestSpot() {
             var msg = currentLang === 'fr'
                 ? "Vous allez être redirigé vers notre formulaire. Prêt ?"
                 : "You are being redirected to our form to suggest a new spot. Ready?";
             if (confirm(msg)) window.open('https://tally.so/r/b5kNoe', '_blank');
-        };
+        }
+        document.getElementById('suggest-btn').onclick = suggestSpot;
+        document.getElementById('mobile-suggest-btn').onclick = suggestSpot;
 
         // ===================== ICONS =====================
         function getIconForCategory(category) {
@@ -509,9 +706,7 @@
                 return L.divIcon({
                     className: '',
                     html: '<div style="font-size:22px;line-height:1;color:#c9a227;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5));">★</div>',
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 12],
-                    popupAnchor: [0, -14]
+                    iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -14]
                 });
             }
             var iconName = 'star'; var color = 'cadetblue';
@@ -531,17 +726,16 @@
         // ===================== DIRECTIONS =====================
         function buildDirectionsButtons(lat, lon, lang) {
             var isFr = lang === 'fr';
-            var gLabel = 'Google Maps';
             var aLabel = isFr ? 'Plans (Apple)' : 'Apple Maps';
             var gUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + lat + ',' + lon;
             var aUrl = 'https://maps.apple.com/?daddr=' + lat + ',' + lon;
             return '<div class="directions-row">'
-                + '<a href="' + gUrl + '" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> ' + gLabel + '</a>'
+                + '<a href="' + gUrl + '" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> Google Maps</a>'
                 + '<a href="' + aUrl + '" target="_blank" class="directions-btn apple"><i class="fa-brands fa-apple"></i> ' + aLabel + '</a>'
                 + '</div>';
         }
 
-        // ===================== BILINGUAL POPUPS =====================
+        // ===================== POPUPS =====================
         function buildPopupContent(row, lang) {
             var isFr = lang === 'fr';
             var mission    = isFr && row.The_Mission_FR  ? row.The_Mission_FR  : row.The_Mission;
@@ -621,27 +815,52 @@
             });
             sc.style.display = (q !== '' && count > 0) ? 'block' : 'none';
         }
-
         document.getElementById('search-box').addEventListener('input', filterMap);
         document.addEventListener('click', function(e) {
             if (!document.querySelector('.search-container').contains(e.target))
                 document.getElementById('search-suggestions').style.display = 'none';
         });
 
-        // ===================== LEGEND FILTER =====================
-        var legendItems = document.querySelectorAll('.legend-item');
-        legendItems.forEach(function(item) {
+        // ===================== LEGEND FILTER (desktop + mobile drawer) =====================
+        function applyFilter(cat) {
+            if (activeFilterCategory === cat) {
+                activeFilterCategory = "All";
+            } else {
+                activeFilterCategory = cat;
+            }
+            filterMap();
+            // Sync desktop legend
+            document.querySelectorAll('.legend-item').forEach(function(i) {
+                if (activeFilterCategory === "All") { i.classList.remove('dimmed'); }
+                else { i.classList.add('dimmed'); }
+            });
+            if (activeFilterCategory !== "All") {
+                var desktopItem = document.querySelector('.legend-item[data-category="' + activeFilterCategory + '"]');
+                if (desktopItem) desktopItem.classList.remove('dimmed');
+            }
+            // Sync mobile drawer
+            document.querySelectorAll('.legend-drawer-item').forEach(function(i) {
+                if (activeFilterCategory === "All") { i.classList.remove('dimmed'); }
+                else { i.classList.add('dimmed'); }
+            });
+            if (activeFilterCategory !== "All") {
+                var drawerItem = document.querySelector('.legend-drawer-item[data-category="' + activeFilterCategory + '"]');
+                if (drawerItem) drawerItem.classList.remove('dimmed');
+            }
+            // Update active label in drawer
+            var label = activeFilterCategory === "All" ? "" : ("Filtering: " + activeFilterCategory);
+            var labelFr = activeFilterCategory === "All" ? "" : ("Filtre : " + activeFilterCategory);
+            document.getElementById('drawer-active-label').textContent = label;
+            document.getElementById('drawer-active-label-fr').textContent = labelFr;
+        }
+
+        document.querySelectorAll('.legend-item').forEach(function(item) {
+            item.addEventListener('click', function() { applyFilter(this.getAttribute('data-category')); });
+        });
+        document.querySelectorAll('.legend-drawer-item').forEach(function(item) {
             item.addEventListener('click', function() {
-                var cat = this.getAttribute('data-category');
-                if (activeFilterCategory === cat) {
-                    activeFilterCategory = "All";
-                    legendItems.forEach(function(i) { i.classList.remove('dimmed'); });
-                } else {
-                    activeFilterCategory = cat;
-                    legendItems.forEach(function(i) { i.classList.add('dimmed'); });
-                    this.classList.remove('dimmed');
-                }
-                filterMap();
+                applyFilter(this.getAttribute('data-category'));
+                setTimeout(closeAllDrawers, 300);
             });
         });
     </script>
