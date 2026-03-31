@@ -21,10 +21,9 @@
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; overflow: hidden; width: 100vw; height: 100vh; }
         h1, h2, h3, h4 { font-family: 'Lora', serif; }
 
-        /* LANGUAGE LOGIC */
+        /* LANGUAGE LOGIC (Fixed h1.lang-fr visibility!) */
         .lang-fr { display: none; }
-        body.fr-active .lang-en { display: none !important; }
-        body.fr-active div.lang-fr, body.fr-active h2.lang-fr, body.fr-active h3.lang-fr,
+        body.fr-active h1.lang-fr, body.fr-active div.lang-fr, body.fr-active h2.lang-fr, body.fr-active h3.lang-fr,
         body.fr-active h4.lang-fr, body.fr-active p.lang-fr { display: block !important; }
         body.fr-active span.lang-fr, body.fr-active strong.lang-fr, body.fr-active li.lang-fr { display: inline !important; }
 
@@ -35,8 +34,8 @@
         /* HERO / WELCOME SCREEN */
         .hero-section { position: fixed; inset: 0; z-index: 999999; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 0.5s ease, transform 0.5s ease; }
         .hero-section.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
-        .hero-section h1, .sheet-header h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; min-height: 1.2em; }
-        .hero-section h2, .sheet-header h2 { color: #a1a5ab; font-size: 1.1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; opacity: 0; transition: opacity 1s ease; }
+        .hero-section h1 { color: #ffffff; font-size: 3.5em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; min-height: 1.2em; }
+        .hero-section h2 { color: #a1a5ab; font-size: 1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; opacity: 0; transition: opacity 1s ease; }
         .hero-section h2.visible { opacity: 1; }
         .enter-btn { background: white; color: #1B4965; border: none; padding: 14px 32px; border-radius: 30px; font-size: 1em; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 1s ease, transform 0.2s; opacity: 0; }
         .enter-btn.visible { opacity: 1; }
@@ -47,7 +46,7 @@
         .map-section { position: fixed; top: 0; left: 0; width: 100vw; height: calc(100vh - 65px); z-index: 1; }
         #map { width: 100%; height: 100%; }
 
-        /* TOP UI CLUSTER (Search & Categories - Left Aligned) */
+        /* TOP UI CLUSTER (Search & Categories) */
         .top-ui-cluster { position: absolute; top: 15px; left: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 380px; max-width: calc(100vw - 30px); }
         .top-row { display: flex; gap: 8px; pointer-events: auto; align-items: center; }
         .search-input-box { background: white; padding: 10px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; flex: 1; }
@@ -56,11 +55,11 @@
 
         .search-suggestions { background: white; border-radius: 12px; margin-top: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; pointer-events: auto; }
         .suggestion-item { padding: 10px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
+        .suggestion-item:last-child { border-bottom: none; }
         .suggestion-item:hover { background-color: #f4f6f8; }
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        /* Collapsible Categories Pane */
         .cat-toggle-btn { background: white; border: none; padding: 10px 18px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85em; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; pointer-events: auto; align-self: flex-start; }
         .cat-toggle-btn:hover { background: #f0f0f0; }
         .cat-toggle-btn i.fa-chevron-down { transition: transform 0.3s; font-size: 0.9em; }
@@ -76,15 +75,15 @@
         .filter-grid-item i, .filter-grid-item .legend-star { font-size: 1.3em; }
         .filter-grid-item span { font-size: 0.7em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
 
-        /* MAP CONTROLS (Right side stack) */
+        /* MAP CONTROLS (Bottom Left Stack) */
         .leaflet-bottom.leaflet-right { margin-bottom: 75px; }
-        .map-action-stack { position: absolute; bottom: 90px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .map-action-stack { position: absolute; bottom: 85px; left: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
         .map-action-stack .custom-btn { background: white; border: none; height: 42px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; display: flex; justify-content: center; align-items: center; transition: 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 700; }
         .map-action-stack .custom-btn:hover { background: #1B4965; color: white; }
         .map-action-stack .locate-btn { width: 42px; font-size: 1.2em; border-radius: 50%; }
-        .map-action-stack .lang-btn { padding: 0 12px; font-size: 0.75em; letter-spacing: 1px; }
+        .map-action-stack .lang-btn { padding: 0 14px; font-size: 0.8em; letter-spacing: 1px; }
 
-        /* BOTTOM APP NAVIGATION (4 Tabs) */
+        /* BOTTOM APP NAVIGATION */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100vw; height: 65px; background: white; z-index: 2000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; cursor: pointer; transition: 0.2s; padding: 8px 0; }
         .nav-item i { font-size: 1.3em; margin-bottom: 4px; transition: transform 0.2s; }
@@ -98,20 +97,26 @@
         body.contribute-open #contribute-sheet { top: 0; }
         body.install-open #install-sheet { top: 0; }
         
-        .sheet-handle-area { padding: 15px 0; cursor: pointer; display: flex; justify-content: center; }
+        .sheet-handle-area { padding: 15px 0; cursor: pointer; display: flex; justify-content: center; width: 100%; }
         .sheet-handle { width: 50px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 6px; transition: 0.2s; }
         .sheet-handle-area:hover .sheet-handle { background: rgba(255,255,255,0.8); }
 
-        /* CONTENT INSIDE THE SHEETS */
-        .sheet-header { padding: 10px 20px 0; text-align: center; }
-        .sheet-header h1 { font-size: 3em; }
-        .fade-story-section { padding: 40px 20px 60px; text-align: center; }
-        .fade-line { color: white; font-family: 'Lora', serif; line-height: 2; max-width: 580px; margin: 0 auto; }
-        .fade-line.line-1 { font-size: 1.7em; font-weight: 400; }
-        .fade-line.line-2 { font-size: 1.15em; font-weight: 300; color: #a1a5ab; margin-top: 16px; }
-        .fade-divider { width: 60px; height: 1px; background: rgba(255,255,255,0.2); margin: 30px auto; }
-        .fade-line.line-3 { font-size: 1.7em; font-weight: 600; }
-        .fade-line.line-4 { font-size: 1.15em; font-weight: 300; color: #a1a5ab; margin-top: 16px; }
+        /* VERTICAL CENTERING WRAPPERS FOR CONTENT */
+        .sheet-center-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding-bottom: 30px; }
+        .learn-hero-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding-bottom: 50px; }
+
+        /* SHEET CONTENT STYLING (Scaled down for sleekness) */
+        .sheet-header { padding: 0 20px; text-align: center; }
+        .sheet-header h1 { font-size: 2.8em; margin-bottom: 10px; }
+        .sheet-header h2 { font-size: 0.95em; max-width: 600px; margin-inline: auto; line-height: 1.6; }
+        
+        .fade-story-section { padding: 30px 20px; text-align: center; }
+        .fade-line { color: white; font-family: 'Lora', serif; line-height: 1.8; max-width: 580px; margin: 0 auto; }
+        .fade-line.line-1 { font-size: 1.4em; font-weight: 400; }
+        .fade-line.line-2 { font-size: 1em; font-weight: 300; color: #a1a5ab; margin-top: 14px; }
+        .fade-divider { width: 50px; height: 1px; background: rgba(255,255,255,0.2); margin: 25px auto; }
+        .fade-line.line-3 { font-size: 1.4em; font-weight: 600; }
+        .fade-line.line-4 { font-size: 1em; font-weight: 300; color: #a1a5ab; margin-top: 14px; }
 
         /* SCROLL CARDS (Centered with Snapping) */
         .scroll-cards-section { position: relative; background-color: rgba(18,52,74,0.8); padding: 60px 0; overflow: hidden; border-top: 2px solid rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.05); }
@@ -141,12 +146,12 @@
         .guides-list-body p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding: 0 18px 14px 66px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
 
         /* INSTALL SECTION */
-        .install-section { padding: 20px 5% 60px; text-align: center; }
+        .install-section { padding: 0 20px; text-align: center; width: 100%; }
         .install-inner { max-width: 680px; margin: 0 auto; text-align: center; }
         .install-section-label { color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 18px; }
         .install-section h3 { color: white; font-size: 1.35em; margin: 0 0 10px 0; font-family: 'Lora', serif; }
         .install-sub { color: #a1a5ab; font-size: 0.86em; margin-bottom: 36px; line-height: 1.7; font-family: 'Montserrat', sans-serif; }
-        .install-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 28px; }
+        .install-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 28px; width: 100%; }
         .install-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 22px 18px; text-align: left; }
         .install-card .device-icon { font-size: 1.5em; margin-bottom: 10px; }
         .install-card h4 { color: white; margin: 0 0 10px 0; font-size: 0.95em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
@@ -184,11 +189,15 @@
 
         /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
-            .hero-section h1, .sheet-header h1 { font-size: 2.5em; }
-            .hero-section h2, .sheet-header h2 { font-size: 0.9em; padding: 0 10px; max-width: 95%; }
+            .hero-section h1 { font-size: 2.8em; }
+            .sheet-header h1 { font-size: 2.2em; }
+            .hero-section h2, .sheet-header h2 { font-size: 0.85em; padding: 0 10px; max-width: 95%; }
+            .fade-line.line-1, .fade-line.line-3 { font-size: 1.2em; }
+            .fade-line.line-2, .fade-line.line-4 { font-size: 0.9em; }
             .top-ui-cluster { max-width: 100%; width: calc(100vw - 30px); }
             .filter-grid { grid-template-columns: repeat(2, 1fr); }
             .nav-item span { font-size: 0.55em; }
+            .learn-hero-wrapper { min-height: calc(100vh - 100px); }
         }
     </style>
 </head>
@@ -269,28 +278,30 @@
 
     <div class="content-sheet" id="learn-sheet">
         <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
-        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close map"><div class="sheet-handle"></div></div>
+        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
-        <div class="sheet-header">
-            <h1>You & Ottawa</h1>
-            <h2 class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
-            <h2 class="lang-fr">découvrir le côté écoresponsable d'Ottawa, par et pour les étudiants</h2>
-        </div>
-
-        <div class="fade-story-section">
-            <div class="lang-en">
-                <p class="fade-line line-1">Ottawa is more than just Parliament Hill.</p>
-                <p class="fade-line line-2">Even if you've lived here for years, the coolest hidden gems often stay under the radar.</p>
-                <div class="fade-divider"></div>
-                <p class="fade-line line-3">Welcome to "You & Ottawa".</p>
-                <p class="fade-line line-4">This map was created to help us see our city differently — connecting the places we visit to the water that sustains us.</p>
+        <div class="learn-hero-wrapper">
+            <div class="sheet-header">
+                <h1>You & Ottawa</h1>
+                <h2 class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
+                <h2 class="lang-fr">découvrir le côté écoresponsable d'Ottawa, par et pour les étudiants</h2>
             </div>
-            <div class="lang-fr">
-                <p class="fade-line line-1">Ottawa est bien plus que la Colline du Parlement.</p>
-                <p class="fade-line line-2">Même si vous habitez ici depuis des années, les joyaux cachés passent souvent inaperçus.</p>
-                <div class="fade-divider"></div>
-                <p class="fade-line line-3">Bienvenue à « You & Ottawa ».</p>
-                <p class="fade-line line-4">Cette carte a été créée pour nous aider à voir notre ville différemment — en reliant les lieux que nous visitons à l'eau qui nous soutient.</p>
+
+            <div class="fade-story-section">
+                <div class="lang-en">
+                    <p class="fade-line line-1">Ottawa is more than just Parliament Hill.</p>
+                    <p class="fade-line line-2">Even if you've lived here for years, the coolest hidden gems often stay under the radar.</p>
+                    <div class="fade-divider"></div>
+                    <p class="fade-line line-3">Welcome to You & Ottawa.</p>
+                    <p class="fade-line line-4">This map was created to help us see our city differently — connecting the places we visit to the water that sustains us.</p>
+                </div>
+                <div class="lang-fr">
+                    <p class="fade-line line-1">Ottawa est bien plus que la Colline du Parlement.</p>
+                    <p class="fade-line line-2">Même si vous habitez ici depuis des années, les joyaux cachés passent souvent inaperçus.</p>
+                    <div class="fade-divider"></div>
+                    <p class="fade-line line-3">Bienvenue à You & Ottawa.</p>
+                    <p class="fade-line line-4">Cette carte a été créée pour nous aider à voir notre ville différemment — en reliant les lieux que nous visitons à l'eau qui nous soutient.</p>
+                </div>
             </div>
         </div>
 
@@ -353,8 +364,8 @@
                         <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
                     </div>
                     <div class="guides-list-body">
-                        <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan, & Norah Bello.</strong></p></div>
-                        <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan, & Norah Bello.</strong></p></div>
+                        <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Brett Stockwell, Kira Fair, & Norah Bello.</strong></p></div>
+                        <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Brett Stockwell, Kira Fair, & Norah Bello.</strong></p></div>
                     </div>
                 </div>
             </div>
@@ -375,9 +386,9 @@
                     </div>
                 </div>
                 <p>
-                    <strong class="lang-en">Feedback or Questions?</strong>
-                    <strong class="lang-fr">Des questions ou des commentaires ?</strong>
-                    <br>Contact Project Lead: <a href="mailto:youandottawa@gmail.com">youandottawa@gmail.com</a>
+                    <strong class="lang-en">Contact:</strong>
+                    <strong class="lang-fr">Contact:</strong>
+                    <br><a href="mailto:youandottawa@gmail.com">youandottawa@gmail.com</a>
                 </p>
                 <div class="credits-list">
                     <span class="lang-en">An independent community initiative, originally developed through</span>
@@ -397,36 +408,38 @@
 
     <div class="content-sheet" id="install-sheet">
         <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
-        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close map"><div class="sheet-handle"></div></div>
+        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
-        <div class="install-section">
-            <div class="install-inner">
-                <div class="install-section-label lang-en">take it with you</div>
-                <div class="install-section-label lang-fr">emportez-la avec vous</div>
-                <h3 class="lang-en">Add You & Ottawa to your home screen</h3>
-                <h3 class="lang-fr">Ajoutez You & Ottawa à votre écran d'accueil</h3>
-                <p class="install-sub lang-en">No download needed — save the map directly to your phone and access it like an app, anytime.</p>
-                <p class="install-sub lang-fr">Aucun téléchargement nécessaire — enregistrez la carte sur votre téléphone et accédez-y comme une application.</p>
-                <div class="install-cards">
-                    <div class="install-card">
-                        <div class="device-icon"><i class="fa-brands fa-apple" style="color:white;"></i></div>
-                        <h4>iPhone / iPad</h4>
-                        <ol>
-                            <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Safari</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Safari</span></li>
-                            <li><span class="lang-en">Tap the <span class="step-key">Share</span> button <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span><span class="lang-fr">Appuyez sur <span class="step-key">Partager</span> <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span></li>
-                            <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Sur l'écran d'accueil</span></span></li>
-                            <li><span class="lang-en">Tap <span class="step-key">Add</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter</span> — c'est fait !</span></li>
-                        </ol>
-                    </div>
-                    <div class="install-card">
-                        <div class="device-icon"><i class="fa-brands fa-android" style="color:#a4c639;"></i></div>
-                        <h4>Android</h4>
-                        <ol>
-                            <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Chrome</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Chrome</span></li>
-                            <li><span class="lang-en">Tap the <span class="step-key">⋮ menu</span> (top right)</span><span class="lang-fr">Appuyez sur le <span class="step-key">menu ⋮</span> (en haut à droite)</span></li>
-                            <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter à l'écran d'accueil</span></span></li>
-                            <li><span class="lang-en">Tap <span class="step-key">Install</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Installer</span> — c'est fait !</span></li>
-                        </ol>
+        <div class="sheet-center-wrapper">
+            <div class="install-section">
+                <div class="install-inner">
+                    <div class="install-section-label lang-en">take it with you</div>
+                    <div class="install-section-label lang-fr">emportez-la avec vous</div>
+                    <h3 class="lang-en">Add You & Ottawa to your home screen</h3>
+                    <h3 class="lang-fr">Ajoutez You & Ottawa à votre écran d'accueil</h3>
+                    <p class="install-sub lang-en">No download needed — save the map directly to your phone and access it like an app, anytime.</p>
+                    <p class="install-sub lang-fr">Aucun téléchargement nécessaire — enregistrez la carte sur votre téléphone et accédez-y comme une application.</p>
+                    <div class="install-cards">
+                        <div class="install-card">
+                            <div class="device-icon"><i class="fa-brands fa-apple" style="color:white;"></i></div>
+                            <h4>iPhone / iPad</h4>
+                            <ol>
+                                <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Safari</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Safari</span></li>
+                                <li><span class="lang-en">Tap the <span class="step-key">Share</span> button <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span><span class="lang-fr">Appuyez sur <span class="step-key">Partager</span> <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span></li>
+                                <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Sur l'écran d'accueil</span></span></li>
+                                <li><span class="lang-en">Tap <span class="step-key">Add</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter</span> — c'est fait !</span></li>
+                            </ol>
+                        </div>
+                        <div class="install-card">
+                            <div class="device-icon"><i class="fa-brands fa-android" style="color:#a4c639;"></i></div>
+                            <h4>Android</h4>
+                            <ol>
+                                <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Chrome</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Chrome</span></li>
+                                <li><span class="lang-en">Tap the <span class="step-key">⋮ menu</span> (top right)</span><span class="lang-fr">Appuyez sur le <span class="step-key">menu ⋮</span> (en haut à droite)</span></li>
+                                <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter à l'écran d'accueil</span></span></li>
+                                <li><span class="lang-en">Tap <span class="step-key">Install</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Installer</span> — c'est fait !</span></li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -435,28 +448,30 @@
 
     <div class="content-sheet" id="contribute-sheet">
         <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
-        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close map"><div class="sheet-handle"></div></div>
+        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
-        <div class="sheet-header">
-            <h1 class="lang-en">Contribute</h1>
-            <h1 class="lang-fr">Contribuer</h1>
-            <h2 class="lang-en">Help us grow the map!</h2>
-            <h2 class="lang-fr">Aidez-nous à enrichir la carte !</h2>
-        </div>
-        <div class="fade-story-section" style="padding-top: 20px;">
-            <div class="lang-en">
-                <p class="fade-line line-2">Know a hidden sustainable gem in Ottawa? We want to hear about it.</p>
-                <p class="fade-line line-2">Click below to open our form and suggest your favorite spot for the community guide.</p>
+        <div class="sheet-center-wrapper">
+            <div class="sheet-header">
+                <h1 class="lang-en">Contribute</h1>
+                <h1 class="lang-fr">Contribuer</h1>
+                <h2 class="lang-en">Help us grow the map!</h2>
+                <h2 class="lang-fr">Aidez-nous à enrichir la carte !</h2>
             </div>
-            <div class="lang-fr">
-                <p class="fade-line line-2">Vous connaissez un joyau écoresponsable caché à Ottawa ? Nous voulons en entendre parler.</p>
-                <p class="fade-line line-2">Cliquez ci-dessous pour ouvrir notre formulaire de suggestion et ajouter votre endroit préféré au guide communautaire.</p>
-            </div>
-            <div style="margin-top: 50px;">
-                <button class="enter-btn visible" style="opacity:1;" onclick="window.open('https://tally.so/r/vGLebX','_blank')">
-                    <span class="lang-en">Go to Suggestion Form</span>
-                    <span class="lang-fr">Aller au Formulaire</span>
-                </button>
+            <div class="fade-story-section" style="padding-top: 20px;">
+                <div class="lang-en">
+                    <p class="fade-line line-2">Know a hidden sustainable gem in Ottawa? We want to hear about it.</p>
+                    <p class="fade-line line-2">Click below to open our form and suggest your favorite spot for the community guide.</p>
+                </div>
+                <div class="lang-fr">
+                    <p class="fade-line line-2">Vous connaissez un joyau écoresponsable caché à Ottawa ? Nous voulons en entendre parler.</p>
+                    <p class="fade-line line-2">Cliquez ci-dessous pour ouvrir notre formulaire de suggestion et ajouter votre endroit préféré au guide communautaire.</p>
+                </div>
+                <div style="margin-top: 50px;">
+                    <button class="enter-btn visible" style="opacity:1;" onclick="window.open('https://tally.so/r/vGLebX','_blank')">
+                        <span class="lang-en">Go to Suggestion Form</span>
+                        <span class="lang-fr">Aller au Formulaire</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -590,7 +605,7 @@
             searchBox.placeholder = currentLang === 'fr' ? 'Rechercher dans le guide...' : 'Search the guide...';
             rebuildAllPopups();
             
-            // Fix location marker translation if it exists
+            // Re-bind the user location marker instantly if active
             if(userMarker) {
                 userMarker.setPopupContent('<span class="lang-en">You are here!</span><span class="lang-fr">Vous êtes ici !</span>');
             }
@@ -609,7 +624,6 @@
         map.on('locationfound',function(e){
             if(userMarker)map.removeLayer(userMarker);
             userMarker=L.circleMarker(e.latlng,{radius:9,fillColor:"#007bff",color:"#fff",weight:2.5,opacity:1,fillOpacity:0.9}).addTo(map);
-            // Used HTML classes so the marker translates instantly!
             userMarker.bindPopup('<span class="lang-en">You are here!</span><span class="lang-fr">Vous êtes ici !</span>').openPopup();
         });
 
@@ -638,7 +652,8 @@
                 // AUTO-CENTER MAP WHEN CLICKING A PIN
                 marker.on('click', function(e) {
                     var px = map.project(e.target.getLatLng());
-                    px.y -= 150; // Offsets the map by 150 pixels down so the popup doesn't get cut off!
+                    var offset = window.innerWidth < 768 ? 220 : 150; // Dynamic push: 220px down on mobile, 150px on desktop
+                    px.y -= offset; 
                     map.panTo(map.unproject(px), {animate: true});
                 });
                 
@@ -654,7 +669,14 @@
             sc.innerHTML='';
             allMapMarkers.forEach(function(item){
                 var show=item.searchableText.includes(q)&&(activeFilterCategory==="All"||item.category===activeFilterCategory);
-                if(show){if(!map.hasLayer(item.marker))map.addLayer(item.marker);if(q!==''&&count<5){var d=document.createElement('div');d.className='suggestion-item';d.innerHTML='<strong>'+item.title+'</strong><span>'+item.category+'</span>';d.onclick=function(){searchBox.value=item.title;sc.style.display='none';filterMap();map.setView(item.marker.getLatLng(),16);item.marker.openPopup();};sc.appendChild(d);count++;}}
+                if(show){if(!map.hasLayer(item.marker))map.addLayer(item.marker);if(q!==''&&count<5){var d=document.createElement('div');d.className='suggestion-item';d.innerHTML='<strong>'+item.title+'</strong><span>'+item.category+'</span>';d.onclick=function(){searchBox.value=item.title;sc.style.display='none';filterMap();
+                    // Custom map recenter on search
+                    var searchPx = map.project(item.marker.getLatLng());
+                    var offset = window.innerWidth < 768 ? 220 : 150;
+                    searchPx.y -= offset;
+                    map.setView(map.unproject(searchPx),16);
+                    item.marker.openPopup();
+                };sc.appendChild(d);count++;}}
                 else{if(map.hasLayer(item.marker))map.removeLayer(item.marker);}
             });
             sc.style.display=(q!==''&&count>0)?'block':'none';
