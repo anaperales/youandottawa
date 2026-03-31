@@ -11,13 +11,14 @@
     <meta name="apple-mobile-web-app-title" content="You & Ottawa">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="google-site-verification" content="google0031eeda4e897580">
-    <meta name="description" content="A student-built guide to Ottawa's sustainable hidden gems.">
+    <meta name="description" content="Discovering Ottawa's sustainable side, by students for students.">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
+        /* Lock body scrolling so the map is the only thing moving */
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; overflow: hidden; width: 100vw; height: 100vh; }
         h1, h2, h3, h4 { font-family: 'Lora', serif; }
 
@@ -28,9 +29,8 @@
         body.fr-active h4.lang-fr, body.fr-active p.lang-fr { display: block !important; }
         body.fr-active span.lang-fr, body.fr-active strong.lang-fr, body.fr-active li.lang-fr { display: inline !important; }
 
-        /* LANG PILL (Fixed to top right, always on top) */
-        .lang-pill { position: fixed; top: 15px; right: 15px; z-index: 9999999; background: rgba(255,255,255,0.85); border: 1px solid rgba(27,73,101,0.2); color: #1B4965; padding: 8px 14px; border-radius: 30px; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 1px; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-        .lang-pill:hover { background: #1B4965; color: white; }
+        /* PWA BANNER (Hidden but kept for browser logic) */
+        .pwa-banner { display: none; }
 
         /* HERO / WELCOME SCREEN */
         .hero-section { position: fixed; inset: 0; z-index: 999999; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 0.5s ease, transform 0.5s ease; }
@@ -47,58 +47,63 @@
         .map-section { position: fixed; top: 0; left: 0; width: 100vw; height: calc(100vh - 65px); z-index: 1; }
         #map { width: 100%; height: 100%; }
 
-        /* GOOGLE STYLE SEARCH & FILTER BUTTON */
-        .top-search-bar { position: absolute; top: 15px; left: 15px; z-index: 1000; width: calc(100% - 100px); max-width: 400px; display: flex; gap: 8px; }
-        .search-input-box { background: white; padding: 10px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; flex: 1; }
-        .search-input-box input { border: none; padding: 4px 8px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 100%; background: transparent; }
-        .search-input-box i { color: #1B4965; padding: 0 8px 0 5px; font-size: 1.1em; flex-shrink: 0; }
-        .filter-btn { background: white; border: none; width: 45px; height: 45px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.2em; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; }
-        .filter-btn:hover { background: #1B4965; color: white; }
+        /* TOP UI CLUSTER (Search, Locate, Lang, Categories) */
+        .top-ui-cluster { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; max-width: 500px; margin: 0 auto; }
         
-        .search-suggestions { position: absolute; top: 100%; left: 0; width: 100%; background: white; border-radius: 12px; margin-top: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; }
+        /* Top Row: Search + Locate + Lang */
+        .top-row { display: flex; gap: 8px; pointer-events: auto; align-items: center; }
+        
+        .search-input-box { background: white; padding: 10px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; flex: 1; }
+        .search-input-box input { border: none; padding: 0 8px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 100%; background: transparent; }
+        .search-input-box i { color: #1B4965; font-size: 1.1em; flex-shrink: 0; }
+        
+        .action-btn { background: white; border: none; height: 42px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        .action-btn:hover { background: #1B4965; color: white; }
+        
+        .locate-btn { width: 42px; font-size: 1.2em; }
+        .lang-btn { padding: 0 14px; font-size: 0.8em; letter-spacing: 1px; }
+
+        /* Suggestions Dropdown */
+        .search-suggestions { background: white; border-radius: 12px; margin-top: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; pointer-events: auto; }
         .suggestion-item { padding: 10px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
         .suggestion-item:last-child { border-bottom: none; }
         .suggestion-item:hover { background-color: #f4f6f8; }
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        /* CATEGORY FILTER MODAL (Grid Style) */
-        .filter-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 2500; display: none; opacity: 0; transition: opacity 0.3s; }
-        .filter-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: transform 0.3s, opacity 0.3s; opacity: 0; display: none; max-height: 80vh; overflow-y: auto; }
-        .filter-modal.show { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .filter-modal-overlay.show { display: block; opacity: 1; }
-        .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
-        .filter-header h3 { margin: 0; color: #1B4965; font-size: 1.2em; }
-        .close-filter-btn { background: none; border: none; font-size: 1.5em; color: #888; cursor: pointer; padding: 0; line-height: 1; }
-        .filter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-        .filter-grid-item { background: #f8f9fa; border: 1px solid #e9ecef; padding: 12px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        /* Collapsible Categories Pane */
+        .cat-toggle-btn { background: white; border: none; padding: 10px 18px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.85em; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; pointer-events: auto; align-self: flex-start; }
+        .cat-toggle-btn:hover { background: #f0f0f0; }
+        .cat-toggle-btn i.fa-chevron-down { transition: transform 0.3s; font-size: 0.9em; }
+        .cat-toggle-btn.open i.fa-chevron-down { transform: rotate(180deg); }
+
+        .categories-pane { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); padding: 16px; pointer-events: auto; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease; margin-top: 5px; }
+        .categories-pane.open { max-height: 60vh; opacity: 1; padding: 16px; overflow-y: auto; }
+        
+        .filter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+        .filter-grid-item { background: #f8f9fa; border: 1px solid #e9ecef; padding: 10px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
         .filter-grid-item:hover { background: #e2e8f0; }
         .filter-grid-item.active-pill { background: #1B4965; color: white; border-color: #1B4965; }
-        .filter-grid-item i, .filter-grid-item .legend-star { font-size: 1.4em; }
-        .filter-grid-item span { font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
+        .filter-grid-item i, .filter-grid-item .legend-star { font-size: 1.3em; }
+        .filter-grid-item span { font-size: 0.7em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
 
-        /* MAP CONTROLS */
-        .custom-map-controls { position: absolute; bottom: 20px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
-        .custom-btn { background: white; border: none; width: 45px; height: 45px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.2em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-        .custom-btn:hover { background: #1B4965; color: white; }
-
-        /* BOTTOM APP NAVIGATION */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100vw; height: 65px; background: white; z-index: 2000; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding-bottom: env(safe-area-inset-bottom); }
+        /* BOTTOM APP NAVIGATION (4 Tabs) */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100vw; height: 65px; background: white; z-index: 2000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; cursor: pointer; transition: 0.2s; padding: 8px 0; }
         .nav-item i { font-size: 1.3em; margin-bottom: 4px; transition: transform 0.2s; }
-        .nav-item span { font-size: 0.65em; font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-item span { font-size: 0.6em; font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
         .nav-item.active { color: #1B4965; }
         .nav-item:hover i { transform: translateY(-2px); color: #1B4965; }
 
-        /* SLIDE-UP SHEETS (Learn & Contribute) */
+        /* SLIDE-UP SHEETS */
         .content-sheet { position: fixed; top: 100%; left: 0; width: 100vw; height: calc(100vh - 65px); background: rgba(27,73,101,0.95); backdrop-filter: blur(15px); z-index: 1500; overflow-y: auto; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); scroll-behavior: smooth; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); }
-        body.sheet-open #content-sheet { top: 0; }
+        body.sheet-open #learn-sheet { top: 0; }
         body.contribute-open #contribute-sheet { top: 0; }
+        body.install-open #install-sheet { top: 0; }
         
-        /* Drag handle for native app feel */
         .sheet-handle { width: 40px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 5px; margin: 15px auto 0; }
 
-        /* CONTENT INSIDE THE SHEET */
+        /* CONTENT INSIDE THE SHEETS */
         .sheet-header { padding: 40px 20px 0; text-align: center; }
         .sheet-header h1 { font-size: 3em; }
         .fade-story-section { padding: 40px 20px 60px; text-align: center; }
@@ -137,16 +142,24 @@
         .guides-list-item.open .guides-list-body { max-height: 250px; }
         .guides-list-body p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding: 0 18px 14px 66px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
 
-        /* INSTALL / FOOTER */
-        .install-section { background-color: rgba(18,52,74,0.95); padding: 60px 5%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .install-section h3 { color: white; font-size: 1.2em; margin: 0 0 8px 0; }
-        .install-sub { color: #a1a5ab; font-size: 0.8em; margin-bottom: 20px; line-height: 1.6; }
-        .install-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; max-width: 600px; margin-inline: auto; }
-        .install-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 16px; text-align: left; }
-        .install-card h4 { color: white; margin: 0 0 10px 0; font-size: 0.9em; }
-        .install-card ol { color: #d1d5db; font-size: 0.75em; line-height: 1.7; margin: 0; padding-left: 16px; }
-        
-        .footer-section { padding: 60px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); }
+        /* INSTALL SECTION (In the new Install Sheet) */
+        .install-section { padding: 40px 5% 60px; text-align: center; }
+        .install-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+        .install-section-label { color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 18px; }
+        .install-section h3 { color: white; font-size: 1.35em; margin: 0 0 10px 0; font-family: 'Lora', serif; }
+        .install-sub { color: #a1a5ab; font-size: 0.86em; margin-bottom: 36px; line-height: 1.7; font-family: 'Montserrat', sans-serif; }
+        .install-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 28px; }
+        .install-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 22px 18px; text-align: left; }
+        .install-card .device-icon { font-size: 1.5em; margin-bottom: 10px; }
+        .install-card h4 { color: white; margin: 0 0 10px 0; font-size: 0.95em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
+        .install-card ol { color: #d1d5db; font-size: 0.8em; line-height: 1.85; margin: 0; padding-left: 16px; }
+        .install-card ol li { margin-bottom: 2px; }
+        .step-key { color: white; font-weight: 600; }
+        .install-coming { display: inline-block; margin-top: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 10px 20px; color: rgba(255,255,255,0.55); font-size: 0.76em; font-family: 'Montserrat', sans-serif; line-height: 1.6; }
+        .install-coming i { margin-right: 6px; color: #c9a227; }
+
+        /* FOOTER */
+        .footer-section { padding: 60px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); background-color: rgba(18,52,74,0.5); }
         .footer-credits { text-align: center; color: #d1d5db; line-height: 1.8; font-family: 'Montserrat', sans-serif; max-width: 700px; margin: 0 auto; }
         .footer-credits h4 { font-family: 'Montserrat', sans-serif; color: white; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
@@ -162,7 +175,7 @@
         .copyright-line { margin-top: 20px; font-size: 0.76em; color: rgba(255,255,255,0.3); }
         .disclaimer-line { margin-top: 10px; font-size: 0.7em; color: rgba(255,255,255,0.25); line-height: 1.7; padding-bottom: 10px; }
 
-        /* POPUPS */
+        /* MAP POPUPS */
         .custom-popup h3 { color: #1B4965; margin: 0 0 4px 0; font-size: 1.2em; }
         .custom-popup .category { color: #666; font-style: italic; margin: 0 0 10px 0; font-size: 0.8em; }
         .custom-popup h4 { font-size: 0.85em; color: #1B4965; margin: 12px 0 3px 0; font-weight: 700; font-family: 'Montserrat', sans-serif; }
@@ -177,21 +190,18 @@
         @media (max-width: 768px) {
             .hero-section h1, .sheet-header h1 { font-size: 2.5em; }
             .hero-section h2, .sheet-header h2 { font-size: 0.9em; padding: 0 10px; max-width: 95%; }
-            .top-search-bar { width: calc(100% - 30px); }
+            .top-ui-cluster { max-width: 100%; }
             .filter-grid { grid-template-columns: repeat(2, 1fr); }
-            .custom-map-controls { bottom: 20px; right: 10px; gap: 8px; }
-            .custom-btn { width: 40px; height: 40px; font-size: 1.1em; }
+            .nav-item span { font-size: 0.55em; }
         }
     </style>
 </head>
 <body>
 
-    <button class="lang-pill" onclick="toggleLanguage()">EN | FR</button>
-
     <div class="hero-section" id="welcome-screen">
         <h1 id="hero-h1">You & Ottawa</h1>
-        <h2 id="hero-sub-en" class="lang-en">a student-built guide to Ottawa's sustainable hidden gems</h2>
-        <h2 id="hero-sub-fr" class="lang-fr">un guide étudiant des joyaux durables cachés d'Ottawa</h2>
+        <h2 id="hero-sub-en" class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
+        <h2 id="hero-sub-fr" class="lang-fr">découvrir le côté écoresponsable d'Ottawa, par et pour les étudiants</h2>
         <button id="hero-enter" class="enter-btn" onclick="enterMap()">
             <span class="lang-en">Start Exploring</span>
             <span class="lang-fr">Commencer à Explorer</span>
@@ -200,41 +210,39 @@
 
     <div class="map-section">
         
-        <div class="top-search-bar">
-            <div class="search-input-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search-box" placeholder="Search the guide...">
+        <div class="top-ui-cluster">
+            <div class="top-row">
+                <div class="search-input-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-box" placeholder="Search the guide...">
+                </div>
+                <button class="action-btn locate-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
+                <button class="action-btn lang-btn" onclick="toggleLanguage()">EN | FR</button>
             </div>
-            <button class="filter-btn" onclick="openFilterModal()" title="Categories">
-                <i class="fa-solid fa-sliders"></i>
-            </button>
+            
             <div id="search-suggestions" class="search-suggestions"></div>
-        </div>
 
-        <div class="filter-modal-overlay" id="filter-overlay" onclick="closeFilterModal()"></div>
-        <div class="filter-modal" id="filter-modal">
-            <div class="filter-header">
-                <h3 class="lang-en">Categories</h3>
-                <h3 class="lang-fr">Catégories</h3>
-                <button class="close-filter-btn" onclick="closeFilterModal()">&times;</button>
-            </div>
-            <div class="filter-grid" id="filter-grid-container">
-                <div class="filter-grid-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color:darkblue;"></i><span class="lang-en">Books & Knowledge</span><span class="lang-fr">Livres & Savoirs</span></div>
-                <div class="filter-grid-item" data-category="Circular Economy"><i class="fa-solid fa-arrows-rotate" style="color:green;"></i><span class="lang-en">Circular Economy</span><span class="lang-fr">Économie Circulaire</span></div>
-                <div class="filter-grid-item" data-category="Community Action"><i class="fa-solid fa-hands-holding-circle" style="color:orange;"></i><span class="lang-en">Community Action</span><span class="lang-fr">Action Communautaire</span></div>
-                <div class="filter-grid-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color:cadetblue;"></i><span class="lang-en">Eco-Stories</span><span class="lang-fr">Éco-Récits</span></div>
-                <div class="filter-grid-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color:red;"></i><span class="lang-en">Indigenous Culture</span><span class="lang-fr">Culture Autochtone</span></div>
-                <div class="filter-grid-item" data-category="Landmark"><span class="legend-star">★</span><span class="lang-en">Landmarks</span><span class="lang-fr">Repères</span></div>
-                <div class="filter-grid-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color:darkgreen;"></i><span class="lang-en">Nature & Wildlife</span><span class="lang-fr">Nature & Faune</span></div>
-                <div class="filter-grid-item" data-category="Sustainable Dining"><i class="fa-solid fa-utensils" style="color:darkred;"></i><span class="lang-en">Sustainable Dining</span><span class="lang-fr">Restauration Durable</span></div>
-                <div class="filter-grid-item" data-category="Thrift & Vintage"><i class="fa-solid fa-shirt" style="color:purple;"></i><span class="lang-en">Thrift & Vintage</span><span class="lang-fr">Friperies & Vintage</span></div>
-                <div class="filter-grid-item" data-category="Waterways"><i class="fa-solid fa-water" style="color:blue;"></i><span class="lang-en">Waterways</span><span class="lang-fr">Cours d'Eau</span></div>
-                <div class="filter-grid-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color:black;"></i><span class="lang-en">Zero Waste & Refill</span><span class="lang-fr">Zéro Déchet & Recharge</span></div>
-            </div>
-        </div>
+            <button class="cat-toggle-btn" id="cat-toggle" onclick="toggleCategoriesPane()">
+                <i class="fa-solid fa-layer-group"></i> 
+                <span class="lang-en">Categories</span><span class="lang-fr">Catégories</span> 
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
 
-        <div class="custom-map-controls">
-            <button class="custom-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
+            <div class="categories-pane" id="cat-pane">
+                <div class="filter-grid" id="filter-grid-container">
+                    <div class="filter-grid-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color:darkblue;"></i><span class="lang-en">Books & Knowledge</span><span class="lang-fr">Livres & Savoirs</span></div>
+                    <div class="filter-grid-item" data-category="Circular Economy"><i class="fa-solid fa-arrows-rotate" style="color:green;"></i><span class="lang-en">Circular Economy</span><span class="lang-fr">Économie Circulaire</span></div>
+                    <div class="filter-grid-item" data-category="Community Action"><i class="fa-solid fa-hands-holding-circle" style="color:orange;"></i><span class="lang-en">Community Action</span><span class="lang-fr">Action Communautaire</span></div>
+                    <div class="filter-grid-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color:cadetblue;"></i><span class="lang-en">Eco-Stories</span><span class="lang-fr">Éco-Récits</span></div>
+                    <div class="filter-grid-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color:red;"></i><span class="lang-en">Indigenous Culture</span><span class="lang-fr">Culture Autochtone</span></div>
+                    <div class="filter-grid-item" data-category="Landmark"><span class="legend-star">★</span><span class="lang-en">Landmarks</span><span class="lang-fr">Repères</span></div>
+                    <div class="filter-grid-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color:darkgreen;"></i><span class="lang-en">Nature & Wildlife</span><span class="lang-fr">Nature & Faune</span></div>
+                    <div class="filter-grid-item" data-category="Sustainable Dining"><i class="fa-solid fa-utensils" style="color:darkred;"></i><span class="lang-en">Sustainable Dining</span><span class="lang-fr">Restauration Durable</span></div>
+                    <div class="filter-grid-item" data-category="Thrift & Vintage"><i class="fa-solid fa-shirt" style="color:purple;"></i><span class="lang-en">Thrift & Vintage</span><span class="lang-fr">Friperies & Vintage</span></div>
+                    <div class="filter-grid-item" data-category="Waterways"><i class="fa-solid fa-water" style="color:blue;"></i><span class="lang-en">Waterways</span><span class="lang-fr">Cours d'Eau</span></div>
+                    <div class="filter-grid-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color:black;"></i><span class="lang-en">Zero Waste & Refill</span><span class="lang-fr">Zéro Déchet & Recharge</span></div>
+                </div>
+            </div>
         </div>
 
         <div id="map"></div>
@@ -249,18 +257,22 @@
             <i class="fa-solid fa-book-open-reader"></i>
             <span class="lang-en">Learn</span><span class="lang-fr">Apprendre</span>
         </div>
+        <div class="nav-item" id="tab-install" onclick="switchTab('install')">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <span class="lang-en">Install</span><span class="lang-fr">Installer</span>
+        </div>
         <div class="nav-item" id="tab-contribute" onclick="switchTab('contribute')">
             <i class="fa-solid fa-circle-plus"></i>
             <span class="lang-en">Contribute</span><span class="lang-fr">Contribuer</span>
         </div>
     </div>
 
-    <div class="content-sheet" id="content-sheet">
+    <div class="content-sheet" id="learn-sheet">
         <div class="sheet-handle"></div>
         <div class="sheet-header">
             <h1>You & Ottawa</h1>
-            <h2 class="lang-en">a student-built guide to Ottawa's sustainable hidden gems</h2>
-            <h2 class="lang-fr">un guide étudiant des joyaux durables cachés d'Ottawa</h2>
+            <h2 class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
+            <h2 class="lang-fr">découvrir le côté écoresponsable d'Ottawa, par et pour les étudiants</h2>
         </div>
 
         <div class="fade-story-section">
@@ -346,33 +358,6 @@
             </div>
         </div>
 
-        <div class="install-section">
-            <h3 class="lang-en">Take the map with you</h3>
-            <h3 class="lang-fr">Emportez la carte avec vous</h3>
-            <p class="install-sub lang-en">Save directly to your phone's home screen.</p>
-            <p class="install-sub lang-fr">Enregistrez directement sur l'écran d'accueil de votre téléphone.</p>
-            <div class="install-cards">
-                <div class="install-card">
-                    <h4 class="lang-en"><i class="fa-brands fa-apple"></i> iPhone</h4>
-                    <h4 class="lang-fr"><i class="fa-brands fa-apple"></i> iPhone</h4>
-                    <ol>
-                        <li><span class="lang-en">Open in Safari</span><span class="lang-fr">Ouvrez dans Safari</span></li>
-                        <li><span class="lang-en">Tap Share <i class="fa-solid fa-arrow-up-from-bracket"></i></span><span class="lang-fr">Appuyez sur Partager <i class="fa-solid fa-arrow-up-from-bracket"></i></span></li>
-                        <li><span class="lang-en">Tap "Add to Home Screen"</span><span class="lang-fr">Appuyez sur "Sur l'écran d'accueil"</span></li>
-                    </ol>
-                </div>
-                <div class="install-card">
-                    <h4 class="lang-en"><i class="fa-brands fa-android" style="color:#a4c639;"></i> Android</h4>
-                    <h4 class="lang-fr"><i class="fa-brands fa-android" style="color:#a4c639;"></i> Android</h4>
-                    <ol>
-                        <li><span class="lang-en">Open in Chrome</span><span class="lang-fr">Ouvrez dans Chrome</span></li>
-                        <li><span class="lang-en">Tap the ⋮ menu</span><span class="lang-fr">Appuyez sur le menu ⋮</span></li>
-                        <li><span class="lang-en">Tap "Add to Home Screen"</span><span class="lang-fr">Appuyez sur "Ajouter à l'écran d'accueil"</span></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
         <div class="footer-section">
             <div class="footer-credits">
                 <h4 class="lang-en">Land Acknowledgement</h4>
@@ -406,7 +391,47 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="content-sheet" id="install-sheet">
+        <div class="sheet-handle"></div>
+        <div class="install-section">
+            <div class="install-inner">
+                <div class="install-section-label lang-en">take it with you</div>
+                <div class="install-section-label lang-fr">emportez-la avec vous</div>
+                <h3 class="lang-en">Add You & Ottawa to your home screen</h3>
+                <h3 class="lang-fr">Ajoutez You & Ottawa à votre écran d'accueil</h3>
+                <p class="install-sub lang-en">No download needed — save the map directly to your phone and access it like an app, anytime.</p>
+                <p class="install-sub lang-fr">Aucun téléchargement nécessaire — enregistrez la carte sur votre téléphone et accédez-y comme une application.</p>
+                <div class="install-cards">
+                    <div class="install-card">
+                        <div class="device-icon"><i class="fa-brands fa-apple" style="color:white;"></i></div>
+                        <h4>iPhone / iPad</h4>
+                        <ol>
+                            <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Safari</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Safari</span></li>
+                            <li><span class="lang-en">Tap the <span class="step-key">Share</span> button <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span><span class="lang-fr">Appuyez sur <span class="step-key">Partager</span> <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span></li>
+                            <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Sur l'écran d'accueil</span></span></li>
+                            <li><span class="lang-en">Tap <span class="step-key">Add</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter</span> — c'est fait !</span></li>
+                        </ol>
+                    </div>
+                    <div class="install-card">
+                        <div class="device-icon"><i class="fa-brands fa-android" style="color:#a4c639;"></i></div>
+                        <h4>Android</h4>
+                        <ol>
+                            <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Chrome</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Chrome</span></li>
+                            <li><span class="lang-en">Tap the <span class="step-key">⋮ menu</span> (top right)</span><span class="lang-fr">Appuyez sur le <span class="step-key">menu ⋮</span> (en haut à droite)</span></li>
+                            <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter à l'écran d'accueil</span></span></li>
+                            <li><span class="lang-en">Tap <span class="step-key">Install</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Installer</span> — c'est fait !</span></li>
+                        </ol>
+                    </div>
+                </div>
+                <span class="install-coming">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span class="lang-en">App Store & Google Play versions coming soon — stay tuned!</span>
+                    <span class="lang-fr">Des versions pour l'App Store et Google Play arrivent bientôt !</span>
+                </span>
+            </div>
+        </div>
     </div>
 
     <div class="content-sheet" id="contribute-sheet">
@@ -439,7 +464,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
-        // TYPEWRITER EFFECT RESTORED
+        // TYPEWRITER EFFECT
         var heroH1=document.getElementById('hero-h1'), heroSubEn=document.getElementById('hero-sub-en'), heroSubFr=document.getElementById('hero-sub-fr'), heroEnter=document.getElementById('hero-enter');
         var TITLE='You & Ottawa', isTyping=false, typewriterInterval=null;
         
@@ -482,18 +507,16 @@
             else{startLoop();}
         });
         
-        // Start typing on load
         setTimeout(function(){runTypewriter();startLoop();}, 400);
 
-
-        // ENTER MAP FUNCTION
+        // ENTER MAP
         function enterMap() {
             var welcome = document.getElementById('welcome-screen');
             welcome.classList.add('hidden');
             setTimeout(function() {
                 welcome.style.display = 'none';
                 map.invalidateSize(); 
-                clearInterval(typewriterInterval); // Stop typewriter loop
+                clearInterval(typewriterInterval); 
             }, 500);
         }
 
@@ -502,20 +525,29 @@
             var body = document.body;
             var tabExplore = document.getElementById('tab-explore');
             var tabLearn = document.getElementById('tab-learn');
+            var tabInstall = document.getElementById('tab-install');
             var tabContribute = document.getElementById('tab-contribute');
-            var sheetLearn = document.getElementById('content-sheet');
+            
+            var sheetLearn = document.getElementById('learn-sheet');
+            var sheetInstall = document.getElementById('install-sheet');
             var sheetContribute = document.getElementById('contribute-sheet');
 
-            body.classList.remove('sheet-open');
-            body.classList.remove('contribute-open');
+            // Reset all
+            body.classList.remove('sheet-open', 'install-open', 'contribute-open');
             tabExplore.classList.remove('active');
             tabLearn.classList.remove('active');
+            tabInstall.classList.remove('active');
             tabContribute.classList.remove('active');
 
+            // Activate Target
             if (tab === 'learn') {
                 body.classList.add('sheet-open');
                 tabLearn.classList.add('active');
                 sheetLearn.scrollTop = 0;
+            } else if (tab === 'install') {
+                body.classList.add('install-open');
+                tabInstall.classList.add('active');
+                sheetInstall.scrollTop = 0;
             } else if (tab === 'contribute') {
                 body.classList.add('contribute-open');
                 tabContribute.classList.add('active');
@@ -525,14 +557,18 @@
             }
         }
 
-        // FILTER MODAL LOGIC
-        function openFilterModal() {
-            document.getElementById('filter-modal').classList.add('show');
-            document.getElementById('filter-overlay').classList.add('show');
-        }
-        function closeFilterModal() {
-            document.getElementById('filter-modal').classList.remove('show');
-            document.getElementById('filter-overlay').classList.remove('show');
+        // CATEGORIES PANE TOGGLE
+        function toggleCategoriesPane() {
+            var pane = document.getElementById('cat-pane');
+            var btn = document.getElementById('cat-toggle');
+            if(pane.classList.contains('open')) {
+                pane.classList.remove('open');
+                btn.classList.remove('open');
+            } else {
+                pane.classList.add('open');
+                btn.classList.add('open');
+                document.getElementById('search-suggestions').style.display='none'; // hide search if categories open
+            }
         }
 
         // ACCORDION
@@ -600,8 +636,14 @@
             });
             sc.style.display=(q!==''&&count>0)?'block':'none';
         }
-        searchBox.addEventListener('input',filterMap);
-        document.addEventListener('click',function(e){if(!document.querySelector('.top-search-bar').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
+        
+        searchBox.addEventListener('input', function() {
+            var pane = document.getElementById('cat-pane');
+            if(pane.classList.contains('open')) { toggleCategoriesPane(); } // Close categories when typing
+            filterMap();
+        });
+        
+        document.addEventListener('click',function(e){if(!document.querySelector('.top-ui-cluster').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
         
         // Modal Category Clicks
         document.querySelectorAll('.filter-grid-item').forEach(function(item){
@@ -618,7 +660,7 @@
                     });
                 }
                 filterMap();
-                closeFilterModal(); // Close modal after selection
+                toggleCategoriesPane(); // Close pane after selection
             });
         });
     </script>
