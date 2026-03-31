@@ -221,8 +221,11 @@
             .search-input-box input { font-size: 0.82em; }
             .custom-map-controls { top: 56px; right: 8px; flex-direction: column; gap: 6px; }
             .custom-btn { width: 30px; height: 30px; font-size: 0.9em; }
-            .info-panel { top: 20px; left: 8px; width: 46vw; max-width: 175px; max-height: 40vh; overflow-y: auto; padding: 9px 11px; font-size: 0.85em; }
-            .info-toggle-btn { top: 20px; left: 8px; font-size: 0.72em; padding: 4px 9px; }
+            .info-panel { bottom: 16px; left: 8px; top: auto; width: 46vw; max-width: 170px; max-height: 40vh; overflow-y: auto; padding: 8px 10px; font-size: 0.7em; }
+            .info-toggle-btn { bottom: 16px; left: 8px; top: auto; font-size: 0.72em; padding: 4px 9px; }
+            .info-panel h3 { font-size: 0.95em; }
+            .info-panel h4 { font-size: 0.8em; }
+            .info-panel p, .info-panel ul { font-size: 0.85em; }
             .legend-panel { bottom: 16px; right: 8px; left: auto; top: auto; width: 46vw; max-width: 170px; max-height: 40vh; overflow-y: auto; padding: 8px 10px; font-size: 0.7em; }
             .legend-body { max-height: 30vh; overflow-y: auto; }
             .scroll-cards-section { padding: 60px 0; }
@@ -541,7 +544,7 @@
             <p>
                 <strong class="lang-en">Feedback or Questions?</strong>
                 <strong class="lang-fr">Des questions ou des commentaires ?</strong>
-                <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
+                <br>Contact Project Lead: <a href="/cdn-cgi/l/email-protection#0c6d626d697c697e6d7f4c6b616d6560226f6361"><span class="__cf_email__" data-cfemail="d0b1beb1b5a0b5a2b1a390b7bdb1b9bcfeb3bfbd">[email&#160;protected]</span></a>
             </p>
             <div class="credits-list">
                 <span class="lang-en">An independent community initiative, originally developed through</span>
@@ -558,7 +561,7 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
@@ -676,7 +679,4 @@
         }
         searchBox.addEventListener('input',filterMap);
         document.addEventListener('click',function(e){if(!document.querySelector('.search-container').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
-        document.querySelectorAll('.legend-item').forEach(function(item){item.addEventListener('click',function(){var cat=this.getAttribute('data-category');if(activeFilterCategory===cat){activeFilterCategory="All";document.querySelectorAll('.legend-item').forEach(function(i){i.classList.remove('dimmed');});}else{activeFilterCategory=cat;document.querySelectorAll('.legend-item').forEach(function(i){i.classList.add('dimmed');});this.classList.remove('dimmed');}filterMap();});});
-    </script>
-</body>
-</html>
+        document.querySelectorAll('.legend-item').forEach(function(item){item.addEventListener('click',function(){var cat=this.getAttribute('data-category');if(activeFilterCategory===cat){activeFilterCategory="All";document.querySelectorAll('.legend-item').forEach(funct
