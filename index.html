@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="You & Ottawa">
     <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="google-site-verification" content="google0031eeda4e897580">
     <meta name="description" content="A student-led guide to Ottawa's hidden sustainable gems.">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,17 +20,6 @@
         * { box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #1B4965; color: #333; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: 'Lora', serif; }
-
-        /* ===================== LOADING SCREEN ===================== */
-        #loading-screen { position: fixed; inset: 0; background: #1B4965; z-index: 9999999; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; transition: opacity 0.6s ease; }
-        #loading-screen img { width: 90px; height: 90px; object-fit: contain; animation: pulse 1.5s ease-in-out infinite; }
-        #loading-screen .loading-title { color: white; font-family: 'Lora', serif; font-size: 1.5em; letter-spacing: 2px; }
-        #loading-screen .loading-dots { display: flex; gap: 8px; }
-        #loading-screen .loading-dots span { width: 7px; height: 7px; background: rgba(255,255,255,0.4); border-radius: 50%; animation: dotbounce 1.2s infinite; }
-        #loading-screen .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-        #loading-screen .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.7;transform:scale(0.95);} }
-        @keyframes dotbounce { 0%,80%,100%{transform:translateY(0);opacity:0.4;} 40%{transform:translateY(-8px);opacity:1;} }
 
         /* ===================== LANGUAGE ===================== */
         .lang-fr { display: none; }
@@ -92,8 +82,8 @@
         .map-section.fullscreen-mode #map { border-radius: 0; }
         #map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1; }
 
-        /* ===================== SEARCH ===================== */
-        .search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 280px; }
+        /* ===================== SEARCH — top right ===================== */
+        .search-container { position: absolute; top: 20px; right: 20px; z-index: 1000; width: 240px; }
         .search-input-box { background: white; padding: 6px 12px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; }
         .search-input-box input { border: none; padding: 6px 8px; outline: none; font-size: 0.9em; font-family: 'Montserrat', sans-serif; width: 100%; background: transparent; }
         .search-input-box i { color: #1B4965; padding: 0 8px 0 5px; font-size: 0.9em; flex-shrink: 0; }
@@ -104,14 +94,14 @@
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        /* ===================== MAP CONTROLS — desktop top-right ===================== */
-        .custom-map-controls { position: absolute; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+        /* ===================== MAP CONTROLS — vertical, below search ===================== */
+        .custom-map-controls { position: absolute; top: 75px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
         .custom-btn { background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.1em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .custom-btn:hover { background: #1B4965; color: white; }
 
-        /* ===================== INFO PANEL — desktop top-left ===================== */
-        .info-toggle-btn { position: absolute; top: 70px; left: 20px; z-index: 999; background: rgba(255,255,255,0.95); padding: 6px 13px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-size: 0.82em; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
-        .info-panel { position: absolute; top: 70px; left: 20px; width: 220px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 14px 16px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 75%; overflow-y: auto; }
+        /* ===================== INFO PANEL — top left ===================== */
+        .info-toggle-btn { position: absolute; top: 20px; left: 20px; z-index: 999; background: rgba(255,255,255,0.95); padding: 6px 13px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-size: 0.82em; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
+        .info-panel { position: absolute; top: 20px; left: 20px; width: 220px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 14px 16px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 75%; overflow-y: auto; }
         .close-btn { float: right; background: none; border: none; font-size: 1em; cursor: pointer; color: #666; transition: 0.2s; }
         .close-btn:hover { color: #1B4965; }
         .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1em; border-bottom: 2px solid #1B4965; padding-bottom: 6px; }
@@ -119,7 +109,7 @@
         .info-panel p, .info-panel ul { font-size: 0.75em; line-height: 1.6; color: #444; margin-bottom: 6px; }
         .info-panel ul { padding-left: 14px; }
 
-        /* ===================== LEGEND — desktop bottom-right ===================== */
+        /* ===================== LEGEND — bottom right ===================== */
         .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.95); padding: 12px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.75em; max-width: 195px; }
         .legend-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 6px; }
         .legend-header h4 { margin: 0; color: #1B4965; font-size: 1em; }
@@ -160,24 +150,38 @@
         .scroll-card p strong { color: white; font-weight: 500; }
         .scroll-cards-hint { position: relative; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.72em; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; margin-top: 16px; }
 
-        /* ===================== GUIDES ===================== */
+        /* ===================== GUIDES — expandable cards ===================== */
         .guides-section { padding: 80px 5% 70px; background-color: #1B4965; color: white; }
         .guides-section-label { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 36px; }
         .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 960px; margin: 0 auto; }
-        .guide-card { background: #12344a; padding: 20px 22px; border-radius: 12px; box-shadow: 0 8px 18px rgba(0,0,0,0.2); }
-        .guide-avatar { width: 40px; height: 40px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1em; font-weight: 600; font-family: 'Lora', serif; margin-bottom: 12px; flex-shrink: 0; }
-        .guide-card h3 { margin: 0 0 3px 0; font-size: 1em; color: white; }
-        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 10px; font-size: 0.68em; letter-spacing: 1px; text-transform: uppercase; }
-        .guide-card p { line-height: 1.55; color: #d1d5db; font-size: 0.8em; margin-bottom: 0; }
-        /* Mobile list */
+        .guide-card { background: #12344a; border-radius: 12px; box-shadow: 0 8px 18px rgba(0,0,0,0.2); overflow: hidden; }
+        .guide-card-header { padding: 18px 22px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: background 0.2s; user-select: none; }
+        .guide-card-header:hover { background: rgba(255,255,255,0.05); }
+        .guide-avatar { width: 40px; height: 40px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
+        .guide-header-text { flex: 1; }
+        .guide-card-header h3 { margin: 0 0 2px 0; font-size: 1em; color: white; }
+        .guide-role { color: #a1a5ab; font-weight: 500; font-size: 0.68em; letter-spacing: 1px; text-transform: uppercase; }
+        .guide-chevron { color: rgba(255,255,255,0.3); font-size: 0.8em; transition: transform 0.3s; flex-shrink: 0; }
+        .guide-card.open .guide-chevron { transform: rotate(180deg); }
+        .guide-card-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s; padding: 0 22px; }
+        .guide-card.open .guide-card-body { max-height: 200px; padding: 0 22px 18px; }
+        .guide-card-body p { line-height: 1.6; color: #d1d5db; font-size: 0.82em; margin: 0; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
+
+        /* Mobile list — also expandable */
         .guides-list { display: none; flex-direction: column; max-width: 560px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
-        .guides-list-item { background: #12344a; padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .guides-list-item { background: #12344a; border-bottom: 1px solid rgba(255,255,255,0.06); }
         .guides-list-item:last-child { border-bottom: none; }
-        .guides-list-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .guides-list-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; transition: background 0.2s; }
+        .guides-list-header:hover { background: rgba(255,255,255,0.05); }
         .guide-avatar-sm { width: 36px; height: 36px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.85em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
+        .guides-list-header-text { flex: 1; }
         .guides-list-header-text h3 { color: white; margin: 0 0 1px 0; font-size: 0.95em; font-family: 'Lora', serif; }
-        .guides-list-header-text .guide-role { margin-bottom: 0; font-size: 0.65em; }
-        .guides-list-item p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding-left: 48px; }
+        .guides-list-header-text .guide-role { font-size: 0.65em; }
+        .guide-list-chevron { color: rgba(255,255,255,0.3); font-size: 0.8em; transition: transform 0.3s; }
+        .guides-list-item.open .guide-list-chevron { transform: rotate(180deg); }
+        .guides-list-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+        .guides-list-item.open .guides-list-body { max-height: 200px; }
+        .guides-list-body p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding: 0 18px 14px 66px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
 
         /* ===================== INSTALL SECTION ===================== */
         .install-section { background-color: #12344a; padding: 80px 5%; }
@@ -223,39 +227,22 @@
             .lang-pill { bottom: 16px; right: 16px; }
             .map-wrapper-outer { padding: 60px 0; }
             .map-section { width: 95vw; height: 80vh; }
-
-            /* Search: centered top, narrower */
-            .search-container { width: 55%; min-width: 160px; top: 10px; left: 50%; transform: translateX(-50%); }
+            .search-container { width: 55%; min-width: 160px; top: 10px; right: 8px; transform: none; left: auto; }
             .search-input-box input { font-size: 0.82em; }
-
-            /* Controls: top-right horizontal */
-            .custom-map-controls { top: 10px; right: 8px; flex-direction: row; gap: 5px; }
+            .custom-map-controls { top: 56px; right: 8px; flex-direction: column; gap: 6px; }
             .custom-btn { width: 30px; height: 30px; font-size: 0.9em; }
-
-            /* Info panel: top-left, compact, scrollable */
-            .info-panel { top: 56px; left: 8px; width: 46vw; max-width: 175px; max-height: 40vh; overflow-y: auto; padding: 9px 11px; font-size: 0.85em; }
-            .info-toggle-btn { top: 56px; left: 8px; font-size: 0.72em; padding: 4px 9px; }
-            .info-panel h3 { font-size: 0.92em; }
-            .info-panel h4 { font-size: 0.78em; }
-            .info-panel p, .info-panel ul { font-size: 0.72em; }
-
-            /* Legend: bottom-right (same as desktop), compact */
+            .info-panel { top: 20px; left: 8px; width: 46vw; max-width: 175px; max-height: 40vh; overflow-y: auto; padding: 9px 11px; font-size: 0.85em; }
+            .info-toggle-btn { top: 20px; left: 8px; font-size: 0.72em; padding: 4px 9px; }
             .legend-panel { bottom: 16px; right: 8px; left: auto; top: auto; width: 46vw; max-width: 170px; max-height: 40vh; overflow-y: auto; padding: 8px 10px; font-size: 0.7em; }
             .legend-body { max-height: 30vh; overflow-y: auto; }
-
-            /* Scroll cards */
             .scroll-cards-section { padding: 60px 0; }
             .scroll-cards-track { padding: 10px 20px 20px; gap: 14px; }
             .scroll-card { min-width: 190px; max-width: 210px; padding: 20px 16px; }
             .scroll-card .card-num { font-size: 1.7em; }
             .scroll-card p { font-size: 0.82em; }
-
-            /* Guides */
             .guides-section { padding: 60px 5%; }
             .guides-grid { display: none; }
             .guides-list { display: flex; }
-
-            /* Install */
             .install-section { padding: 60px 5%; }
             .install-cards { grid-template-columns: 1fr; gap: 12px; }
             .install-card { padding: 16px 14px; }
@@ -263,20 +250,12 @@
             .install-card h4 { font-size: 0.85em; margin-bottom: 6px; }
             .install-card ol { font-size: 0.76em; }
             .install-coming { font-size: 0.7em; padding: 8px 14px; }
-
             .footer-section { padding: 60px 5% 30px; }
             .pwa-banner { font-size: 0.68em; padding: 9px 12px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- LOADING SCREEN -->
-    <div id="loading-screen">
-        <img src="icon-192.png" alt="You & Ottawa">
-        <div class="loading-title">You &amp; Ottawa</div>
-        <div class="loading-dots"><span></span><span></span><span></span></div>
-    </div>
 
     <button class="lang-pill" onclick="toggleLanguage()">EN | FR</button>
 
@@ -326,7 +305,7 @@
             <div class="search-container">
                 <div class="search-input-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="search-box" class="lang-en" placeholder="Search the guide...">
+                    <input type="text" id="search-box" placeholder="Search the guide...">
                 </div>
                 <div id="search-suggestions" class="search-suggestions"></div>
             </div>
@@ -399,8 +378,8 @@
             <div class="scroll-card"><div class="card-num">01</div><div class="lang-en"><p>Ottawa <strong>lives and breathes by the water.</strong> The Ottawa River watershed covers over 146,000 km².</p></div><div class="lang-fr"><p>Ottawa <strong>vit au rythme de l'eau.</strong> Le bassin versant de la rivière des Outaouais couvre plus de 146 000 km².</p></div></div>
             <div class="scroll-card"><div class="card-num">02</div><div class="lang-en"><p>Our drinking water travels through <strong>3,000km of pipes</strong> before returning to the watershed.</p></div><div class="lang-fr"><p>Notre eau potable parcourt <strong>3 000 km de canalisations</strong> avant de retourner dans le bassin versant.</p></div></div>
             <div class="scroll-card"><div class="card-num">03</div><div class="lang-en"><p><strong>Every bite we eat and item we buy</strong> connects us to this water cycle — whether we see it or not.</p></div><div class="lang-fr"><p><strong>Chaque bouchée que nous mangeons</strong> et chaque article que nous achetons nous relient à ce cycle de l'eau.</p></div></div>
-            <div class="scroll-card"><div class="card-num">04</div><div class="lang-en"><p>Ottawa has over <strong>800 kilometres of recreational pathways</strong> — many of them running alongside the very waterways that define this city.</p></div><div class="lang-fr"><p>Ottawa compte plus de <strong>800 kilomètres de sentiers récréatifs</strong> — dont beaucoup longent les cours d'eau qui définissent cette ville.</p></div></div>
-            <div class="scroll-card"><div class="card-num">05</div><div class="lang-en"><p>This isn't just a map. It's <strong>an invitation to join the movement</strong> — find shops, events, and projects where you can take real action.</p></div><div class="lang-fr"><p>Ce n'est pas seulement une carte. C'est <strong>une invitation à rejoindre le mouvement</strong> — trouvez des boutiques, des événements et des projets où vous pouvez agir.</p></div></div>
+            <div class="scroll-card"><div class="card-num">04</div><div class="lang-en"><p>Ottawa has over <strong>800 kilometres of recreational pathways</strong> — many running alongside the very waterways that define this city.</p></div><div class="lang-fr"><p>Ottawa compte plus de <strong>800 kilomètres de sentiers récréatifs</strong> — dont beaucoup longent les cours d'eau qui définissent cette ville.</p></div></div>
+            <div class="scroll-card"><div class="card-num">05</div><div class="lang-en"><p>This isn't just a map. It's <strong>an invitation to join the movement</strong> — find shops, events, and projects where you can take real action.</p></div><div class="lang-fr"><p>Ce n'est pas seulement une carte. C'est <strong>une invitation à rejoindre le mouvement</strong> — trouvez des boutiques, des événements et des projets.</p></div></div>
         </div>
         <div class="scroll-cards-hint lang-en">← swipe to explore →</div>
         <div class="scroll-cards-hint lang-fr">← glissez pour explorer →</div>
@@ -408,19 +387,109 @@
 
     <div class="section-divider"></div>
 
-    <!-- GUIDES -->
+    <!-- GUIDES — expandable -->
     <div class="guides-section">
         <div class="guides-section-label lang-en">the team behind the map</div>
         <div class="guides-section-label lang-fr">l'équipe derrière la carte</div>
+
+        <!-- Desktop: expandable cards -->
         <div class="guides-grid">
-            <div class="guide-card"><div class="guide-avatar">AP</div><h3>Ana Perales</h3><div class="guide-role lang-en">Project Lead</div><div class="guide-role lang-fr">Chef de projet</div><div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div><div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div></div>
-            <div class="guide-card"><div class="guide-avatar">MB</div><h3>Makenze Blackburn</h3><div class="guide-role lang-en">Project Partner</div><div class="guide-role lang-fr">Partenaire de projet</div><div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div><div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div></div>
-            <div class="guide-card"><div class="guide-avatar"><i class="fa-solid fa-users"></i></div><h3 class="lang-en">The Volunteers</h3><h3 class="lang-fr">Les Bénévoles</h3><div class="guide-role lang-en">Community Team</div><div class="guide-role lang-fr">Équipe Communautaire</div><div class="lang-en"><p>Thank you to our dedicated volunteers:<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div><div class="lang-fr"><p>Merci à nos bénévoles dévoués :<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div></div>
+            <div class="guide-card" id="gc-ana">
+                <div class="guide-card-header" onclick="toggleGuide('gc-ana')">
+                    <div class="guide-avatar">AP</div>
+                    <div class="guide-header-text">
+                        <h3>Ana Perales</h3>
+                        <div class="guide-role lang-en">Project Lead</div>
+                        <div class="guide-role lang-fr">Chef de projet</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down guide-chevron"></i>
+                </div>
+                <div class="guide-card-body">
+                    <div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div>
+                    <div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div>
+                </div>
+            </div>
+            <div class="guide-card" id="gc-makenze">
+                <div class="guide-card-header" onclick="toggleGuide('gc-makenze')">
+                    <div class="guide-avatar">MB</div>
+                    <div class="guide-header-text">
+                        <h3>Makenze Blackburn</h3>
+                        <div class="guide-role lang-en">Project Partner</div>
+                        <div class="guide-role lang-fr">Partenaire de projet</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down guide-chevron"></i>
+                </div>
+                <div class="guide-card-body">
+                    <div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div>
+                    <div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div>
+                </div>
+            </div>
+            <div class="guide-card" id="gc-volunteers">
+                <div class="guide-card-header" onclick="toggleGuide('gc-volunteers')">
+                    <div class="guide-avatar"><i class="fa-solid fa-users"></i></div>
+                    <div class="guide-header-text">
+                        <h3 class="lang-en">The Volunteers</h3>
+                        <h3 class="lang-fr">Les Bénévoles</h3>
+                        <div class="guide-role lang-en">Community Team</div>
+                        <div class="guide-role lang-fr">Équipe Communautaire</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down guide-chevron"></i>
+                </div>
+                <div class="guide-card-body">
+                    <div class="lang-en"><p>Thank you to our dedicated volunteers: <strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
+                    <div class="lang-fr"><p>Merci à nos bénévoles dévoués : <strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
+                </div>
+            </div>
         </div>
+
+        <!-- Mobile: expandable list -->
         <div class="guides-list">
-            <div class="guides-list-item"><div class="guides-list-header"><div class="guide-avatar-sm">AP</div><div class="guides-list-header-text"><h3>Ana Perales</h3><div class="guide-role lang-en">Project Lead</div><div class="guide-role lang-fr">Chef de projet</div></div></div><div class="lang-en"><p>Environmental Science student combining geospatial tech and community action to map Ottawa's hidden sustainable gems.</p></div><div class="lang-fr"><p>Étudiante en sciences de l'environnement combinant les technologies géospatiales et l'action communautaire.</p></div></div>
-            <div class="guides-list-item"><div class="guides-list-header"><div class="guide-avatar-sm">MB</div><div class="guides-list-header-text"><h3>Makenze Blackburn</h3><div class="guide-role lang-en">Project Partner</div><div class="guide-role lang-fr">Partenaire de projet</div></div></div><div class="lang-en"><p>Leads team coordination and community outreach across Ottawa.</p></div><div class="lang-fr"><p>Dirige la coordination de l'équipe et l'engagement communautaire.</p></div></div>
-            <div class="guides-list-item"><div class="guides-list-header"><div class="guide-avatar-sm" style="background:rgba(255,255,255,0.15);color:white;"><i class="fa-solid fa-users" style="font-size:0.85em;"></i></div><div class="guides-list-header-text"><h3 class="lang-en">The Volunteers</h3><h3 class="lang-fr">Les Bénévoles</h3><div class="guide-role lang-en">Community Team</div><div class="guide-role lang-fr">Équipe Communautaire</div></div></div><div class="lang-en"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — sourcing hidden gems, testing the map, and bringing it to community events.</p></div><div class="lang-fr"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — ils trouvent de nouveaux endroits, testent la carte et la présentent lors d'événements.</p></div></div>
+            <div class="guides-list-item" id="gl-ana">
+                <div class="guides-list-header" onclick="toggleGuideList('gl-ana')">
+                    <div class="guide-avatar-sm">AP</div>
+                    <div class="guides-list-header-text">
+                        <h3>Ana Perales</h3>
+                        <div class="guide-role lang-en">Project Lead</div>
+                        <div class="guide-role lang-fr">Chef de projet</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
+                </div>
+                <div class="guides-list-body">
+                    <div class="lang-en"><p>Environmental Science student combining geospatial tech and community action to map Ottawa's hidden sustainable gems.</p></div>
+                    <div class="lang-fr"><p>Étudiante en sciences de l'environnement combinant les technologies géospatiales et l'action communautaire.</p></div>
+                </div>
+            </div>
+            <div class="guides-list-item" id="gl-makenze">
+                <div class="guides-list-header" onclick="toggleGuideList('gl-makenze')">
+                    <div class="guide-avatar-sm">MB</div>
+                    <div class="guides-list-header-text">
+                        <h3>Makenze Blackburn</h3>
+                        <div class="guide-role lang-en">Project Partner</div>
+                        <div class="guide-role lang-fr">Partenaire de projet</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
+                </div>
+                <div class="guides-list-body">
+                    <div class="lang-en"><p>Leads team coordination and community outreach across Ottawa.</p></div>
+                    <div class="lang-fr"><p>Dirige la coordination de l'équipe et l'engagement communautaire.</p></div>
+                </div>
+            </div>
+            <div class="guides-list-item" id="gl-volunteers">
+                <div class="guides-list-header" onclick="toggleGuideList('gl-volunteers')">
+                    <div class="guide-avatar-sm" style="background:rgba(255,255,255,0.15);color:white;"><i class="fa-solid fa-users" style="font-size:0.85em;"></i></div>
+                    <div class="guides-list-header-text">
+                        <h3 class="lang-en">The Volunteers</h3>
+                        <h3 class="lang-fr">Les Bénévoles</h3>
+                        <div class="guide-role lang-en">Community Team</div>
+                        <div class="guide-role lang-fr">Équipe Communautaire</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
+                </div>
+                <div class="guides-list-body">
+                    <div class="lang-en"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — sourcing hidden gems, testing the map, and bringing it to community events.</p></div>
+                    <div class="lang-fr"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — ils trouvent de nouveaux endroits, testent la carte et la présentent lors d'événements.</p></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -506,15 +575,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
-        // LOADING SCREEN — hide once map tiles start loading
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                var ls = document.getElementById('loading-screen');
-                ls.style.opacity = '0';
-                setTimeout(function() { ls.style.display = 'none'; }, 650);
-            }, 800);
-        });
-
         // PWA
         if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('sw.js'); }); }
         var deferredPrompt = null;
@@ -522,13 +582,22 @@
         document.getElementById('pwa-install-btn').onclick = function() { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(function() { deferredPrompt = null; document.getElementById('pwa-banner').classList.remove('show'); }); } };
         document.getElementById('pwa-dismiss-btn').onclick = function() { document.getElementById('pwa-banner').classList.remove('show'); };
 
+        // TEAM EXPAND/COLLAPSE
+        function toggleGuide(id) {
+            var card = document.getElementById(id);
+            card.classList.toggle('open');
+        }
+        function toggleGuideList(id) {
+            var item = document.getElementById(id);
+            item.classList.toggle('open');
+        }
+
         // LANGUAGE
         var currentLang = 'en';
         var searchBox = document.getElementById('search-box');
         function toggleLanguage() {
             document.body.classList.toggle('fr-active');
             currentLang = document.body.classList.contains('fr-active') ? 'fr' : 'en';
-            // Update search placeholder
             searchBox.placeholder = currentLang === 'fr' ? 'Rechercher dans le guide...' : 'Search the guide...';
             rebuildAllPopups();
             triggerFadeStory();
@@ -570,16 +639,11 @@
         // MAP
         var map=L.map('map').setView([45.421,-75.690],13);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors &copy; CARTO'}).addTo(map);
+        document.getElementById('fullscreen-btn').onclick=function(){var w=document.getElementById('map-wrapper'),icon=this.querySelector('i');w.classList.toggle('fullscreen-mode');icon.classList.toggle('fa-expand');icon.classList.toggle('fa-compress');setTimeout(function(){map.invalidateSize();},300);};
 
-        // Fullscreen
-        document.getElementById('fullscreen-btn').onclick=function(){
-            var w=document.getElementById('map-wrapper'),icon=this.querySelector('i');
-            w.classList.toggle('fullscreen-mode');icon.classList.toggle('fa-expand');icon.classList.toggle('fa-compress');
-            setTimeout(function(){map.invalidateSize();},300);
-        };
-
-        // Locate Me — fixed
+        // LOCATE — requires HTTPS on mobile (browser security requirement)
         document.getElementById('locate-btn').onclick=function(){
+            if(!navigator.geolocation){alert(currentLang==='fr'?"La géolocalisation n'est pas supportée par votre navigateur.":"Geolocation is not supported by your browser.");return;}
             map.locate({setView:true,maxZoom:15,enableHighAccuracy:true});
         };
         var userMarker=null;
@@ -588,15 +652,14 @@
             userMarker=L.circleMarker(e.latlng,{radius:9,fillColor:"#007bff",color:"#fff",weight:2.5,opacity:1,fillOpacity:0.9}).addTo(map);
             userMarker.bindPopup(currentLang==='fr'?"Vous êtes ici !":"You are here!").openPopup();
         });
-        map.on('locationerror',function(){
-            alert(currentLang==='fr'?"Impossible d'accéder à votre position. Vérifiez les permissions de localisation.":"Could not access your location. Please check your location permissions.");
+        map.on('locationerror',function(e){
+            var msg = window.location.protocol === 'http:' && window.location.hostname !== 'localhost'
+                ? (currentLang==='fr'?"La localisation nécessite une connexion sécurisée (HTTPS). Essayez via anaperales.github.io/youandottawa/":"Location requires a secure connection (HTTPS). Try via anaperales.github.io/youandottawa/")
+                : (currentLang==='fr'?"Impossible d'accéder à votre position. Vérifiez les permissions de localisation.":"Could not access your location. Please check your location permissions.");
+            alert(msg);
         });
 
-        // Suggest
-        document.getElementById('suggest-btn').onclick=function(){
-            var msg=currentLang==='fr'?"Vous allez être redirigé vers notre formulaire. Prêt ?":"You are being redirected to our form to suggest a new spot. Ready?";
-            if(confirm(msg))window.open('https://tally.so/r/b5kNoe','_blank');
-        };
+        document.getElementById('suggest-btn').onclick=function(){if(confirm(currentLang==='fr'?"Vous allez être redirigé vers notre formulaire. Prêt ?":"You are being redirected to our form to suggest a new spot. Ready?"))window.open('https://tally.so/r/b5kNoe','_blank');};
 
         // ICONS
         function getIconForCategory(cat){
@@ -605,10 +668,7 @@
             if(cat==='Books & Knowledge'){n='book';c='darkblue';}else if(cat==='Circular Economy'){n='arrows-rotate';c='green';}else if(cat==='Community Action'){n='hands-holding-circle';c='orange';}else if(cat==='Eco-Stories'){n='leaf';c='cadetblue';}else if(cat==='Indigenous Culture'){n='fire';c='red';}else if(cat==='Nature & Wildlife'){n='tree';c='darkgreen';}else if(cat==='Sustainable Dining'){n='utensils';c='darkred';}else if(cat==='Thrift & Vintage'){n='shirt';c='purple';}else if(cat==='Waterways'){n='water';c='blue';}else if(cat==='Zero Waste & Refill'){n='recycle';c='black';}
             return L.AwesomeMarkers.icon({icon:n,markerColor:c,prefix:'fa'});
         }
-        function buildDirections(lat,lon,lang){
-            var al=lang==='fr'?'Plans (Apple)':'Apple Maps';
-            return '<div class="directions-row"><a href="https://www.google.com/maps/dir/?api=1&destination='+lat+','+lon+'" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> Google Maps</a><a href="https://maps.apple.com/?daddr='+lat+','+lon+'" target="_blank" class="directions-btn apple"><i class="fa-brands fa-apple"></i> '+al+'</a></div>';
-        }
+        function buildDirections(lat,lon,lang){var al=lang==='fr'?'Plans (Apple)':'Apple Maps';return '<div class="directions-row"><a href="https://www.google.com/maps/dir/?api=1&destination='+lat+','+lon+'" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> Google Maps</a><a href="https://maps.apple.com/?daddr='+lat+','+lon+'" target="_blank" class="directions-btn apple"><i class="fa-brands fa-apple"></i> '+al+'</a></div>';}
         function buildPopupContent(row,lang){
             var fr=lang==='fr',m=fr&&row.The_Mission_FR?row.The_Mission_FR:row.The_Mission,w=fr&&row.Why_Matters_FR?row.Why_Matters_FR:row.Why_Matters,a=fr&&row.Action_Item_FR?row.Action_Item_FR:row.Action_Item;
             var ml=fr?'LA MISSION':'THE MISSION',wl=fr?'POURQUOI ÇA COMPTE':'WHY IT MATTERS',al=fr?'AGIR':'ACT',vl=fr?'PLANIFIER MA VISITE':'PLAN YOUR VISIT';
@@ -619,6 +679,7 @@
         function rebuildAllPopups(){allMapMarkers.forEach(function(i){i.marker.setPopupContent(buildPopupContent(i.row,currentLang));});}
         Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){results.data.forEach(function(row){var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)}).bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});marker.addTo(map);allMapMarkers.push({marker:marker,row:row,title:row.Place_Organization,category:row.Category,searchableText:(row.Place_Organization+" "+row.Category+" "+row.The_Mission+" "+row.Why_Matters+" "+row.Action_Item+" "+row.Address).toLowerCase()});});map.invalidateSize();}});
 
+        // SEARCH — works in both languages (searches CSV content regardless of language)
         function filterMap(){
             var q=searchBox.value.toLowerCase(),sc=document.getElementById('search-suggestions'),count=0;
             sc.innerHTML='';
@@ -631,6 +692,8 @@
         }
         searchBox.addEventListener('input',filterMap);
         document.addEventListener('click',function(e){if(!document.querySelector('.search-container').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
+
+        // LEGEND FILTER
         document.querySelectorAll('.legend-item').forEach(function(item){item.addEventListener('click',function(){var cat=this.getAttribute('data-category');if(activeFilterCategory===cat){activeFilterCategory="All";document.querySelectorAll('.legend-item').forEach(function(i){i.classList.remove('dimmed');});}else{activeFilterCategory=cat;document.querySelectorAll('.legend-item').forEach(function(i){i.classList.add('dimmed');});this.classList.remove('dimmed');}filterMap();});});
     </script>
 </body>
