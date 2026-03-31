@@ -11,14 +11,13 @@
     <meta name="apple-mobile-web-app-title" content="You & Ottawa">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="google-site-verification" content="google0031eeda4e897580">
-    <meta name="description" content="A sustainable guide to the city for students by students.">
+    <meta name="description" content="A student-built guide to Ottawa's sustainable hidden gems.">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        /* Lock body scrolling so the map is the only thing moving */
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; overflow: hidden; width: 100vw; height: 100vh; }
         h1, h2, h3, h4 { font-family: 'Lora', serif; }
 
@@ -29,27 +28,33 @@
         body.fr-active h4.lang-fr, body.fr-active p.lang-fr { display: block !important; }
         body.fr-active span.lang-fr, body.fr-active strong.lang-fr, body.fr-active li.lang-fr { display: inline !important; }
 
-        /* LANG PILL */
-        .lang-pill { position: fixed; top: 20px; left: 20px; z-index: 9999999; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.78em; font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 1px; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
-        .lang-pill:hover { background: rgba(255,255,255,0.4); }
+        /* LANG PILL (Fixed to top right, always on top) */
+        .lang-pill { position: fixed; top: 15px; right: 15px; z-index: 9999999; background: rgba(255,255,255,0.85); border: 1px solid rgba(27,73,101,0.2); color: #1B4965; padding: 8px 14px; border-radius: 30px; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 1px; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+        .lang-pill:hover { background: #1B4965; color: white; }
 
-        /* HERO / WELCOME SCREEN (The "Doorway") */
+        /* HERO / WELCOME SCREEN */
         .hero-section { position: fixed; inset: 0; z-index: 999999; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 0.5s ease, transform 0.5s ease; }
         .hero-section.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
-        .hero-section h1, .sheet-header h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; }
-        .hero-section h2, .sheet-header h2 { color: #a1a5ab; font-size: 1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; }
-        .enter-btn { background: white; color: #1B4965; border: none; padding: 14px 32px; border-radius: 30px; font-size: 1em; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: 0.2s; }
-        .enter-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+        .hero-section h1, .sheet-header h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; min-height: 1.2em; }
+        .hero-section h2, .sheet-header h2 { color: #a1a5ab; font-size: 1.1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; opacity: 0; transition: opacity 1s ease; }
+        .hero-section h2.visible { opacity: 1; }
+        .enter-btn { background: white; color: #1B4965; border: none; padding: 14px 32px; border-radius: 30px; font-size: 1em; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 1s ease, transform 0.2s; opacity: 0; }
+        .enter-btn.visible { opacity: 1; }
+        .enter-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+        @keyframes blink { 50% { border-color: transparent; } }
 
         /* MAP AREA */
         .map-section { position: fixed; top: 0; left: 0; width: 100vw; height: calc(100vh - 65px); z-index: 1; }
         #map { width: 100%; height: 100%; }
 
-        /* GOOGLE STYLE SEARCH — Centered at Top */
-        .search-container { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 90%; max-width: 400px; }
-        .search-input-box { background: white; padding: 10px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; }
+        /* GOOGLE STYLE SEARCH & FILTER BUTTON */
+        .top-search-bar { position: absolute; top: 15px; left: 15px; z-index: 1000; width: calc(100% - 100px); max-width: 400px; display: flex; gap: 8px; }
+        .search-input-box { background: white; padding: 10px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; flex: 1; }
         .search-input-box input { border: none; padding: 4px 8px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 100%; background: transparent; }
         .search-input-box i { color: #1B4965; padding: 0 8px 0 5px; font-size: 1.1em; flex-shrink: 0; }
+        .filter-btn { background: white; border: none; width: 45px; height: 45px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.2em; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; }
+        .filter-btn:hover { background: #1B4965; color: white; }
+        
         .search-suggestions { position: absolute; top: 100%; left: 0; width: 100%; background: white; border-radius: 12px; margin-top: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; }
         .suggestion-item { padding: 10px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
         .suggestion-item:last-child { border-bottom: none; }
@@ -57,34 +62,45 @@
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        /* CATEGORY PILLS - One Single Scrollable Line for all devices */
-        .legend-panel { position: absolute; top: 75px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 95%; max-width: 800px; display: flex; overflow-x: auto; gap: 8px; padding: 5px; scrollbar-width: none; -webkit-overflow-scrolling: touch; white-space: nowrap; }
-        .legend-panel::-webkit-scrollbar { display: none; }
-        .legend-item { background: white; padding: 8px 14px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); display: flex; align-items: center; cursor: pointer; transition: 0.2s; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 600; color: #333; gap: 6px; flex-shrink: 0; }
-        .legend-item:hover { background: #f0f0f0; }
-        .legend-item.dimmed { opacity: 0.4 !important; background: rgba(255,255,255,0.8); }
-        .legend-item.active-pill { background: #1B4965; color: white; }
+        /* CATEGORY FILTER MODAL (Grid Style) */
+        .filter-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 2500; display: none; opacity: 0; transition: opacity 0.3s; }
+        .filter-modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: transform 0.3s, opacity 0.3s; opacity: 0; display: none; max-height: 80vh; overflow-y: auto; }
+        .filter-modal.show { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .filter-modal-overlay.show { display: block; opacity: 1; }
+        .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
+        .filter-header h3 { margin: 0; color: #1B4965; font-size: 1.2em; }
+        .close-filter-btn { background: none; border: none; font-size: 1.5em; color: #888; cursor: pointer; padding: 0; line-height: 1; }
+        .filter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+        .filter-grid-item { background: #f8f9fa; border: 1px solid #e9ecef; padding: 12px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .filter-grid-item:hover { background: #e2e8f0; }
+        .filter-grid-item.active-pill { background: #1B4965; color: white; border-color: #1B4965; }
+        .filter-grid-item i, .filter-grid-item .legend-star { font-size: 1.4em; }
+        .filter-grid-item span { font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
 
         /* MAP CONTROLS */
         .custom-map-controls { position: absolute; bottom: 20px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
-        .custom-btn { background: white; border: none; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.2em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+        .custom-btn { background: white; border: none; width: 45px; height: 45px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.2em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .custom-btn:hover { background: #1B4965; color: white; }
 
         /* BOTTOM APP NAVIGATION */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100vw; height: 65px; background: white; z-index: 2000; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; cursor: pointer; transition: 0.2s; padding: 8px 0; }
-        .nav-item i { font-size: 1.3em; margin-bottom: 4px; }
+        .nav-item i { font-size: 1.3em; margin-bottom: 4px; transition: transform 0.2s; }
         .nav-item span { font-size: 0.65em; font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .nav-item.active { color: #1B4965; }
-        .nav-item:hover { color: #1B4965; }
+        .nav-item:hover i { transform: translateY(-2px); color: #1B4965; }
 
-        /* SLIDE-UP SHEETS */
-        .content-sheet { position: fixed; top: 100%; left: 0; width: 100vw; height: calc(100vh - 65px); background: #1B4965; z-index: 1500; overflow-y: auto; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); scroll-behavior: smooth; }
+        /* SLIDE-UP SHEETS (Learn & Contribute) */
+        .content-sheet { position: fixed; top: 100%; left: 0; width: 100vw; height: calc(100vh - 65px); background: rgba(27,73,101,0.95); backdrop-filter: blur(15px); z-index: 1500; overflow-y: auto; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); scroll-behavior: smooth; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); }
         body.sheet-open #content-sheet { top: 0; }
         body.contribute-open #contribute-sheet { top: 0; }
+        
+        /* Drag handle for native app feel */
+        .sheet-handle { width: 40px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 5px; margin: 15px auto 0; }
 
         /* CONTENT INSIDE THE SHEET */
-        .sheet-header { padding: 80px 20px 0; text-align: center; }
+        .sheet-header { padding: 40px 20px 0; text-align: center; }
+        .sheet-header h1 { font-size: 3em; }
         .fade-story-section { padding: 40px 20px 60px; text-align: center; }
         .fade-line { color: white; font-family: 'Lora', serif; line-height: 2; max-width: 580px; margin: 0 auto; }
         .fade-line.line-1 { font-size: 1.7em; font-weight: 400; }
@@ -94,8 +110,8 @@
         .fade-line.line-4 { font-size: 1.15em; font-weight: 300; color: #a1a5ab; margin-top: 16px; }
 
         /* SCROLL CARDS */
-        .scroll-cards-section { position: relative; background-color: #12344a; padding: 60px 0; overflow: hidden; border-top: 2px solid rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.05); }
-        .cards-bg-img { position: absolute; inset: 0; background-image: url('bridge.jpg'); background-position: center; background-size: cover; opacity: 0.07; pointer-events: none; }
+        .scroll-cards-section { position: relative; background-color: rgba(18,52,74,0.8); padding: 60px 0; overflow: hidden; border-top: 2px solid rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.05); }
+        .cards-bg-img { position: absolute; inset: 0; background-image: url('bridge.jpg'); background-position: center; background-size: cover; opacity: 0.1; pointer-events: none; }
         .scroll-cards-label { position: relative; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; }
         .scroll-cards-track { position: relative; display: flex; gap: 15px; overflow-x: auto; padding: 10px 5% 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .scroll-cards-track::-webkit-scrollbar { display: none; }
@@ -105,10 +121,10 @@
         .scroll-card p strong { color: white; font-weight: 500; }
 
         /* GUIDES */
-        .guides-section { padding: 60px 5%; background-color: #1B4965; color: white; }
+        .guides-section { padding: 60px 5%; color: white; }
         .guides-section-label { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
-        .guides-list { display: flex; flex-direction: column; max-width: 600px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
-        .guides-list-item { background: #12344a; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .guides-list { display: flex; flex-direction: column; max-width: 600px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .guides-list-item { background: rgba(18,52,74,0.9); border-bottom: 1px solid rgba(255,255,255,0.06); }
         .guides-list-item:last-child { border-bottom: none; }
         .guides-list-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; transition: background 0.2s; user-select: none; }
         .guide-avatar-sm { width: 36px; height: 36px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.85em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
@@ -122,7 +138,7 @@
         .guides-list-body p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding: 0 18px 14px 66px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
 
         /* INSTALL / FOOTER */
-        .install-section { background-color: #12344a; padding: 60px 5%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .install-section { background-color: rgba(18,52,74,0.95); padding: 60px 5%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .install-section h3 { color: white; font-size: 1.2em; margin: 0 0 8px 0; }
         .install-sub { color: #a1a5ab; font-size: 0.8em; margin-bottom: 20px; line-height: 1.6; }
         .install-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; max-width: 600px; margin-inline: auto; }
@@ -130,8 +146,7 @@
         .install-card h4 { color: white; margin: 0 0 10px 0; font-size: 0.9em; }
         .install-card ol { color: #d1d5db; font-size: 0.75em; line-height: 1.7; margin: 0; padding-left: 16px; }
         
-        /* RESTORED ORIGINAL FOOTER STYLES */
-        .footer-section { background-color: #1B4965; padding: 80px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); }
+        .footer-section { padding: 60px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); }
         .footer-credits { text-align: center; color: #d1d5db; line-height: 1.8; font-family: 'Montserrat', sans-serif; max-width: 700px; margin: 0 auto; }
         .footer-credits h4 { font-family: 'Montserrat', sans-serif; color: white; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
@@ -161,23 +176,23 @@
         /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
             .hero-section h1, .sheet-header h1 { font-size: 2.5em; }
-            .hero-section h2, .sheet-header h2 { font-size: 1em; padding: 0 20px; }
-            .search-container { width: 92%; top: 10px; }
-            .legend-panel { top: 65px; width: 95%; padding: 5px; }
-            .legend-item { font-size: 0.7em; padding: 6px 12px; }
+            .hero-section h2, .sheet-header h2 { font-size: 0.9em; padding: 0 10px; max-width: 95%; }
+            .top-search-bar { width: calc(100% - 30px); }
+            .filter-grid { grid-template-columns: repeat(2, 1fr); }
             .custom-map-controls { bottom: 20px; right: 10px; gap: 8px; }
-            .custom-btn { width: 36px; height: 36px; font-size: 1em; }
+            .custom-btn { width: 40px; height: 40px; font-size: 1.1em; }
         }
     </style>
 </head>
 <body>
 
+    <button class="lang-pill" onclick="toggleLanguage()">EN | FR</button>
+
     <div class="hero-section" id="welcome-screen">
-        <button class="lang-pill" onclick="toggleLanguage()">EN | FR</button>
-        <h1>You & Ottawa</h1>
-        <h2 class="lang-en">a sustainable guide to the city for students by students</h2>
-        <h2 class="lang-fr">un guide de la ville écoresponsable, par et pour les étudiants</h2>
-        <button class="enter-btn" onclick="enterMap()">
+        <h1 id="hero-h1">You & Ottawa</h1>
+        <h2 id="hero-sub-en" class="lang-en">a student-built guide to Ottawa's sustainable hidden gems</h2>
+        <h2 id="hero-sub-fr" class="lang-fr">un guide étudiant des joyaux durables cachés d'Ottawa</h2>
+        <button id="hero-enter" class="enter-btn" onclick="enterMap()">
             <span class="lang-en">Start Exploring</span>
             <span class="lang-fr">Commencer à Explorer</span>
         </button>
@@ -185,31 +200,41 @@
 
     <div class="map-section">
         
-        <div class="search-container">
+        <div class="top-search-bar">
             <div class="search-input-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="search-box" placeholder="Search the guide...">
             </div>
+            <button class="filter-btn" onclick="openFilterModal()" title="Categories">
+                <i class="fa-solid fa-sliders"></i>
+            </button>
             <div id="search-suggestions" class="search-suggestions"></div>
         </div>
 
-        <div class="legend-panel" id="legend-body">
-            <div class="legend-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color:darkblue;"></i><span class="lang-en">Books & Knowledge</span><span class="lang-fr">Livres & Savoirs</span></div>
-            <div class="legend-item" data-category="Circular Economy"><i class="fa-solid fa-arrows-rotate" style="color:green;"></i><span class="lang-en">Circular Economy</span><span class="lang-fr">Économie Circulaire</span></div>
-            <div class="legend-item" data-category="Community Action"><i class="fa-solid fa-hands-holding-circle" style="color:orange;"></i><span class="lang-en">Community Action</span><span class="lang-fr">Action Communautaire</span></div>
-            <div class="legend-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color:cadetblue;"></i><span class="lang-en">Eco-Stories</span><span class="lang-fr">Éco-Récits</span></div>
-            <div class="legend-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color:red;"></i><span class="lang-en">Indigenous Culture</span><span class="lang-fr">Culture Autochtone</span></div>
-            <div class="legend-item" data-category="Landmark"><span class="legend-star">★</span><span class="lang-en">Landmarks</span><span class="lang-fr">Repères</span></div>
-            <div class="legend-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color:darkgreen;"></i><span class="lang-en">Nature & Wildlife</span><span class="lang-fr">Nature & Faune</span></div>
-            <div class="legend-item" data-category="Sustainable Dining"><i class="fa-solid fa-utensils" style="color:darkred;"></i><span class="lang-en">Sustainable Dining</span><span class="lang-fr">Restauration Durable</span></div>
-            <div class="legend-item" data-category="Thrift & Vintage"><i class="fa-solid fa-shirt" style="color:purple;"></i><span class="lang-en">Thrift & Vintage</span><span class="lang-fr">Friperies & Vintage</span></div>
-            <div class="legend-item" data-category="Waterways"><i class="fa-solid fa-water" style="color:blue;"></i><span class="lang-en">Waterways</span><span class="lang-fr">Cours d'Eau</span></div>
-            <div class="legend-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color:black;"></i><span class="lang-en">Zero Waste & Refill</span><span class="lang-fr">Zéro Déchet & Recharge</span></div>
+        <div class="filter-modal-overlay" id="filter-overlay" onclick="closeFilterModal()"></div>
+        <div class="filter-modal" id="filter-modal">
+            <div class="filter-header">
+                <h3 class="lang-en">Categories</h3>
+                <h3 class="lang-fr">Catégories</h3>
+                <button class="close-filter-btn" onclick="closeFilterModal()">&times;</button>
+            </div>
+            <div class="filter-grid" id="filter-grid-container">
+                <div class="filter-grid-item" data-category="Books & Knowledge"><i class="fa-solid fa-book" style="color:darkblue;"></i><span class="lang-en">Books & Knowledge</span><span class="lang-fr">Livres & Savoirs</span></div>
+                <div class="filter-grid-item" data-category="Circular Economy"><i class="fa-solid fa-arrows-rotate" style="color:green;"></i><span class="lang-en">Circular Economy</span><span class="lang-fr">Économie Circulaire</span></div>
+                <div class="filter-grid-item" data-category="Community Action"><i class="fa-solid fa-hands-holding-circle" style="color:orange;"></i><span class="lang-en">Community Action</span><span class="lang-fr">Action Communautaire</span></div>
+                <div class="filter-grid-item" data-category="Eco-Stories"><i class="fa-solid fa-leaf" style="color:cadetblue;"></i><span class="lang-en">Eco-Stories</span><span class="lang-fr">Éco-Récits</span></div>
+                <div class="filter-grid-item" data-category="Indigenous Culture"><i class="fa-solid fa-fire" style="color:red;"></i><span class="lang-en">Indigenous Culture</span><span class="lang-fr">Culture Autochtone</span></div>
+                <div class="filter-grid-item" data-category="Landmark"><span class="legend-star">★</span><span class="lang-en">Landmarks</span><span class="lang-fr">Repères</span></div>
+                <div class="filter-grid-item" data-category="Nature & Wildlife"><i class="fa-solid fa-tree" style="color:darkgreen;"></i><span class="lang-en">Nature & Wildlife</span><span class="lang-fr">Nature & Faune</span></div>
+                <div class="filter-grid-item" data-category="Sustainable Dining"><i class="fa-solid fa-utensils" style="color:darkred;"></i><span class="lang-en">Sustainable Dining</span><span class="lang-fr">Restauration Durable</span></div>
+                <div class="filter-grid-item" data-category="Thrift & Vintage"><i class="fa-solid fa-shirt" style="color:purple;"></i><span class="lang-en">Thrift & Vintage</span><span class="lang-fr">Friperies & Vintage</span></div>
+                <div class="filter-grid-item" data-category="Waterways"><i class="fa-solid fa-water" style="color:blue;"></i><span class="lang-en">Waterways</span><span class="lang-fr">Cours d'Eau</span></div>
+                <div class="filter-grid-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color:black;"></i><span class="lang-en">Zero Waste & Refill</span><span class="lang-fr">Zéro Déchet & Recharge</span></div>
+            </div>
         </div>
 
         <div class="custom-map-controls">
             <button class="custom-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
-            <button class="custom-btn" id="fullscreen-btn" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
         </div>
 
         <div id="map"></div>
@@ -231,11 +256,11 @@
     </div>
 
     <div class="content-sheet" id="content-sheet">
-        
+        <div class="sheet-handle"></div>
         <div class="sheet-header">
             <h1>You & Ottawa</h1>
-            <h2 class="lang-en">a sustainable guide to the city for students by students</h2>
-            <h2 class="lang-fr">un guide de la ville écoresponsable, par et pour les étudiants</h2>
+            <h2 class="lang-en">a student-built guide to Ottawa's sustainable hidden gems</h2>
+            <h2 class="lang-fr">un guide étudiant des joyaux durables cachés d'Ottawa</h2>
         </div>
 
         <div class="fade-story-section">
@@ -385,6 +410,7 @@
     </div>
 
     <div class="content-sheet" id="contribute-sheet">
+        <div class="sheet-handle"></div>
         <div class="sheet-header">
             <h1 class="lang-en">Contribute</h1>
             <h1 class="lang-fr">Contribuer</h1>
@@ -401,7 +427,7 @@
                 <p class="fade-line line-2">Cliquez ci-dessous pour ouvrir notre formulaire de suggestion et ajouter votre endroit préféré au guide communautaire.</p>
             </div>
             <div style="margin-top: 50px;">
-                <button class="enter-btn" onclick="window.open('https://tally.so/r/b5kNoe','_blank')">
+                <button class="enter-btn visible" style="opacity:1;" onclick="window.open('https://tally.so/r/b5kNoe','_blank')">
                     <span class="lang-en">Go to Suggestion Form</span>
                     <span class="lang-fr">Aller au Formulaire</span>
                 </button>
@@ -413,13 +439,61 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
+        // TYPEWRITER EFFECT RESTORED
+        var heroH1=document.getElementById('hero-h1'), heroSubEn=document.getElementById('hero-sub-en'), heroSubFr=document.getElementById('hero-sub-fr'), heroEnter=document.getElementById('hero-enter');
+        var TITLE='You & Ottawa', isTyping=false, typewriterInterval=null;
+        
+        function snapTitleDone(){
+            heroH1.textContent=TITLE;
+            heroSubEn.classList.add('visible');
+            heroSubFr.classList.add('visible');
+            heroEnter.classList.add('visible');
+            isTyping=false;
+        }
+        
+        function runTypewriter(){
+            if(isTyping) return; 
+            isTyping=true;
+            heroH1.textContent='';
+            heroSubEn.classList.remove('visible');
+            heroSubFr.classList.remove('visible');
+            heroEnter.classList.remove('visible');
+            
+            var caret=document.createElement('span');
+            caret.style.cssText='border-right:2px solid rgba(255,255,255,0.7);margin-left:2px;animation:blink 0.7s step-end infinite;';
+            heroH1.appendChild(caret);
+            
+            var i=0;
+            function typeNext(){
+                if(document.hidden){if(caret.parentNode)caret.parentNode.removeChild(caret);snapTitleDone();return;}
+                if(i<TITLE.length){heroH1.insertBefore(document.createTextNode(TITLE[i]),caret);i++;setTimeout(typeNext,110);}
+                else{setTimeout(function(){if(caret.parentNode)caret.parentNode.removeChild(caret);snapTitleDone();},600);}
+            }
+            typeNext();
+        }
+        
+        function startLoop(){
+            if(typewriterInterval) clearInterval(typewriterInterval);
+            typewriterInterval=setInterval(function(){if(!document.hidden)runTypewriter();},9000);
+        }
+        
+        document.addEventListener('visibilitychange',function(){
+            if(document.hidden){clearInterval(typewriterInterval);if(isTyping)snapTitleDone();}
+            else{startLoop();}
+        });
+        
+        // Start typing on load
+        setTimeout(function(){runTypewriter();startLoop();}, 400);
+
+
         // ENTER MAP FUNCTION
         function enterMap() {
             var welcome = document.getElementById('welcome-screen');
             welcome.classList.add('hidden');
             setTimeout(function() {
                 welcome.style.display = 'none';
-                map.invalidateSize(); // Fixes grey map tiles
+                map.invalidateSize(); 
+                clearInterval(typewriterInterval); // Stop typewriter loop
             }, 500);
         }
 
@@ -432,7 +506,6 @@
             var sheetLearn = document.getElementById('content-sheet');
             var sheetContribute = document.getElementById('contribute-sheet');
 
-            // Reset all tabs and sheets
             body.classList.remove('sheet-open');
             body.classList.remove('contribute-open');
             tabExplore.classList.remove('active');
@@ -450,6 +523,16 @@
             } else {
                 tabExplore.classList.add('active');
             }
+        }
+
+        // FILTER MODAL LOGIC
+        function openFilterModal() {
+            document.getElementById('filter-modal').classList.add('show');
+            document.getElementById('filter-overlay').classList.add('show');
+        }
+        function closeFilterModal() {
+            document.getElementById('filter-modal').classList.remove('show');
+            document.getElementById('filter-overlay').classList.remove('show');
         }
 
         // ACCORDION
@@ -475,13 +558,6 @@
         var map=L.map('map', {zoomControl: false}).setView([45.421,-75.690],13);
         L.control.zoom({position: 'topright'}).addTo(map);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
-
-        document.getElementById('fullscreen-btn').onclick=function(){
-            var icon=this.querySelector('i');
-            icon.classList.toggle('fa-expand');
-            icon.classList.toggle('fa-compress');
-            setTimeout(function(){map.invalidateSize();},300);
-        };
 
         document.getElementById('locate-btn').onclick=function(){
             if(!navigator.geolocation){alert(currentLang==='fr'?"La géolocalisation n'est pas supportée.":"Geolocation is not supported by your browser.");return;}
@@ -513,7 +589,7 @@
         
         Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){results.data.forEach(function(row){var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)}).bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});marker.addTo(map);allMapMarkers.push({marker:marker,row:row,title:row.Place_Organization,category:row.Category,searchableText:(row.Place_Organization+" "+row.Category+" "+row.The_Mission+" "+row.Why_Matters+" "+row.Action_Item+" "+row.Address).toLowerCase()});});map.invalidateSize();}});
 
-        // FILTER & SEARCH
+        // FILTER & SEARCH LOGIC
         function filterMap(){
             var q=searchBox.value.toLowerCase(),sc=document.getElementById('search-suggestions'),count=0;
             sc.innerHTML='';
@@ -525,22 +601,24 @@
             sc.style.display=(q!==''&&count>0)?'block':'none';
         }
         searchBox.addEventListener('input',filterMap);
-        document.addEventListener('click',function(e){if(!document.querySelector('.search-container').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
+        document.addEventListener('click',function(e){if(!document.querySelector('.top-search-bar').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
         
-        document.querySelectorAll('.legend-item').forEach(function(item){
+        // Modal Category Clicks
+        document.querySelectorAll('.filter-grid-item').forEach(function(item){
             item.addEventListener('click',function(){
                 var cat = this.getAttribute('data-category');
                 if(activeFilterCategory === cat){
                     activeFilterCategory = "All";
-                    document.querySelectorAll('.legend-item').forEach(function(el) { el.classList.remove('dimmed'); el.classList.remove('active-pill'); });
+                    document.querySelectorAll('.filter-grid-item').forEach(function(el) { el.classList.remove('active-pill'); });
                 } else {
                     activeFilterCategory = cat;
-                    document.querySelectorAll('.legend-item').forEach(function(el) {
-                        if(el.getAttribute('data-category') === cat) { el.classList.remove('dimmed'); el.classList.add('active-pill'); } 
-                        else { el.classList.add('dimmed'); el.classList.remove('active-pill'); }
+                    document.querySelectorAll('.filter-grid-item').forEach(function(el) {
+                        if(el.getAttribute('data-category') === cat) { el.classList.add('active-pill'); } 
+                        else { el.classList.remove('active-pill'); }
                     });
                 }
                 filterMap();
+                closeFilterModal(); // Close modal after selection
             });
         });
     </script>
