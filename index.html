@@ -15,18 +15,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #1B4965; color: #333; overflow-x: hidden; }
         h1, h2, h3, h4 { font-family: 'Lora', serif; }
+
+        /* ===================== LOADING SCREEN ===================== */
+        #loading-screen { position: fixed; inset: 0; background: #1B4965; z-index: 9999999; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; transition: opacity 0.6s ease; }
+        #loading-screen img { width: 90px; height: 90px; object-fit: contain; animation: pulse 1.5s ease-in-out infinite; }
+        #loading-screen .loading-title { color: white; font-family: 'Lora', serif; font-size: 1.5em; letter-spacing: 2px; }
+        #loading-screen .loading-dots { display: flex; gap: 8px; }
+        #loading-screen .loading-dots span { width: 7px; height: 7px; background: rgba(255,255,255,0.4); border-radius: 50%; animation: dotbounce 1.2s infinite; }
+        #loading-screen .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        #loading-screen .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.7;transform:scale(0.95);} }
+        @keyframes dotbounce { 0%,80%,100%{transform:translateY(0);opacity:0.4;} 40%{transform:translateY(-8px);opacity:1;} }
 
         /* ===================== LANGUAGE ===================== */
         .lang-fr { display: none; }
         body.fr-active .lang-en { display: none !important; }
         body.fr-active div.lang-fr, body.fr-active h2.lang-fr, body.fr-active h3.lang-fr,
         body.fr-active h4.lang-fr, body.fr-active p.lang-fr { display: block !important; }
-        body.fr-active span.lang-fr, body.fr-active strong.lang-fr { display: inline !important; }
+        body.fr-active span.lang-fr, body.fr-active strong.lang-fr, body.fr-active li.lang-fr { display: inline !important; }
 
         /* ===================== STICKY LANG PILL ===================== */
         .lang-pill { position: fixed; bottom: 24px; right: 24px; z-index: 999999; background: rgba(27,73,101,0.92); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.78em; font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 1px; cursor: pointer; backdrop-filter: blur(6px); transition: background 0.2s, transform 0.1s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
@@ -41,8 +51,10 @@
         /* ===================== HERO ===================== */
         .hero-section { height: 100vh; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; overflow: hidden; }
         .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; white-space: nowrap; font-family: 'Lora', serif; min-height: 1.2em; }
-        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 25px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; opacity: 0; transition: opacity 1s ease; }
+        .hero-section h2 { color: #a1a5ab; font-size: 1.2em; font-weight: 400; margin-bottom: 0; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; opacity: 0; transition: opacity 1s ease; }
         .hero-section h2.visible { opacity: 1; }
+        .hero-scroll-hint { color: rgba(255,255,255,0.28); font-size: 0.7em; letter-spacing: 2px; font-family: 'Montserrat', sans-serif; margin-top: 18px; opacity: 0; transition: opacity 1s ease; font-weight: 400; }
+        .hero-scroll-hint.visible { opacity: 1; }
         .hero-arrow-container { position: absolute; bottom: 40px; left: 40px; opacity: 0; transition: opacity 1s ease; }
         .hero-arrow-container.visible { opacity: 1; }
         .hero-arrow { display: inline-block; width: 15px; height: 15px; border-bottom: 2px solid #a1a5ab; border-right: 2px solid #a1a5ab; transform: rotate(45deg); animation: gentle-bounce 2s infinite; }
@@ -70,7 +82,6 @@
         .fade-story-section.is-visible .fade-line.line-4 { animation: storyFade 1s ease forwards 3.2s; }
         .fade-story-section.is-visible .story-arrow-container { animation: storyFade 1s ease forwards 4.2s; }
         @keyframes storyFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         .section-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent); }
 
         /* ===================== MAP ===================== */
@@ -82,10 +93,10 @@
         #map { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1; }
 
         /* ===================== SEARCH ===================== */
-        .search-container { position: absolute; top: 20px; right: 20px; z-index: 1000; }
+        .search-container { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 280px; }
         .search-input-box { background: white; padding: 6px 12px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; }
-        .search-input-box input { border: none; padding: 6px 8px; outline: none; font-size: 0.9em; font-family: 'Montserrat', sans-serif; width: 200px; background: transparent; }
-        .search-input-box i { color: #1B4965; padding: 0 8px 0 5px; font-size: 0.9em; }
+        .search-input-box input { border: none; padding: 6px 8px; outline: none; font-size: 0.9em; font-family: 'Montserrat', sans-serif; width: 100%; background: transparent; }
+        .search-input-box i { color: #1B4965; padding: 0 8px 0 5px; font-size: 0.9em; flex-shrink: 0; }
         .search-suggestions { position: absolute; top: 100%; left: 0; width: 100%; background: white; border-radius: 12px; margin-top: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; }
         .suggestion-item { padding: 10px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
         .suggestion-item:last-child { border-bottom: none; }
@@ -93,23 +104,23 @@
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        /* ===================== MAP CONTROLS ===================== */
-        .custom-map-controls { position: absolute; top: 75px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+        /* ===================== MAP CONTROLS — desktop top-right ===================== */
+        .custom-map-controls { position: absolute; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
         .custom-btn { background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; font-size: 1.1em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
         .custom-btn:hover { background: #1B4965; color: white; }
 
-        /* ===================== INFO PANEL — desktop ===================== */
-        .info-toggle-btn { position: absolute; top: 20px; left: 60px; z-index: 999; background: rgba(255,255,255,0.95); padding: 6px 13px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-size: 0.82em; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
-        .info-panel { position: absolute; top: 20px; left: 60px; width: 230px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 16px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 80%; overflow-y: auto; }
+        /* ===================== INFO PANEL — desktop top-left ===================== */
+        .info-toggle-btn { position: absolute; top: 70px; left: 20px; z-index: 999; background: rgba(255,255,255,0.95); padding: 6px 13px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-size: 0.82em; font-weight: 600; font-family: 'Montserrat', sans-serif; color: #1B4965; cursor: pointer; display: none; }
+        .info-panel { position: absolute; top: 70px; left: 20px; width: 220px; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); padding: 14px 16px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; max-height: 75%; overflow-y: auto; }
         .close-btn { float: right; background: none; border: none; font-size: 1em; cursor: pointer; color: #666; transition: 0.2s; }
         .close-btn:hover { color: #1B4965; }
-        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1.05em; border-bottom: 2px solid #1B4965; padding-bottom: 6px; }
-        .info-panel h4 { color: #1B4965; margin: 12px 0 4px 0; font-size: 0.85em; }
-        .info-panel p, .info-panel ul { font-size: 0.76em; line-height: 1.6; color: #444; margin-bottom: 8px; }
-        .info-panel ul { padding-left: 16px; }
+        .info-panel h3 { color: #1B4965; margin-top: 0; font-size: 1em; border-bottom: 2px solid #1B4965; padding-bottom: 6px; }
+        .info-panel h4 { color: #1B4965; margin: 10px 0 3px 0; font-size: 0.82em; }
+        .info-panel p, .info-panel ul { font-size: 0.75em; line-height: 1.6; color: #444; margin-bottom: 6px; }
+        .info-panel ul { padding-left: 14px; }
 
-        /* ===================== LEGEND — desktop ===================== */
-        .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.95); padding: 12px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.75em; max-width: 200px; }
+        /* ===================== LEGEND — desktop bottom-right ===================== */
+        .legend-panel { position: absolute; bottom: 30px; right: 20px; z-index: 1000; background: rgba(255,255,255,0.95); padding: 12px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.75em; max-width: 195px; }
         .legend-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 6px; }
         .legend-header h4 { margin: 0; color: #1B4965; font-size: 1em; }
         .legend-toggle-btn { background: none; border: none; color: #1B4965; cursor: pointer; font-size: 0.85em; padding: 0; line-height: 1; transition: transform 0.2s; }
@@ -121,40 +132,6 @@
         .legend-item i { width: 18px; text-align: center; margin-right: 5px; font-size: 1em; flex-shrink: 0; }
         .legend-star { width: 18px; text-align: center; margin-right: 5px; font-size: 1em; color: #c9a227; flex-shrink: 0; }
         .dimmed { opacity: 0.3 !important; }
-
-        /* ===================== MOBILE MAP PANELS ===================== */
-        /* On mobile: info panel = top-left, legend = top-right, both compact */
-        @media (max-width: 768px) {
-            .info-panel {
-                top: 56px;
-                left: 8px;
-                width: 44vw;
-                max-width: 180px;
-                max-height: 42vh;
-                overflow-y: auto;
-                padding: 10px 12px;
-                font-size: 0.82em;
-            }
-            .info-toggle-btn {
-                top: 56px;
-                left: 8px;
-                font-size: 0.75em;
-                padding: 5px 10px;
-            }
-            .legend-panel {
-                top: 56px;
-                bottom: auto;
-                right: 8px;
-                left: auto;
-                max-width: 44vw;
-                width: 44vw;
-                max-height: 42vh;
-                overflow-y: auto;
-                padding: 8px 10px;
-                font-size: 0.72em;
-            }
-            .legend-body { max-height: 32vh; overflow-y: auto; }
-        }
 
         /* ===================== POPUPS ===================== */
         .custom-popup h3 { color: #1B4965; margin: 0 0 4px 0; font-size: 1.2em; }
@@ -176,45 +153,46 @@
         .scroll-cards-label { position: relative; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 36px; }
         .scroll-cards-track { position: relative; display: flex; gap: 20px; overflow-x: auto; padding: 10px 5% 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .scroll-cards-track::-webkit-scrollbar { display: none; }
-        .scroll-card { min-width: 260px; max-width: 280px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 32px 24px; flex-shrink: 0; scroll-snap-align: start; transition: background 0.3s; }
+        .scroll-card { min-width: 240px; max-width: 260px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 28px 22px; flex-shrink: 0; scroll-snap-align: start; transition: background 0.3s; }
         .scroll-card:hover { background: rgba(255,255,255,0.12); }
-        .scroll-card .card-num { font-size: 2.2em; font-family: 'Lora', serif; color: rgba(255,255,255,0.2); margin-bottom: 14px; line-height: 1; }
-        .scroll-card p { color: rgba(255,255,255,0.85); font-size: 0.95em; line-height: 1.8; margin: 0; font-weight: 300; }
+        .scroll-card .card-num { font-size: 2em; font-family: 'Lora', serif; color: rgba(255,255,255,0.2); margin-bottom: 12px; line-height: 1; }
+        .scroll-card p { color: rgba(255,255,255,0.85); font-size: 0.92em; line-height: 1.8; margin: 0; font-weight: 300; }
         .scroll-card p strong { color: white; font-weight: 500; }
         .scroll-cards-hint { position: relative; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.72em; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; margin-top: 16px; }
 
         /* ===================== GUIDES ===================== */
-        .guides-section { padding: 90px 5% 80px; background-color: #1B4965; color: white; }
-        .guides-section-label { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 40px; }
-        .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
-        .guide-card { background: #12344a; padding: 24px 26px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .guide-avatar { width: 45px; height: 45px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1em; font-weight: 600; font-family: 'Lora', serif; margin-bottom: 14px; }
-        .guide-card h3 { margin: 0 0 4px 0; font-size: 1.15em; color: white; }
-        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 12px; font-size: 0.75em; letter-spacing: 1px; text-transform: uppercase; }
-        .guide-card p { line-height: 1.6; color: #d1d5db; font-size: 0.85em; margin-bottom: 0; }
+        .guides-section { padding: 80px 5% 70px; background-color: #1B4965; color: white; }
+        .guides-section-label { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 36px; }
+        .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 960px; margin: 0 auto; }
+        .guide-card { background: #12344a; padding: 20px 22px; border-radius: 12px; box-shadow: 0 8px 18px rgba(0,0,0,0.2); }
+        .guide-avatar { width: 40px; height: 40px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1em; font-weight: 600; font-family: 'Lora', serif; margin-bottom: 12px; flex-shrink: 0; }
+        .guide-card h3 { margin: 0 0 3px 0; font-size: 1em; color: white; }
+        .guide-role { color: #a1a5ab; font-weight: 500; margin-bottom: 10px; font-size: 0.68em; letter-spacing: 1px; text-transform: uppercase; }
+        .guide-card p { line-height: 1.55; color: #d1d5db; font-size: 0.8em; margin-bottom: 0; }
+        /* Mobile list */
         .guides-list { display: none; flex-direction: column; max-width: 560px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
-        .guides-list-item { background: #12344a; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .guides-list-item { background: #12344a; padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); }
         .guides-list-item:last-child { border-bottom: none; }
-        .guides-list-header { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
-        .guide-avatar-sm { width: 38px; height: 38px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.9em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
-        .guides-list-header-text h3 { color: white; margin: 0 0 2px 0; font-size: 1em; font-family: 'Lora', serif; }
-        .guides-list-header-text .guide-role { margin-bottom: 0; font-size: 0.68em; }
-        .guides-list-item p { color: #d1d5db; font-size: 0.82em; line-height: 1.6; margin: 0; padding-left: 52px; }
+        .guides-list-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .guide-avatar-sm { width: 36px; height: 36px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.85em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
+        .guides-list-header-text h3 { color: white; margin: 0 0 1px 0; font-size: 0.95em; font-family: 'Lora', serif; }
+        .guides-list-header-text .guide-role { margin-bottom: 0; font-size: 0.65em; }
+        .guides-list-item p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding-left: 48px; }
 
         /* ===================== INSTALL SECTION ===================== */
         .install-section { background-color: #12344a; padding: 80px 5%; }
-        .install-inner { max-width: 700px; margin: 0 auto; text-align: center; }
-        .install-section-label { color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; }
-        .install-section h3 { color: white; font-size: 1.4em; margin: 0 0 10px 0; font-family: 'Lora', serif; }
-        .install-sub { color: #a1a5ab; font-size: 0.88em; margin-bottom: 40px; line-height: 1.7; font-family: 'Montserrat', sans-serif; }
-        .install-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
-        .install-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 24px 20px; text-align: left; }
-        .install-card .device-icon { font-size: 1.6em; margin-bottom: 12px; }
-        .install-card h4 { color: white; margin: 0 0 12px 0; font-size: 1em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
-        .install-card ol { color: #d1d5db; font-size: 0.82em; line-height: 1.8; margin: 0; padding-left: 18px; }
-        .install-card ol li { margin-bottom: 4px; }
-        .step-key { color: white; font-weight: 500; }
-        .install-coming { display: inline-block; margin-top: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 10px 22px; color: rgba(255,255,255,0.55); font-size: 0.78em; font-family: 'Montserrat', sans-serif; line-height: 1.6; }
+        .install-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+        .install-section-label { color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 18px; }
+        .install-section h3 { color: white; font-size: 1.35em; margin: 0 0 10px 0; font-family: 'Lora', serif; }
+        .install-sub { color: #a1a5ab; font-size: 0.86em; margin-bottom: 36px; line-height: 1.7; font-family: 'Montserrat', sans-serif; }
+        .install-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 28px; }
+        .install-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 22px 18px; text-align: left; }
+        .install-card .device-icon { font-size: 1.5em; margin-bottom: 10px; }
+        .install-card h4 { color: white; margin: 0 0 10px 0; font-size: 0.95em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
+        .install-card ol { color: #d1d5db; font-size: 0.8em; line-height: 1.85; margin: 0; padding-left: 16px; }
+        .install-card ol li { margin-bottom: 2px; }
+        .step-key { color: white; font-weight: 600; }
+        .install-coming { display: inline-block; margin-top: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 10px 20px; color: rgba(255,255,255,0.55); font-size: 0.76em; font-family: 'Montserrat', sans-serif; line-height: 1.6; }
         .install-coming i { margin-right: 6px; color: #c9a227; }
 
         /* ===================== FOOTER ===================== */
@@ -226,51 +204,79 @@
         .footer-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 40px auto; max-width: 200px; }
         .footer-social { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 30px; }
         .footer-social-label { color: rgba(255,255,255,0.4); font-size: 0.7em; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
-        .footer-social-icons { display: flex; gap: 16px; }
         .footer-social-icons a { color: rgba(255,255,255,0.5); font-size: 1.5em; transition: color 0.2s; }
         .footer-social-icons a:hover { color: white; }
         .credits-list { font-size: 0.88em; line-height: 2; color: rgba(255,255,255,0.45); }
         .credits-list strong { color: rgba(255,255,255,0.65); font-weight: 500; }
-        .last-updated { font-size: 0.72em; color: rgba(255,255,255,0.25); margin-top: 6px; letter-spacing: 0.5px; }
+        .last-updated { font-size: 0.72em; color: rgba(255,255,255,0.25); margin-top: 6px; }
         .copyright-line { margin-top: 20px; font-size: 0.76em; color: rgba(255,255,255,0.3); }
         .disclaimer-line { margin-top: 10px; font-size: 0.7em; color: rgba(255,255,255,0.25); line-height: 1.7; padding-bottom: 10px; }
 
-        /* ===================== GLOBAL MOBILE ===================== */
+        /* ===================== MOBILE ===================== */
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.5em; }
             .hero-section h2 { font-size: 1em; padding: 0 20px; }
+            .hero-scroll-hint { font-size: 0.65em; }
             .fade-story-section { padding: 90px 24px 80px; min-height: 70vh; }
             .fade-line.line-1, .fade-line.line-3 { font-size: 1.3em; }
             .fade-divider { margin: 36px auto; }
             .lang-pill { bottom: 16px; right: 16px; }
-            .map-wrapper-outer { padding: 60px 0 60px; }
+            .map-wrapper-outer { padding: 60px 0; }
             .map-section { width: 95vw; height: 80vh; }
-            .search-container { width: 88%; top: 10px; left: 50%; transform: translateX(-50%); right: auto; }
-            .search-input-box { width: 100%; }
-            .search-input-box input { width: 100%; font-size: 0.95em; }
-            .custom-map-controls { top: 10px; right: 8px; flex-direction: row; gap: 6px; }
-            .custom-btn { width: 30px; height: 30px; font-size: 0.95em; }
+
+            /* Search: centered top, narrower */
+            .search-container { width: 55%; min-width: 160px; top: 10px; left: 50%; transform: translateX(-50%); }
+            .search-input-box input { font-size: 0.82em; }
+
+            /* Controls: top-right horizontal */
+            .custom-map-controls { top: 10px; right: 8px; flex-direction: row; gap: 5px; }
+            .custom-btn { width: 30px; height: 30px; font-size: 0.9em; }
+
+            /* Info panel: top-left, compact, scrollable */
+            .info-panel { top: 56px; left: 8px; width: 46vw; max-width: 175px; max-height: 40vh; overflow-y: auto; padding: 9px 11px; font-size: 0.85em; }
+            .info-toggle-btn { top: 56px; left: 8px; font-size: 0.72em; padding: 4px 9px; }
+            .info-panel h3 { font-size: 0.92em; }
+            .info-panel h4 { font-size: 0.78em; }
+            .info-panel p, .info-panel ul { font-size: 0.72em; }
+
+            /* Legend: bottom-right (same as desktop), compact */
+            .legend-panel { bottom: 16px; right: 8px; left: auto; top: auto; width: 46vw; max-width: 170px; max-height: 40vh; overflow-y: auto; padding: 8px 10px; font-size: 0.7em; }
+            .legend-body { max-height: 30vh; overflow-y: auto; }
+
+            /* Scroll cards */
             .scroll-cards-section { padding: 60px 0; }
             .scroll-cards-track { padding: 10px 20px 20px; gap: 14px; }
-            .scroll-card { min-width: 200px; max-width: 220px; padding: 22px 18px; }
-            .scroll-card .card-num { font-size: 1.8em; }
-            .scroll-card p { font-size: 0.85em; }
+            .scroll-card { min-width: 190px; max-width: 210px; padding: 20px 16px; }
+            .scroll-card .card-num { font-size: 1.7em; }
+            .scroll-card p { font-size: 0.82em; }
+
+            /* Guides */
             .guides-section { padding: 60px 5%; }
             .guides-grid { display: none; }
             .guides-list { display: flex; }
+
+            /* Install */
             .install-section { padding: 60px 5%; }
-            .install-cards { grid-template-columns: 1fr; gap: 14px; }
-            .install-card { padding: 18px 16px; }
-            .install-card .device-icon { font-size: 1.3em; margin-bottom: 8px; }
-            .install-card h4 { font-size: 0.9em; margin-bottom: 8px; }
-            .install-card ol { font-size: 0.8em; }
-            .install-coming { font-size: 0.72em; padding: 8px 16px; }
+            .install-cards { grid-template-columns: 1fr; gap: 12px; }
+            .install-card { padding: 16px 14px; }
+            .install-card .device-icon { font-size: 1.2em; margin-bottom: 6px; }
+            .install-card h4 { font-size: 0.85em; margin-bottom: 6px; }
+            .install-card ol { font-size: 0.76em; }
+            .install-coming { font-size: 0.7em; padding: 8px 14px; }
+
             .footer-section { padding: 60px 5% 30px; }
-            .pwa-banner { font-size: 0.7em; padding: 10px 14px; }
+            .pwa-banner { font-size: 0.68em; padding: 9px 12px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen">
+        <img src="icon-192.png" alt="You & Ottawa">
+        <div class="loading-title">You &amp; Ottawa</div>
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
 
     <button class="lang-pill" onclick="toggleLanguage()">EN | FR</button>
 
@@ -286,6 +292,10 @@
         <h1 id="hero-h1">You &amp; Ottawa</h1>
         <h2 id="hero-sub-en" class="lang-en">a student-led guide to the city's hidden gems</h2>
         <h2 id="hero-sub-fr" class="lang-fr">un guide étudiant sur les joyaux cachés de la ville</h2>
+        <div id="hero-scroll-hint" class="hero-scroll-hint">
+            <span class="lang-en">scroll down to start exploring</span>
+            <span class="lang-fr">faites défiler pour commencer</span>
+        </div>
         <div class="hero-arrow-container" id="hero-arrow"><div class="hero-arrow"></div></div>
     </div>
 
@@ -316,7 +326,7 @@
             <div class="search-container">
                 <div class="search-input-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="search-box" placeholder="Search the guide...">
+                    <input type="text" id="search-box" class="lang-en" placeholder="Search the guide...">
                 </div>
                 <div id="search-suggestions" class="search-suggestions"></div>
             </div>
@@ -331,11 +341,10 @@
             <div id="info-panel" class="info-panel">
                 <button id="close-info-btn" class="close-btn">✖</button>
                 <div class="lang-en">
-                    <h3>Welcome to the Map!</h3>
-                    <p>An independent community initiative, originally developed through the Waterlution Y4RC program.</p>
+                    <h3>Welcome!</h3>
                     <h4>How to Use</h4>
                     <ul>
-                        <li><b>Search:</b> Find specific spots by name.</li>
+                        <li><b>Search:</b> Find spots by name.</li>
                         <li><b>Explore:</b> Click any icon for the full story.</li>
                         <li><b>Filter:</b> Use the legend to filter by category.</li>
                         <li><b>Directions:</b> Each popup has Google & Apple Maps links.</li>
@@ -344,8 +353,7 @@
                     <p>Know a hidden gem? Click the <b>+</b> button!</p>
                 </div>
                 <div class="lang-fr">
-                    <h3>Bienvenue sur la carte !</h3>
-                    <p>Une initiative communautaire indépendante, développée à l'origine dans le cadre du programme Waterlution Y4RC.</p>
+                    <h3>Bienvenue !</h3>
                     <h4>Comment utiliser</h4>
                     <ul>
                         <li><b>Rechercher :</b> Trouvez un endroit par son nom.</li>
@@ -391,7 +399,8 @@
             <div class="scroll-card"><div class="card-num">01</div><div class="lang-en"><p>Ottawa <strong>lives and breathes by the water.</strong> The Ottawa River watershed covers over 146,000 km².</p></div><div class="lang-fr"><p>Ottawa <strong>vit au rythme de l'eau.</strong> Le bassin versant de la rivière des Outaouais couvre plus de 146 000 km².</p></div></div>
             <div class="scroll-card"><div class="card-num">02</div><div class="lang-en"><p>Our drinking water travels through <strong>3,000km of pipes</strong> before returning to the watershed.</p></div><div class="lang-fr"><p>Notre eau potable parcourt <strong>3 000 km de canalisations</strong> avant de retourner dans le bassin versant.</p></div></div>
             <div class="scroll-card"><div class="card-num">03</div><div class="lang-en"><p><strong>Every bite we eat and item we buy</strong> connects us to this water cycle — whether we see it or not.</p></div><div class="lang-fr"><p><strong>Chaque bouchée que nous mangeons</strong> et chaque article que nous achetons nous relient à ce cycle de l'eau.</p></div></div>
-            <div class="scroll-card"><div class="card-num">04</div><div class="lang-en"><p>This isn't just a map. It's <strong>an invitation to join the movement</strong> — find shops, events, and projects where you can take real action.</p></div><div class="lang-fr"><p>Ce n'est pas seulement une carte. C'est <strong>une invitation à rejoindre le mouvement</strong> — trouvez des boutiques, des événements et des projets où vous pouvez agir.</p></div></div>
+            <div class="scroll-card"><div class="card-num">04</div><div class="lang-en"><p>Ottawa has over <strong>800 kilometres of recreational pathways</strong> — many of them running alongside the very waterways that define this city.</p></div><div class="lang-fr"><p>Ottawa compte plus de <strong>800 kilomètres de sentiers récréatifs</strong> — dont beaucoup longent les cours d'eau qui définissent cette ville.</p></div></div>
+            <div class="scroll-card"><div class="card-num">05</div><div class="lang-en"><p>This isn't just a map. It's <strong>an invitation to join the movement</strong> — find shops, events, and projects where you can take real action.</p></div><div class="lang-fr"><p>Ce n'est pas seulement une carte. C'est <strong>une invitation à rejoindre le mouvement</strong> — trouvez des boutiques, des événements et des projets où vous pouvez agir.</p></div></div>
         </div>
         <div class="scroll-cards-hint lang-en">← swipe to explore →</div>
         <div class="scroll-cards-hint lang-fr">← glissez pour explorer →</div>
@@ -406,7 +415,7 @@
         <div class="guides-grid">
             <div class="guide-card"><div class="guide-avatar">AP</div><h3>Ana Perales</h3><div class="guide-role lang-en">Project Lead</div><div class="guide-role lang-fr">Chef de projet</div><div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div><div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div></div>
             <div class="guide-card"><div class="guide-avatar">MB</div><h3>Makenze Blackburn</h3><div class="guide-role lang-en">Project Partner</div><div class="guide-role lang-fr">Partenaire de projet</div><div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div><div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div></div>
-            <div class="guide-card"><div class="guide-avatar"><i class="fa-solid fa-users"></i></div><h3 class="lang-en">The Volunteers</h3><h3 class="lang-fr">Les Bénévoles</h3><div class="guide-role lang-en">Community Team</div><div class="guide-role lang-fr">Équipe Communautaire</div><div class="lang-en"><p>A massive thank you to our dedicated volunteers:<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div><div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués :<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div></div>
+            <div class="guide-card"><div class="guide-avatar"><i class="fa-solid fa-users"></i></div><h3 class="lang-en">The Volunteers</h3><h3 class="lang-fr">Les Bénévoles</h3><div class="guide-role lang-en">Community Team</div><div class="guide-role lang-fr">Équipe Communautaire</div><div class="lang-en"><p>Thank you to our dedicated volunteers:<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div><div class="lang-fr"><p>Merci à nos bénévoles dévoués :<br><strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div></div>
         </div>
         <div class="guides-list">
             <div class="guides-list-item"><div class="guides-list-header"><div class="guide-avatar-sm">AP</div><div class="guides-list-header-text"><h3>Ana Perales</h3><div class="guide-role lang-en">Project Lead</div><div class="guide-role lang-fr">Chef de projet</div></div></div><div class="lang-en"><p>Environmental Science student combining geospatial tech and community action to map Ottawa's hidden sustainable gems.</p></div><div class="lang-fr"><p>Étudiante en sciences de l'environnement combinant les technologies géospatiales et l'action communautaire.</p></div></div>
@@ -431,20 +440,20 @@
                     <div class="device-icon"><i class="fa-brands fa-apple" style="color:white;"></i></div>
                     <h4>iPhone / iPad</h4>
                     <ol>
-                        <li>Open <span class="step-key">youandottawa.ca</span> in Safari</li>
-                        <li>Tap the <span class="step-key">Share</span> button <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></li>
-                        <li>Tap <span class="step-key">Add to Home Screen</span></li>
-                        <li>Tap <span class="step-key">Add</span> — done!</li>
+                        <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Safari</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Safari</span></li>
+                        <li><span class="lang-en">Tap the <span class="step-key">Share</span> button <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span><span class="lang-fr">Appuyez sur <span class="step-key">Partager</span> <i class="fa-solid fa-arrow-up-from-bracket" style="font-size:0.8em;"></i></span></li>
+                        <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Sur l'écran d'accueil</span></span></li>
+                        <li><span class="lang-en">Tap <span class="step-key">Add</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter</span> — c'est fait !</span></li>
                     </ol>
                 </div>
                 <div class="install-card">
                     <div class="device-icon"><i class="fa-brands fa-android" style="color:#a4c639;"></i></div>
                     <h4>Android</h4>
                     <ol>
-                        <li>Open <span class="step-key">youandottawa.ca</span> in Chrome</li>
-                        <li>Tap the <span class="step-key">⋮ menu</span> (top right)</li>
-                        <li>Tap <span class="step-key">Add to Home Screen</span></li>
-                        <li>Tap <span class="step-key">Install</span> — done!</li>
+                        <li><span class="lang-en">Open <span class="step-key">youandottawa.ca</span> in Chrome</span><span class="lang-fr">Ouvrez <span class="step-key">youandottawa.ca</span> dans Chrome</span></li>
+                        <li><span class="lang-en">Tap the <span class="step-key">⋮ menu</span> (top right)</span><span class="lang-fr">Appuyez sur le <span class="step-key">menu ⋮</span> (en haut à droite)</span></li>
+                        <li><span class="lang-en">Tap <span class="step-key">Add to Home Screen</span></span><span class="lang-fr">Appuyez sur <span class="step-key">Ajouter à l'écran d'accueil</span></span></li>
+                        <li><span class="lang-en">Tap <span class="step-key">Install</span> — done!</span><span class="lang-fr">Appuyez sur <span class="step-key">Installer</span> — c'est fait !</span></li>
                     </ol>
                 </div>
             </div>
@@ -497,6 +506,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
+        // LOADING SCREEN — hide once map tiles start loading
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var ls = document.getElementById('loading-screen');
+                ls.style.opacity = '0';
+                setTimeout(function() { ls.style.display = 'none'; }, 650);
+            }, 800);
+        });
+
         // PWA
         if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('sw.js'); }); }
         var deferredPrompt = null;
@@ -506,26 +524,34 @@
 
         // LANGUAGE
         var currentLang = 'en';
-        function toggleLanguage() { document.body.classList.toggle('fr-active'); currentLang = document.body.classList.contains('fr-active') ? 'fr' : 'en'; rebuildAllPopups(); triggerFadeStory(); }
+        var searchBox = document.getElementById('search-box');
+        function toggleLanguage() {
+            document.body.classList.toggle('fr-active');
+            currentLang = document.body.classList.contains('fr-active') ? 'fr' : 'en';
+            // Update search placeholder
+            searchBox.placeholder = currentLang === 'fr' ? 'Rechercher dans le guide...' : 'Search the guide...';
+            rebuildAllPopups();
+            triggerFadeStory();
+        }
 
         // TYPEWRITER
-        var heroH1=document.getElementById('hero-h1'), heroSubEn=document.getElementById('hero-sub-en'), heroSubFr=document.getElementById('hero-sub-fr'), heroArrow=document.getElementById('hero-arrow');
+        var heroH1=document.getElementById('hero-h1'), heroSubEn=document.getElementById('hero-sub-en'), heroSubFr=document.getElementById('hero-sub-fr'), heroArrow=document.getElementById('hero-arrow'), heroScrollHint=document.getElementById('hero-scroll-hint');
         var TITLE='You & Ottawa', isTyping=false, typewriterInterval=null;
         var bs=document.createElement('style'); bs.textContent='@keyframes blink{50%{border-color:transparent;}}'; document.head.appendChild(bs);
-        function snapTitleDone() { heroH1.textContent=TITLE; heroSubEn.classList.add('visible'); heroSubFr.classList.add('visible'); heroArrow.classList.add('visible'); isTyping=false; }
-        function runTypewriter() {
-            if(isTyping) return; isTyping=true;
-            heroH1.textContent=''; heroSubEn.classList.remove('visible'); heroSubFr.classList.remove('visible'); heroArrow.classList.remove('visible');
-            var caret=document.createElement('span'); caret.style.cssText='border-right:2px solid rgba(255,255,255,0.7);margin-left:2px;animation:blink 0.7s step-end infinite;'; heroH1.appendChild(caret);
+        function snapTitleDone(){heroH1.textContent=TITLE;heroSubEn.classList.add('visible');heroSubFr.classList.add('visible');heroArrow.classList.add('visible');heroScrollHint.classList.add('visible');isTyping=false;}
+        function runTypewriter(){
+            if(isTyping)return;isTyping=true;
+            heroH1.textContent='';heroSubEn.classList.remove('visible');heroSubFr.classList.remove('visible');heroArrow.classList.remove('visible');heroScrollHint.classList.remove('visible');
+            var caret=document.createElement('span');caret.style.cssText='border-right:2px solid rgba(255,255,255,0.7);margin-left:2px;animation:blink 0.7s step-end infinite;';heroH1.appendChild(caret);
             var i=0;
-            function typeNext() {
+            function typeNext(){
                 if(document.hidden){if(caret.parentNode)caret.parentNode.removeChild(caret);snapTitleDone();return;}
                 if(i<TITLE.length){heroH1.insertBefore(document.createTextNode(TITLE[i]),caret);i++;setTimeout(typeNext,110);}
                 else{setTimeout(function(){if(caret.parentNode)caret.parentNode.removeChild(caret);snapTitleDone();},600);}
             }
             typeNext();
         }
-        function startLoop() { if(typewriterInterval)clearInterval(typewriterInterval); typewriterInterval=setInterval(function(){if(!document.hidden)runTypewriter();},9000); }
+        function startLoop(){if(typewriterInterval)clearInterval(typewriterInterval);typewriterInterval=setInterval(function(){if(!document.hidden)runTypewriter();},9000);}
         document.addEventListener('visibilitychange',function(){if(document.hidden){clearInterval(typewriterInterval);if(isTyping)snapTitleDone();}else{startLoop();}});
         setTimeout(function(){runTypewriter();startLoop();},400);
 
@@ -534,7 +560,7 @@
         new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('is-visible');});},{threshold:0.15}).observe(document.getElementById('fade-story'));
 
         // INFO PANEL
-        var infoPanel=document.getElementById('info-panel'), openInfoBtn=document.getElementById('open-info-btn');
+        var infoPanel=document.getElementById('info-panel'),openInfoBtn=document.getElementById('open-info-btn');
         document.getElementById('close-info-btn').onclick=function(){infoPanel.style.display='none';openInfoBtn.style.display='block';};
         openInfoBtn.onclick=function(){infoPanel.style.display='block';openInfoBtn.style.display='none';};
 
@@ -544,11 +570,33 @@
         // MAP
         var map=L.map('map').setView([45.421,-75.690],13);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors &copy; CARTO'}).addTo(map);
-        document.getElementById('fullscreen-btn').onclick=function(){var w=document.getElementById('map-wrapper'),icon=this.querySelector('i');w.classList.toggle('fullscreen-mode');icon.classList.toggle('fa-expand');icon.classList.toggle('fa-compress');setTimeout(function(){map.invalidateSize();},300);};
+
+        // Fullscreen
+        document.getElementById('fullscreen-btn').onclick=function(){
+            var w=document.getElementById('map-wrapper'),icon=this.querySelector('i');
+            w.classList.toggle('fullscreen-mode');icon.classList.toggle('fa-expand');icon.classList.toggle('fa-compress');
+            setTimeout(function(){map.invalidateSize();},300);
+        };
+
+        // Locate Me — fixed
+        document.getElementById('locate-btn').onclick=function(){
+            map.locate({setView:true,maxZoom:15,enableHighAccuracy:true});
+        };
         var userMarker=null;
-        document.getElementById('locate-btn').onclick=function(){map.locate({setView:true,maxZoom:15});};
-        map.on('locationfound',function(e){if(userMarker)map.removeLayer(userMarker);userMarker=L.circleMarker(e.latlng,{radius:8,fillColor:"#007bff",color:"#fff",weight:2,opacity:1,fillOpacity:0.9}).addTo(map).bindPopup("You are here!").openPopup();});
-        document.getElementById('suggest-btn').onclick=function(){var msg=currentLang==='fr'?"Vous allez être redirigé vers notre formulaire. Prêt ?":"You are being redirected to our form to suggest a new spot. Ready?";if(confirm(msg))window.open('https://tally.so/r/b5kNoe','_blank');};
+        map.on('locationfound',function(e){
+            if(userMarker)map.removeLayer(userMarker);
+            userMarker=L.circleMarker(e.latlng,{radius:9,fillColor:"#007bff",color:"#fff",weight:2.5,opacity:1,fillOpacity:0.9}).addTo(map);
+            userMarker.bindPopup(currentLang==='fr'?"Vous êtes ici !":"You are here!").openPopup();
+        });
+        map.on('locationerror',function(){
+            alert(currentLang==='fr'?"Impossible d'accéder à votre position. Vérifiez les permissions de localisation.":"Could not access your location. Please check your location permissions.");
+        });
+
+        // Suggest
+        document.getElementById('suggest-btn').onclick=function(){
+            var msg=currentLang==='fr'?"Vous allez être redirigé vers notre formulaire. Prêt ?":"You are being redirected to our form to suggest a new spot. Ready?";
+            if(confirm(msg))window.open('https://tally.so/r/b5kNoe','_blank');
+        };
 
         // ICONS
         function getIconForCategory(cat){
@@ -557,7 +605,10 @@
             if(cat==='Books & Knowledge'){n='book';c='darkblue';}else if(cat==='Circular Economy'){n='arrows-rotate';c='green';}else if(cat==='Community Action'){n='hands-holding-circle';c='orange';}else if(cat==='Eco-Stories'){n='leaf';c='cadetblue';}else if(cat==='Indigenous Culture'){n='fire';c='red';}else if(cat==='Nature & Wildlife'){n='tree';c='darkgreen';}else if(cat==='Sustainable Dining'){n='utensils';c='darkred';}else if(cat==='Thrift & Vintage'){n='shirt';c='purple';}else if(cat==='Waterways'){n='water';c='blue';}else if(cat==='Zero Waste & Refill'){n='recycle';c='black';}
             return L.AwesomeMarkers.icon({icon:n,markerColor:c,prefix:'fa'});
         }
-        function buildDirections(lat,lon,lang){var al=lang==='fr'?'Plans (Apple)':'Apple Maps';return '<div class="directions-row"><a href="https://www.google.com/maps/dir/?api=1&destination='+lat+','+lon+'" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> Google Maps</a><a href="https://maps.apple.com/?daddr='+lat+','+lon+'" target="_blank" class="directions-btn apple"><i class="fa-brands fa-apple"></i> '+al+'</a></div>';}
+        function buildDirections(lat,lon,lang){
+            var al=lang==='fr'?'Plans (Apple)':'Apple Maps';
+            return '<div class="directions-row"><a href="https://www.google.com/maps/dir/?api=1&destination='+lat+','+lon+'" target="_blank" class="directions-btn google"><i class="fa-solid fa-diamond-turn-right"></i> Google Maps</a><a href="https://maps.apple.com/?daddr='+lat+','+lon+'" target="_blank" class="directions-btn apple"><i class="fa-brands fa-apple"></i> '+al+'</a></div>';
+        }
         function buildPopupContent(row,lang){
             var fr=lang==='fr',m=fr&&row.The_Mission_FR?row.The_Mission_FR:row.The_Mission,w=fr&&row.Why_Matters_FR?row.Why_Matters_FR:row.Why_Matters,a=fr&&row.Action_Item_FR?row.Action_Item_FR:row.Action_Item;
             var ml=fr?'LA MISSION':'THE MISSION',wl=fr?'POURQUOI ÇA COMPTE':'WHY IT MATTERS',al=fr?'AGIR':'ACT',vl=fr?'PLANIFIER MA VISITE':'PLAN YOUR VISIT';
@@ -566,14 +617,20 @@
         }
         var allMapMarkers=[],activeFilterCategory="All";
         function rebuildAllPopups(){allMapMarkers.forEach(function(i){i.marker.setPopupContent(buildPopupContent(i.row,currentLang));});}
-        Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){results.data.forEach(function(row){var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)}).bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});marker.addTo(map);allMapMarkers.push({marker:marker,row:row,title:row.Place_Organization,category:row.Category,searchableText:(row.Place_Organization+" "+row.Category+" "+row.The_Mission+" "+row.Why_Matters+" "+row.Action_Item+" "+row.Address).toLowerCase()});});}});
+        Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){results.data.forEach(function(row){var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)}).bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});marker.addTo(map);allMapMarkers.push({marker:marker,row:row,title:row.Place_Organization,category:row.Category,searchableText:(row.Place_Organization+" "+row.Category+" "+row.The_Mission+" "+row.Why_Matters+" "+row.Action_Item+" "+row.Address).toLowerCase()});});map.invalidateSize();}});
 
-        // SEARCH
-        function filterMap(){var q=document.getElementById('search-box').value.toLowerCase(),sc=document.getElementById('search-suggestions'),count=0;sc.innerHTML='';allMapMarkers.forEach(function(item){var show=item.searchableText.includes(q)&&(activeFilterCategory==="All"||item.category===activeFilterCategory);if(show){if(!map.hasLayer(item.marker))map.addLayer(item.marker);if(q!==''&&count<5){var d=document.createElement('div');d.className='suggestion-item';d.innerHTML='<strong>'+item.title+'</strong><span>'+item.category+'</span>';d.onclick=function(){document.getElementById('search-box').value=item.title;sc.style.display='none';filterMap();map.setView(item.marker.getLatLng(),16);item.marker.openPopup();};sc.appendChild(d);count++;}}else{if(map.hasLayer(item.marker))map.removeLayer(item.marker);}});sc.style.display=(q!==''&&count>0)?'block':'none';}
-        document.getElementById('search-box').addEventListener('input',filterMap);
+        function filterMap(){
+            var q=searchBox.value.toLowerCase(),sc=document.getElementById('search-suggestions'),count=0;
+            sc.innerHTML='';
+            allMapMarkers.forEach(function(item){
+                var show=item.searchableText.includes(q)&&(activeFilterCategory==="All"||item.category===activeFilterCategory);
+                if(show){if(!map.hasLayer(item.marker))map.addLayer(item.marker);if(q!==''&&count<5){var d=document.createElement('div');d.className='suggestion-item';d.innerHTML='<strong>'+item.title+'</strong><span>'+item.category+'</span>';d.onclick=function(){searchBox.value=item.title;sc.style.display='none';filterMap();map.setView(item.marker.getLatLng(),16);item.marker.openPopup();};sc.appendChild(d);count++;}}
+                else{if(map.hasLayer(item.marker))map.removeLayer(item.marker);}
+            });
+            sc.style.display=(q!==''&&count>0)?'block':'none';
+        }
+        searchBox.addEventListener('input',filterMap);
         document.addEventListener('click',function(e){if(!document.querySelector('.search-container').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
-
-        // LEGEND FILTER
         document.querySelectorAll('.legend-item').forEach(function(item){item.addEventListener('click',function(){var cat=this.getAttribute('data-category');if(activeFilterCategory===cat){activeFilterCategory="All";document.querySelectorAll('.legend-item').forEach(function(i){i.classList.remove('dimmed');});}else{activeFilterCategory=cat;document.querySelectorAll('.legend-item').forEach(function(i){i.classList.add('dimmed');});this.classList.remove('dimmed');}filterMap();});});
     </script>
 </body>
