@@ -150,37 +150,32 @@
         .scroll-card p strong { color: white; font-weight: 500; }
         .scroll-cards-hint { position: relative; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.72em; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; margin-top: 16px; }
 
-        /* ===================== GUIDES — expandable cards ===================== */
+        /* ===================== GUIDES — desktop always open, mobile accordion ===================== */
         .guides-section { padding: 80px 5% 70px; background-color: #1B4965; color: white; }
         .guides-section-label { text-align: center; color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 36px; }
         .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 960px; margin: 0 auto; }
-        .guide-card { background: #12344a; border-radius: 12px; box-shadow: 0 8px 18px rgba(0,0,0,0.2); overflow: hidden; }
-        .guide-card-header { padding: 18px 22px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: background 0.2s; user-select: none; }
-        .guide-card-header:hover { background: rgba(255,255,255,0.05); }
+        .guide-card { background: #12344a; border-radius: 12px; box-shadow: 0 8px 18px rgba(0,0,0,0.2); padding: 20px 22px; }
+        .guide-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
         .guide-avatar { width: 40px; height: 40px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
         .guide-header-text { flex: 1; }
         .guide-card-header h3 { margin: 0 0 2px 0; font-size: 1em; color: white; }
         .guide-role { color: #a1a5ab; font-weight: 500; font-size: 0.68em; letter-spacing: 1px; text-transform: uppercase; }
-        .guide-chevron { color: rgba(255,255,255,0.3); font-size: 0.8em; transition: transform 0.3s; flex-shrink: 0; }
-        .guide-card.open .guide-chevron { transform: rotate(180deg); }
-        .guide-card-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s; padding: 0 22px; }
-        .guide-card.open .guide-card-body { max-height: 200px; padding: 0 22px 18px; }
         .guide-card-body p { line-height: 1.6; color: #d1d5db; font-size: 0.82em; margin: 0; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
 
-        /* Mobile list — also expandable */
+        /* Mobile list — one-at-a-time accordion */
         .guides-list { display: none; flex-direction: column; max-width: 560px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
         .guides-list-item { background: #12344a; border-bottom: 1px solid rgba(255,255,255,0.06); }
         .guides-list-item:last-child { border-bottom: none; }
-        .guides-list-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; transition: background 0.2s; }
+        .guides-list-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; transition: background 0.2s; user-select: none; }
         .guides-list-header:hover { background: rgba(255,255,255,0.05); }
         .guide-avatar-sm { width: 36px; height: 36px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.85em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
         .guides-list-header-text { flex: 1; }
         .guides-list-header-text h3 { color: white; margin: 0 0 1px 0; font-size: 0.95em; font-family: 'Lora', serif; }
         .guides-list-header-text .guide-role { font-size: 0.65em; }
-        .guide-list-chevron { color: rgba(255,255,255,0.3); font-size: 0.8em; transition: transform 0.3s; }
+        .guide-list-chevron { color: rgba(255,255,255,0.3); font-size: 0.8em; transition: transform 0.3s; flex-shrink: 0; }
         .guides-list-item.open .guide-list-chevron { transform: rotate(180deg); }
         .guides-list-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-        .guides-list-item.open .guides-list-body { max-height: 200px; }
+        .guides-list-item.open .guides-list-body { max-height: 250px; }
         .guides-list-body p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding: 0 18px 14px 66px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
 
         /* ===================== INSTALL SECTION ===================== */
@@ -392,40 +387,38 @@
         <div class="guides-section-label lang-en">the team behind the map</div>
         <div class="guides-section-label lang-fr">l'équipe derrière la carte</div>
 
-        <!-- Desktop: expandable cards -->
+        <!-- Desktop: always shows full text -->
         <div class="guides-grid">
-            <div class="guide-card" id="gc-ana">
-                <div class="guide-card-header" onclick="toggleGuide('gc-ana')">
+            <div class="guide-card">
+                <div class="guide-card-header">
                     <div class="guide-avatar">AP</div>
                     <div class="guide-header-text">
                         <h3>Ana Perales</h3>
                         <div class="guide-role lang-en">Project Lead</div>
                         <div class="guide-role lang-fr">Chef de projet</div>
                     </div>
-                    <i class="fa-solid fa-chevron-down guide-chevron"></i>
                 </div>
                 <div class="guide-card-body">
                     <div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div>
                     <div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div>
                 </div>
             </div>
-            <div class="guide-card" id="gc-makenze">
-                <div class="guide-card-header" onclick="toggleGuide('gc-makenze')">
+            <div class="guide-card">
+                <div class="guide-card-header">
                     <div class="guide-avatar">MB</div>
                     <div class="guide-header-text">
                         <h3>Makenze Blackburn</h3>
                         <div class="guide-role lang-en">Project Partner</div>
                         <div class="guide-role lang-fr">Partenaire de projet</div>
                     </div>
-                    <i class="fa-solid fa-chevron-down guide-chevron"></i>
                 </div>
                 <div class="guide-card-body">
                     <div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div>
                     <div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div>
                 </div>
             </div>
-            <div class="guide-card" id="gc-volunteers">
-                <div class="guide-card-header" onclick="toggleGuide('gc-volunteers')">
+            <div class="guide-card">
+                <div class="guide-card-header">
                     <div class="guide-avatar"><i class="fa-solid fa-users"></i></div>
                     <div class="guide-header-text">
                         <h3 class="lang-en">The Volunteers</h3>
@@ -433,7 +426,6 @@
                         <div class="guide-role lang-en">Community Team</div>
                         <div class="guide-role lang-fr">Équipe Communautaire</div>
                     </div>
-                    <i class="fa-solid fa-chevron-down guide-chevron"></i>
                 </div>
                 <div class="guide-card-body">
                     <div class="lang-en"><p>Thank you to our dedicated volunteers: <strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello.</strong></p></div>
@@ -554,7 +546,7 @@
             <p>
                 <strong class="lang-en">Feedback or Questions?</strong>
                 <strong class="lang-fr">Des questions ou des commentaires ?</strong>
-                <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
+                <br>Contact Project Lead: <a href="/cdn-cgi/l/email-protection#a2c3ccc3c7d2c7d0c3d1e2c5cfc3cbce8cc1cdcf"><span class="__cf_email__" data-cfemail="63020d0206130611021023040e020a0f4d000c0e">[email&#160;protected]</span></a>
             </p>
             <div class="credits-list">
                 <span class="lang-en">An independent community initiative, originally developed through</span>
@@ -571,7 +563,7 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
@@ -582,14 +574,16 @@
         document.getElementById('pwa-install-btn').onclick = function() { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(function() { deferredPrompt = null; document.getElementById('pwa-banner').classList.remove('show'); }); } };
         document.getElementById('pwa-dismiss-btn').onclick = function() { document.getElementById('pwa-banner').classList.remove('show'); };
 
-        // TEAM EXPAND/COLLAPSE
-        function toggleGuide(id) {
-            var card = document.getElementById(id);
-            card.classList.toggle('open');
-        }
+        // MOBILE TEAM ACCORDION — one open at a time
         function toggleGuideList(id) {
-            var item = document.getElementById(id);
-            item.classList.toggle('open');
+            var items = document.querySelectorAll('.guides-list-item');
+            items.forEach(function(item) {
+                if (item.id === id) {
+                    item.classList.toggle('open');
+                } else {
+                    item.classList.remove('open');
+                }
+            });
         }
 
         // LANGUAGE
@@ -694,7 +688,4 @@
         document.addEventListener('click',function(e){if(!document.querySelector('.search-container').contains(e.target))document.getElementById('search-suggestions').style.display='none';});
 
         // LEGEND FILTER
-        document.querySelectorAll('.legend-item').forEach(function(item){item.addEventListener('click',function(){var cat=this.getAttribute('data-category');if(activeFilterCategory===cat){activeFilterCategory="All";document.querySelectorAll('.legend-item').forEach(function(i){i.classList.remove('dimmed');});}else{activeFilterCategory=cat;document.querySelectorAll('.legend-item').forEach(function(i){i.classList.add('dimmed');});this.classList.remove('dimmed');}filterMap();});});
-    </script>
-</body>
-</html>
+        document.querySelectorAll('.legend-item').forEach(function(item){item.addEventListener('click',function(){var cat=this.getAttribute('data-category');if(activeFilterCategory===cat){activeFilterCategory="All";document.querySelectorAll('.legend-item').forEach(funct
