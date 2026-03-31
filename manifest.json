@@ -2,7 +2,7 @@
   "name": "You & Ottawa",
   "short_name": "You & Ottawa",
   "description": "A student-led guide to Ottawa's hidden sustainable gems.",
-  "start_url": "/youandottawa/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#1B4965",
   "theme_color": "#1B4965",
