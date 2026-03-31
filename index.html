@@ -29,15 +29,16 @@
         body.fr-active h4.lang-fr, body.fr-active p.lang-fr { display: block !important; }
         body.fr-active span.lang-fr, body.fr-active strong.lang-fr, body.fr-active li.lang-fr { display: inline !important; }
 
-        /* PWA BANNER (Hidden but kept for browser logic) */
-        .pwa-banner { display: none; }
-
         /* HERO / WELCOME SCREEN */
         .hero-section { position: fixed; inset: 0; z-index: 999999; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 0.5s ease, transform 0.5s ease; }
         .hero-section.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
         .hero-section h1, .sheet-header h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; min-height: 1.2em; }
         .hero-section h2, .sheet-header h2 { color: #a1a5ab; font-size: 1.1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; opacity: 0; transition: opacity 1s ease; }
         .hero-section h2.visible { opacity: 1; }
+        
+        .hero-lang-btn { position: absolute; top: 20px; right: 20px; z-index: 1000000; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.8em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
+        .hero-lang-btn:hover { background: rgba(255,255,255,0.3); }
+
         .enter-btn { background: white; color: #1B4965; border: none; padding: 14px 32px; border-radius: 30px; font-size: 1em; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 1s ease, transform 0.2s; opacity: 0; }
         .enter-btn.visible { opacity: 1; }
         .enter-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
@@ -47,23 +48,14 @@
         .map-section { position: fixed; top: 0; left: 0; width: 100vw; height: calc(100vh - 65px); z-index: 1; }
         #map { width: 100%; height: 100%; }
 
-        /* TOP UI CLUSTER (Search, Locate, Lang, Categories) */
-        .top-ui-cluster { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; max-width: 500px; margin: 0 auto; }
+        /* TOP UI CLUSTER (Search & Categories - Left Aligned) */
+        .top-ui-cluster { position: absolute; top: 15px; left: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 380px; max-width: calc(100vw - 30px); }
         
-        /* Top Row: Search + Locate + Lang */
         .top-row { display: flex; gap: 8px; pointer-events: auto; align-items: center; }
-        
         .search-input-box { background: white; padding: 10px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; flex: 1; }
         .search-input-box input { border: none; padding: 0 8px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 100%; background: transparent; }
         .search-input-box i { color: #1B4965; font-size: 1.1em; flex-shrink: 0; }
-        
-        .action-btn { background: white; border: none; height: 42px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; display: flex; justify-content: center; align-items: center; transition: 0.2s; flex-shrink: 0; font-family: 'Montserrat', sans-serif; font-weight: 700; }
-        .action-btn:hover { background: #1B4965; color: white; }
-        
-        .locate-btn { width: 42px; font-size: 1.2em; }
-        .lang-btn { padding: 0 14px; font-size: 0.8em; letter-spacing: 1px; }
 
-        /* Suggestions Dropdown */
         .search-suggestions { background: white; border-radius: 12px; margin-top: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; pointer-events: auto; }
         .suggestion-item { padding: 10px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
         .suggestion-item:last-child { border-bottom: none; }
@@ -86,6 +78,16 @@
         .filter-grid-item.active-pill { background: #1B4965; color: white; border-color: #1B4965; }
         .filter-grid-item i, .filter-grid-item .legend-star { font-size: 1.3em; }
         .filter-grid-item span { font-size: 0.7em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
+
+        /* MAP CONTROLS (Bottom Right) */
+        .leaflet-bottom.leaflet-right { margin-bottom: 75px; margin-right: 5px; } /* Pushes default zoom buttons up */
+        .custom-map-controls { position: absolute; bottom: 155px; right: 15px; z-index: 1000; }
+        .custom-btn { background: white; border: none; width: 34px; height: 34px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer; color: #333; font-size: 1.1em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+        .custom-btn:hover { background: #f4f4f4; }
+
+        /* MAP LANG BUTTON (Bottom Left) */
+        .map-lang-btn { position: absolute; bottom: 85px; left: 15px; z-index: 1000; background: white; border: none; color: #1B4965; padding: 10px 18px; border-radius: 30px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .map-lang-btn:hover { background: #1B4965; color: white; }
 
         /* BOTTOM APP NAVIGATION (4 Tabs) */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100vw; height: 65px; background: white; z-index: 2000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding-bottom: env(safe-area-inset-bottom); }
@@ -190,7 +192,7 @@
         @media (max-width: 768px) {
             .hero-section h1, .sheet-header h1 { font-size: 2.5em; }
             .hero-section h2, .sheet-header h2 { font-size: 0.9em; padding: 0 10px; max-width: 95%; }
-            .top-ui-cluster { max-width: 100%; }
+            .top-ui-cluster { max-width: 100%; width: calc(100vw - 30px); }
             .filter-grid { grid-template-columns: repeat(2, 1fr); }
             .nav-item span { font-size: 0.55em; }
         }
@@ -199,6 +201,7 @@
 <body>
 
     <div class="hero-section" id="welcome-screen">
+        <button class="hero-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <h1 id="hero-h1">You & Ottawa</h1>
         <h2 id="hero-sub-en" class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
         <h2 id="hero-sub-fr" class="lang-fr">découvrir le côté écoresponsable d'Ottawa, par et pour les étudiants</h2>
@@ -216,8 +219,6 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="search-box" placeholder="Search the guide...">
                 </div>
-                <button class="action-btn locate-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
-                <button class="action-btn lang-btn" onclick="toggleLanguage()">EN | FR</button>
             </div>
             
             <div id="search-suggestions" class="search-suggestions"></div>
@@ -243,6 +244,14 @@
                     <div class="filter-grid-item" data-category="Zero Waste & Refill"><i class="fa-solid fa-recycle" style="color:black;"></i><span class="lang-en">Zero Waste & Refill</span><span class="lang-fr">Zéro Déchet & Recharge</span></div>
                 </div>
             </div>
+        </div>
+
+        <button class="map-lang-btn" onclick="toggleLanguage()">
+            <i class="fa-solid fa-language"></i> EN | FR
+        </button>
+
+        <div class="custom-map-controls">
+            <button class="custom-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
         </div>
 
         <div id="map"></div>
@@ -567,7 +576,7 @@
             } else {
                 pane.classList.add('open');
                 btn.classList.add('open');
-                document.getElementById('search-suggestions').style.display='none'; // hide search if categories open
+                document.getElementById('search-suggestions').style.display='none'; 
             }
         }
 
@@ -592,7 +601,7 @@
 
         // MAP SETUP
         var map=L.map('map', {zoomControl: false}).setView([45.421,-75.690],13);
-        L.control.zoom({position: 'topright'}).addTo(map);
+        L.control.zoom({position: 'bottomright'}).addTo(map);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
 
         document.getElementById('locate-btn').onclick=function(){
@@ -623,7 +632,21 @@
         var allMapMarkers=[],activeFilterCategory="All";
         function rebuildAllPopups(){allMapMarkers.forEach(function(i){i.marker.setPopupContent(buildPopupContent(i.row,currentLang));});}
         
-        Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){results.data.forEach(function(row){var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)}).bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});marker.addTo(map);allMapMarkers.push({marker:marker,row:row,title:row.Place_Organization,category:row.Category,searchableText:(row.Place_Organization+" "+row.Category+" "+row.The_Mission+" "+row.Why_Matters+" "+row.Action_Item+" "+row.Address).toLowerCase()});});map.invalidateSize();}});
+        Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){
+            results.data.forEach(function(row){
+                var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)});
+                marker.bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});
+                
+                // AUTO CENTER MAP ON CLICK
+                marker.on('click', function(e) {
+                    map.setView(e.target.getLatLng(), Math.max(map.getZoom(), 15), {animate: true});
+                });
+                
+                marker.addTo(map);
+                allMapMarkers.push({marker:marker,row:row,title:row.Place_Organization,category:row.Category,searchableText:(row.Place_Organization+" "+row.Category+" "+row.The_Mission+" "+row.Why_Matters+" "+row.Action_Item+" "+row.Address).toLowerCase()});
+            });
+            map.invalidateSize();
+        }});
 
         // FILTER & SEARCH LOGIC
         function filterMap(){
