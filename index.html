@@ -18,16 +18,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        /* Lock body scrolling so the map is the only thing moving */
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; overflow: hidden; width: 100vw; height: 100vh; }
         h1, h2, h3, h4 { font-family: 'Lora', serif; }
 
-        /* LANGUAGE */
+        /* LANGUAGE LOGIC */
         .lang-fr { display: none; }
         body.fr-active .lang-en { display: none !important; }
         body.fr-active div.lang-fr, body.fr-active h2.lang-fr, body.fr-active h3.lang-fr,
         body.fr-active h4.lang-fr, body.fr-active p.lang-fr { display: block !important; }
         body.fr-active span.lang-fr, body.fr-active strong.lang-fr, body.fr-active li.lang-fr { display: inline !important; }
+
+        /* UNIVERSAL LANG BTN (For Sheets & Welcome Screen) */
+        .top-right-lang { position: absolute; top: 20px; right: 20px; z-index: 100000; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.8em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
+        .top-right-lang:hover { background: rgba(255,255,255,0.3); }
 
         /* HERO / WELCOME SCREEN */
         .hero-section { position: fixed; inset: 0; z-index: 999999; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 0.5s ease, transform 0.5s ease; }
@@ -35,10 +38,6 @@
         .hero-section h1, .sheet-header h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; min-height: 1.2em; }
         .hero-section h2, .sheet-header h2 { color: #a1a5ab; font-size: 1.1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; opacity: 0; transition: opacity 1s ease; }
         .hero-section h2.visible { opacity: 1; }
-        
-        .hero-lang-btn { position: absolute; top: 20px; right: 20px; z-index: 1000000; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.8em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
-        .hero-lang-btn:hover { background: rgba(255,255,255,0.3); }
-
         .enter-btn { background: white; color: #1B4965; border: none; padding: 14px 32px; border-radius: 30px; font-size: 1em; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 1s ease, transform 0.2s; opacity: 0; }
         .enter-btn.visible { opacity: 1; }
         .enter-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
@@ -50,7 +49,6 @@
 
         /* TOP UI CLUSTER (Search & Categories - Left Aligned) */
         .top-ui-cluster { position: absolute; top: 15px; left: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 380px; max-width: calc(100vw - 30px); }
-        
         .top-row { display: flex; gap: 8px; pointer-events: auto; align-items: center; }
         .search-input-box { background: white; padding: 10px 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; flex: 1; }
         .search-input-box input { border: none; padding: 0 8px; outline: none; font-size: 0.95em; font-family: 'Montserrat', sans-serif; width: 100%; background: transparent; }
@@ -58,7 +56,6 @@
 
         .search-suggestions { background: white; border-radius: 12px; margin-top: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden; display: none; pointer-events: auto; }
         .suggestion-item { padding: 10px 15px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
-        .suggestion-item:last-child { border-bottom: none; }
         .suggestion-item:hover { background-color: #f4f6f8; }
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
@@ -79,15 +76,13 @@
         .filter-grid-item i, .filter-grid-item .legend-star { font-size: 1.3em; }
         .filter-grid-item span { font-size: 0.7em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
 
-        /* MAP CONTROLS (Bottom Right) */
-        .leaflet-bottom.leaflet-right { margin-bottom: 75px; margin-right: 5px; } /* Pushes default zoom buttons up */
-        .custom-map-controls { position: absolute; bottom: 155px; right: 15px; z-index: 1000; }
-        .custom-btn { background: white; border: none; width: 34px; height: 34px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer; color: #333; font-size: 1.1em; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-        .custom-btn:hover { background: #f4f4f4; }
-
-        /* MAP LANG BUTTON (Bottom Left) */
-        .map-lang-btn { position: absolute; bottom: 85px; left: 15px; z-index: 1000; background: white; border: none; color: #1B4965; padding: 10px 18px; border-radius: 30px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.2s; display: flex; align-items: center; gap: 8px; }
-        .map-lang-btn:hover { background: #1B4965; color: white; }
+        /* MAP CONTROLS (Right side stack) */
+        .leaflet-bottom.leaflet-right { margin-bottom: 75px; }
+        .map-action-stack { position: absolute; bottom: 90px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .map-action-stack .custom-btn { background: white; border: none; height: 42px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; display: flex; justify-content: center; align-items: center; transition: 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        .map-action-stack .custom-btn:hover { background: #1B4965; color: white; }
+        .map-action-stack .locate-btn { width: 42px; font-size: 1.2em; border-radius: 50%; }
+        .map-action-stack .lang-btn { padding: 0 12px; font-size: 0.75em; letter-spacing: 1px; }
 
         /* BOTTOM APP NAVIGATION (4 Tabs) */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100vw; height: 65px; background: white; z-index: 2000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); padding-bottom: env(safe-area-inset-bottom); }
@@ -98,15 +93,17 @@
         .nav-item:hover i { transform: translateY(-2px); color: #1B4965; }
 
         /* SLIDE-UP SHEETS */
-        .content-sheet { position: fixed; top: 100%; left: 0; width: 100vw; height: calc(100vh - 65px); background: rgba(27,73,101,0.95); backdrop-filter: blur(15px); z-index: 1500; overflow-y: auto; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); scroll-behavior: smooth; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); }
+        .content-sheet { position: fixed; top: 100%; left: 0; width: 100vw; height: calc(100vh - 65px); background: rgba(27,73,101,0.98); backdrop-filter: blur(15px); z-index: 1500; overflow-y: auto; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); scroll-behavior: smooth; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); }
         body.sheet-open #learn-sheet { top: 0; }
         body.contribute-open #contribute-sheet { top: 0; }
         body.install-open #install-sheet { top: 0; }
         
-        .sheet-handle { width: 40px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 5px; margin: 15px auto 0; }
+        .sheet-handle-area { padding: 15px 0; cursor: pointer; display: flex; justify-content: center; }
+        .sheet-handle { width: 50px; height: 6px; background: rgba(255,255,255,0.4); border-radius: 6px; transition: 0.2s; }
+        .sheet-handle-area:hover .sheet-handle { background: rgba(255,255,255,0.8); }
 
         /* CONTENT INSIDE THE SHEETS */
-        .sheet-header { padding: 40px 20px 0; text-align: center; }
+        .sheet-header { padding: 10px 20px 0; text-align: center; }
         .sheet-header h1 { font-size: 3em; }
         .fade-story-section { padding: 40px 20px 60px; text-align: center; }
         .fade-line { color: white; font-family: 'Lora', serif; line-height: 2; max-width: 580px; margin: 0 auto; }
@@ -116,16 +113,15 @@
         .fade-line.line-3 { font-size: 1.7em; font-weight: 600; }
         .fade-line.line-4 { font-size: 1.15em; font-weight: 300; color: #a1a5ab; margin-top: 16px; }
 
-        /* SCROLL CARDS */
+        /* SCROLL CARDS (Centered with Snapping) */
         .scroll-cards-section { position: relative; background-color: rgba(18,52,74,0.8); padding: 60px 0; overflow: hidden; border-top: 2px solid rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.05); }
         .cards-bg-img { position: absolute; inset: 0; background-image: url('bridge.jpg'); background-position: center; background-size: cover; opacity: 0.1; pointer-events: none; }
         .scroll-cards-label { position: relative; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; }
-        .scroll-cards-track { position: relative; display: flex; gap: 15px; overflow-x: auto; padding: 10px 5% 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .scroll-cards-track { position: relative; display: flex; gap: 15px; overflow-x: auto; padding: 10px calc(50vw - 120px) 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .scroll-cards-track::-webkit-scrollbar { display: none; }
-        .scroll-card { min-width: 220px; max-width: 240px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 18px; flex-shrink: 0; scroll-snap-align: start; }
+        .scroll-card { min-width: 240px; max-width: 240px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 18px; flex-shrink: 0; scroll-snap-align: center; text-align: center; }
         .scroll-card .card-num { font-size: 1.8em; font-family: 'Lora', serif; color: rgba(255,255,255,0.2); margin-bottom: 10px; line-height: 1; }
-        .scroll-card p { color: rgba(255,255,255,0.85); font-size: 0.85em; line-height: 1.6; margin: 0; font-weight: 300; }
-        .scroll-card p strong { color: white; font-weight: 500; }
+        .scroll-card p { color: rgba(255,255,255,0.85); font-size: 0.85em; line-height: 1.6; margin: 0; font-weight: 500; }
 
         /* GUIDES */
         .guides-section { padding: 60px 5%; color: white; }
@@ -144,8 +140,8 @@
         .guides-list-item.open .guides-list-body { max-height: 250px; }
         .guides-list-body p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding: 0 18px 14px 66px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
 
-        /* INSTALL SECTION (In the new Install Sheet) */
-        .install-section { padding: 40px 5% 60px; text-align: center; }
+        /* INSTALL SECTION */
+        .install-section { padding: 20px 5% 60px; text-align: center; }
         .install-inner { max-width: 680px; margin: 0 auto; text-align: center; }
         .install-section-label { color: rgba(255,255,255,0.4); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 18px; }
         .install-section h3 { color: white; font-size: 1.35em; margin: 0 0 10px 0; font-family: 'Lora', serif; }
@@ -157,8 +153,6 @@
         .install-card ol { color: #d1d5db; font-size: 0.8em; line-height: 1.85; margin: 0; padding-left: 16px; }
         .install-card ol li { margin-bottom: 2px; }
         .step-key { color: white; font-weight: 600; }
-        .install-coming { display: inline-block; margin-top: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 10px 20px; color: rgba(255,255,255,0.55); font-size: 0.76em; font-family: 'Montserrat', sans-serif; line-height: 1.6; }
-        .install-coming i { margin-right: 6px; color: #c9a227; }
 
         /* FOOTER */
         .footer-section { padding: 60px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); background-color: rgba(18,52,74,0.5); }
@@ -201,7 +195,7 @@
 <body>
 
     <div class="hero-section" id="welcome-screen">
-        <button class="hero-lang-btn" onclick="toggleLanguage()">EN | FR</button>
+        <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
         <h1 id="hero-h1">You & Ottawa</h1>
         <h2 id="hero-sub-en" class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
         <h2 id="hero-sub-fr" class="lang-fr">découvrir le côté écoresponsable d'Ottawa, par et pour les étudiants</h2>
@@ -246,12 +240,9 @@
             </div>
         </div>
 
-        <button class="map-lang-btn" onclick="toggleLanguage()">
-            <i class="fa-solid fa-language"></i> EN | FR
-        </button>
-
-        <div class="custom-map-controls">
-            <button class="custom-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
+        <div class="map-action-stack">
+            <button class="custom-btn locate-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
+            <button class="custom-btn lang-btn" onclick="toggleLanguage()">EN|FR</button>
         </div>
 
         <div id="map"></div>
@@ -277,7 +268,9 @@
     </div>
 
     <div class="content-sheet" id="learn-sheet">
-        <div class="sheet-handle"></div>
+        <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
+        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close map"><div class="sheet-handle"></div></div>
+        
         <div class="sheet-header">
             <h1>You & Ottawa</h1>
             <h2 class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
@@ -306,11 +299,11 @@
             <div class="scroll-cards-label lang-en">did you know?</div>
             <div class="scroll-cards-label lang-fr">le saviez-vous ?</div>
             <div class="scroll-cards-track">
-                <div class="scroll-card"><div class="card-num">01</div><div class="lang-en"><p>Ottawa <strong>lives and breathes by the water.</strong> The Ottawa River watershed covers over 146,000 km².</p></div><div class="lang-fr"><p>Ottawa <strong>vit au rythme de l'eau.</strong> Le bassin versant de la rivière des Outaouais couvre plus de 146 000 km².</p></div></div>
-                <div class="scroll-card"><div class="card-num">02</div><div class="lang-en"><p>Our drinking water travels through <strong>3,000km of pipes</strong> before returning to the watershed.</p></div><div class="lang-fr"><p>Notre eau potable parcourt <strong>3 000 km de canalisations</strong> avant de retourner dans le bassin versant.</p></div></div>
-                <div class="scroll-card"><div class="card-num">03</div><div class="lang-en"><p><strong>Every bite we eat and item we buy</strong> connects us to this water cycle — whether we see it or not.</p></div><div class="lang-fr"><p><strong>Chaque bouchée que nous mangeons</strong> et chaque article que nous achetons nous relient à ce cycle de l'eau.</p></div></div>
-                <div class="scroll-card"><div class="card-num">04</div><div class="lang-en"><p>Ottawa has over <strong>800 kilometres of recreational pathways</strong> — many running alongside the very waterways that define this city.</p></div><div class="lang-fr"><p>Ottawa compte plus de <strong>800 kilomètres de sentiers récréatifs</strong> — dont beaucoup longent les cours d'eau qui définissent cette ville.</p></div></div>
-                <div class="scroll-card"><div class="card-num">05</div><div class="lang-en"><p>This isn't just a map. It's <strong>an invitation to join the movement</strong> — find shops, events, and projects where you can take real action.</p></div><div class="lang-fr"><p>Ce n'est pas seulement une carte. C'est <strong>une invitation à rejoindre le mouvement</strong> — trouvez des boutiques, des événements et des projets.</p></div></div>
+                <div class="scroll-card"><div class="card-num">01</div><div class="lang-en"><p>Ottawa’s watershed covers 146,000 km² — we are a city entirely <strong>shaped by water.</strong></p></div><div class="lang-fr"><p>Le bassin versant d'Ottawa couvre 146 000 km² — notre ville est <strong>façonnée par l'eau.</strong></p></div></div>
+                <div class="scroll-card"><div class="card-num">02</div><div class="lang-en"><p>Our drinking water travels through <strong>3,000 km of pipes</strong> before reaching our taps.</p></div><div class="lang-fr"><p>Notre eau potable parcourt <strong>3 000 km de canalisations</strong> avant d'arriver à nos robinets.</p></div></div>
+                <div class="scroll-card"><div class="card-num">03</div><div class="lang-en"><p>Every item we buy impacts the local water cycle. <strong>Small, sustainable choices matter.</strong></p></div><div class="lang-fr"><p>Chaque article que nous achetons impacte l'eau locale. <strong>Les petits choix comptent.</strong></p></div></div>
+                <div class="scroll-card"><div class="card-num">04</div><div class="lang-en"><p>Ottawa has over <strong>800 km of trails</strong>, running right alongside the rivers that define us.</p></div><div class="lang-fr"><p>Ottawa compte plus de <strong>800 km de sentiers</strong>, longeant les rivières qui nous définissent.</p></div></div>
+                <div class="scroll-card"><div class="card-num">05</div><div class="lang-en"><p>Find local shops and projects near you where you can take <strong>real climate action today.</strong></p></div><div class="lang-fr"><p>Trouvez des boutiques et projets locaux pour agir <strong>concrètement pour le climat.</strong></p></div></div>
             </div>
         </div>
 
@@ -329,8 +322,8 @@
                         <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
                     </div>
                     <div class="guides-list-body">
-                        <div class="lang-en"><p>Environmental Science student combining geospatial tech and community action to map Ottawa's hidden sustainable gems.</p></div>
-                        <div class="lang-fr"><p>Étudiante en sciences de l'environnement combinant les technologies géospatiales et l'action communautaire.</p></div>
+                        <div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div>
+                        <div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div>
                     </div>
                 </div>
                 <div class="guides-list-item" id="gl-makenze">
@@ -344,8 +337,8 @@
                         <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
                     </div>
                     <div class="guides-list-body">
-                        <div class="lang-en"><p>Leads team coordination and community outreach across Ottawa.</p></div>
-                        <div class="lang-fr"><p>Dirige la coordination de l'équipe et l'engagement communautaire.</p></div>
+                        <div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div>
+                        <div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div>
                     </div>
                 </div>
                 <div class="guides-list-item" id="gl-volunteers">
@@ -360,8 +353,8 @@
                         <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
                     </div>
                     <div class="guides-list-body">
-                        <div class="lang-en"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — sourcing hidden gems, testing the map, and bringing it to community events.</p></div>
-                        <div class="lang-fr"><p><strong style="color:white;">Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan & Norah Bello</strong> — ils trouvent de nouveaux endroits, testent la carte et la présentent lors d'événements.</p></div>
+                        <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan, & Norah Bello.</strong></p></div>
+                        <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Jack Bisson, Brett Stockwell, Kira Fair, Akshayan Sivanesan, & Norah Bello.</strong></p></div>
                     </div>
                 </div>
             </div>
@@ -384,7 +377,7 @@
                 <p>
                     <strong class="lang-en">Feedback or Questions?</strong>
                     <strong class="lang-fr">Des questions ou des commentaires ?</strong>
-                    <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
+                    <br>Contact Project Lead: <a href="mailto:youandottawa@gmail.com">youandottawa@gmail.com</a>
                 </p>
                 <div class="credits-list">
                     <span class="lang-en">An independent community initiative, originally developed through</span>
@@ -403,7 +396,9 @@
     </div>
 
     <div class="content-sheet" id="install-sheet">
-        <div class="sheet-handle"></div>
+        <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
+        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close map"><div class="sheet-handle"></div></div>
+        
         <div class="install-section">
             <div class="install-inner">
                 <div class="install-section-label lang-en">take it with you</div>
@@ -434,17 +429,14 @@
                         </ol>
                     </div>
                 </div>
-                <span class="install-coming">
-                    <i class="fa-solid fa-rocket"></i>
-                    <span class="lang-en">App Store & Google Play versions coming soon — stay tuned!</span>
-                    <span class="lang-fr">Des versions pour l'App Store et Google Play arrivent bientôt !</span>
-                </span>
             </div>
         </div>
     </div>
 
     <div class="content-sheet" id="contribute-sheet">
-        <div class="sheet-handle"></div>
+        <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
+        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close map"><div class="sheet-handle"></div></div>
+        
         <div class="sheet-header">
             <h1 class="lang-en">Contribute</h1>
             <h1 class="lang-fr">Contribuer</h1>
@@ -461,7 +453,7 @@
                 <p class="fade-line line-2">Cliquez ci-dessous pour ouvrir notre formulaire de suggestion et ajouter votre endroit préféré au guide communautaire.</p>
             </div>
             <div style="margin-top: 50px;">
-                <button class="enter-btn visible" style="opacity:1;" onclick="window.open('https://tally.so/r/b5kNoe','_blank')">
+                <button class="enter-btn visible" style="opacity:1;" onclick="window.open('https://tally.so/r/vGLebX','_blank')">
                     <span class="lang-en">Go to Suggestion Form</span>
                     <span class="lang-fr">Aller au Formulaire</span>
                 </button>
@@ -597,6 +589,11 @@
             currentLang = document.body.classList.contains('fr-active') ? 'fr' : 'en';
             searchBox.placeholder = currentLang === 'fr' ? 'Rechercher dans le guide...' : 'Search the guide...';
             rebuildAllPopups();
+            
+            // Fix location marker translation if it exists
+            if(userMarker) {
+                userMarker.setPopupContent('<span class="lang-en">You are here!</span><span class="lang-fr">Vous êtes ici !</span>');
+            }
         }
 
         // MAP SETUP
@@ -612,7 +609,8 @@
         map.on('locationfound',function(e){
             if(userMarker)map.removeLayer(userMarker);
             userMarker=L.circleMarker(e.latlng,{radius:9,fillColor:"#007bff",color:"#fff",weight:2.5,opacity:1,fillOpacity:0.9}).addTo(map);
-            userMarker.bindPopup(currentLang==='fr'?"Vous êtes ici !":"You are here!").openPopup();
+            // Used HTML classes so the marker translates instantly!
+            userMarker.bindPopup('<span class="lang-en">You are here!</span><span class="lang-fr">Vous êtes ici !</span>').openPopup();
         });
 
         // ICONS & DATA
@@ -637,9 +635,11 @@
                 var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)});
                 marker.bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});
                 
-                // AUTO CENTER MAP ON CLICK
+                // AUTO-CENTER MAP WHEN CLICKING A PIN
                 marker.on('click', function(e) {
-                    map.setView(e.target.getLatLng(), Math.max(map.getZoom(), 15), {animate: true});
+                    var px = map.project(e.target.getLatLng());
+                    px.y -= 150; // Offsets the map by 150 pixels down so the popup doesn't get cut off!
+                    map.panTo(map.unproject(px), {animate: true});
                 });
                 
                 marker.addTo(map);
