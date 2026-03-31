@@ -36,8 +36,8 @@
         /* HERO / WELCOME SCREEN (The "Doorway") */
         .hero-section { position: fixed; inset: 0; z-index: 999999; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 0.5s ease, transform 0.5s ease; }
         .hero-section.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
-        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; }
-        .hero-section h2 { color: #a1a5ab; font-size: 1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; }
+        .hero-section h1, .sheet-header h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; }
+        .hero-section h2, .sheet-header h2 { color: #a1a5ab; font-size: 1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; }
         .enter-btn { background: white; color: #1B4965; border: none; padding: 14px 32px; border-radius: 30px; font-size: 1em; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: 0.2s; }
         .enter-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
 
@@ -57,18 +57,13 @@
         .suggestion-item strong { color: #1B4965; font-size: 0.85em; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 2px; }
         .suggestion-item span { color: #888; font-size: 0.7em; font-style: italic; }
 
-        /* CATEGORY PILLS */
-        .legend-panel { position: absolute; top: 75px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 95%; max-width: 800px; display: flex; overflow-x: auto; gap: 8px; padding: 5px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        /* CATEGORY PILLS - One Single Scrollable Line for all devices */
+        .legend-panel { position: absolute; top: 75px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 95%; max-width: 800px; display: flex; overflow-x: auto; gap: 8px; padding: 5px; scrollbar-width: none; -webkit-overflow-scrolling: touch; white-space: nowrap; }
         .legend-panel::-webkit-scrollbar { display: none; }
-        .legend-item { background: white; padding: 8px 14px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); display: flex; align-items: center; cursor: pointer; transition: 0.2s; white-space: nowrap; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 600; color: #333; gap: 6px; }
+        .legend-item { background: white; padding: 8px 14px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); display: flex; align-items: center; cursor: pointer; transition: 0.2s; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 600; color: #333; gap: 6px; flex-shrink: 0; }
         .legend-item:hover { background: #f0f0f0; }
         .legend-item.dimmed { opacity: 0.4 !important; background: rgba(255,255,255,0.8); }
         .legend-item.active-pill { background: #1B4965; color: white; }
-        
-        /* Desktop Pill Wrapping Fix */
-        @media (min-width: 768px) {
-            .legend-panel { flex-wrap: wrap; justify-content: center; }
-        }
 
         /* MAP CONTROLS */
         .custom-map-controls { position: absolute; bottom: 20px; right: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
@@ -83,12 +78,14 @@
         .nav-item.active { color: #1B4965; }
         .nav-item:hover { color: #1B4965; }
 
-        /* SLIDE-UP CONTENT SHEET (Holds all the text/guides) */
+        /* SLIDE-UP SHEETS */
         .content-sheet { position: fixed; top: 100%; left: 0; width: 100vw; height: calc(100vh - 65px); background: #1B4965; z-index: 1500; overflow-y: auto; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); scroll-behavior: smooth; }
-        body.sheet-open .content-sheet { top: 0; }
+        body.sheet-open #content-sheet { top: 0; }
+        body.contribute-open #contribute-sheet { top: 0; }
 
         /* CONTENT INSIDE THE SHEET */
-        .fade-story-section { padding: 60px 20px; text-align: center; }
+        .sheet-header { padding: 80px 20px 0; text-align: center; }
+        .fade-story-section { padding: 40px 20px 60px; text-align: center; }
         .fade-line { color: white; font-family: 'Lora', serif; line-height: 2; max-width: 580px; margin: 0 auto; }
         .fade-line.line-1 { font-size: 1.7em; font-weight: 400; }
         .fade-line.line-2 { font-size: 1.15em; font-weight: 300; color: #a1a5ab; margin-top: 16px; }
@@ -98,8 +95,9 @@
 
         /* SCROLL CARDS */
         .scroll-cards-section { position: relative; background-color: #12344a; padding: 60px 0; overflow: hidden; border-top: 2px solid rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.05); }
-        .scroll-cards-label { text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; }
-        .scroll-cards-track { display: flex; gap: 15px; overflow-x: auto; padding: 10px 5% 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .cards-bg-img { position: absolute; inset: 0; background-image: url('bridge.jpg'); background-position: center; background-size: cover; opacity: 0.07; pointer-events: none; }
+        .scroll-cards-label { position: relative; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; }
+        .scroll-cards-track { position: relative; display: flex; gap: 15px; overflow-x: auto; padding: 10px 5% 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .scroll-cards-track::-webkit-scrollbar { display: none; }
         .scroll-card { min-width: 220px; max-width: 240px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 18px; flex-shrink: 0; scroll-snap-align: start; }
         .scroll-card .card-num { font-size: 1.8em; font-family: 'Lora', serif; color: rgba(255,255,255,0.2); margin-bottom: 10px; line-height: 1; }
@@ -132,10 +130,22 @@
         .install-card h4 { color: white; margin: 0 0 10px 0; font-size: 0.9em; }
         .install-card ol { color: #d1d5db; font-size: 0.75em; line-height: 1.7; margin: 0; padding-left: 16px; }
         
-        .footer-section { background-color: #1B4965; padding: 60px 5% 40px; text-align: center; color: #d1d5db; font-size: 0.8em; line-height: 1.8; }
+        /* RESTORED ORIGINAL FOOTER STYLES */
+        .footer-section { background-color: #1B4965; padding: 80px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); }
+        .footer-credits { text-align: center; color: #d1d5db; line-height: 1.8; font-family: 'Montserrat', sans-serif; max-width: 700px; margin: 0 auto; }
+        .footer-credits h4 { font-family: 'Montserrat', sans-serif; color: white; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
-        .footer-social-icons a { color: rgba(255,255,255,0.5); font-size: 1.8em; margin: 15px 0; display: inline-block; }
-        .disclaimer-line { margin-top: 20px; font-size: 0.85em; color: rgba(255,255,255,0.25); }
+        .footer-credits a:hover { color: white; text-decoration: underline; }
+        .footer-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 40px auto; max-width: 200px; }
+        .footer-social { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 30px; }
+        .footer-social-label { color: rgba(255,255,255,0.4); font-size: 0.7em; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
+        .footer-social-icons a { color: rgba(255,255,255,0.5); font-size: 1.5em; transition: color 0.2s; }
+        .footer-social-icons a:hover { color: white; }
+        .credits-list { font-size: 0.88em; line-height: 2; color: rgba(255,255,255,0.45); }
+        .credits-list strong { color: rgba(255,255,255,0.65); font-weight: 500; }
+        .last-updated { font-size: 0.72em; color: rgba(255,255,255,0.25); margin-top: 6px; }
+        .copyright-line { margin-top: 20px; font-size: 0.76em; color: rgba(255,255,255,0.3); }
+        .disclaimer-line { margin-top: 10px; font-size: 0.7em; color: rgba(255,255,255,0.25); line-height: 1.7; padding-bottom: 10px; }
 
         /* POPUPS */
         .custom-popup h3 { color: #1B4965; margin: 0 0 4px 0; font-size: 1.2em; }
@@ -147,6 +157,17 @@
         .directions-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px 4px; border-radius: 20px; font-size: 0.72em; font-weight: 600; font-family: 'Montserrat', sans-serif; text-decoration: none; border: 1.5px solid; }
         .directions-btn.google { color: #1B4965; border-color: #1B4965; }
         .directions-btn.apple { color: #555; border-color: #aaa; }
+
+        /* MOBILE ADJUSTMENTS */
+        @media (max-width: 768px) {
+            .hero-section h1, .sheet-header h1 { font-size: 2.5em; }
+            .hero-section h2, .sheet-header h2 { font-size: 1em; padding: 0 20px; }
+            .search-container { width: 92%; top: 10px; }
+            .legend-panel { top: 65px; width: 95%; padding: 5px; }
+            .legend-item { font-size: 0.7em; padding: 6px 12px; }
+            .custom-map-controls { bottom: 20px; right: 10px; gap: 8px; }
+            .custom-btn { width: 36px; height: 36px; font-size: 1em; }
+        }
     </style>
 </head>
 <body>
@@ -203,7 +224,7 @@
             <i class="fa-solid fa-book-open-reader"></i>
             <span class="lang-en">Learn</span><span class="lang-fr">Apprendre</span>
         </div>
-        <div class="nav-item" onclick="window.open('https://tally.so/r/b5kNoe','_blank')">
+        <div class="nav-item" id="tab-contribute" onclick="switchTab('contribute')">
             <i class="fa-solid fa-circle-plus"></i>
             <span class="lang-en">Contribute</span><span class="lang-fr">Contribuer</span>
         </div>
@@ -211,6 +232,12 @@
 
     <div class="content-sheet" id="content-sheet">
         
+        <div class="sheet-header">
+            <h1>You & Ottawa</h1>
+            <h2 class="lang-en">a sustainable guide to the city for students by students</h2>
+            <h2 class="lang-fr">un guide de la ville écoresponsable, par et pour les étudiants</h2>
+        </div>
+
         <div class="fade-story-section">
             <div class="lang-en">
                 <p class="fade-line line-1">Ottawa is more than just Parliament Hill.</p>
@@ -229,6 +256,7 @@
         </div>
 
         <div class="scroll-cards-section">
+            <div class="cards-bg-img"></div>
             <div class="scroll-cards-label lang-en">did you know?</div>
             <div class="scroll-cards-label lang-fr">le saviez-vous ?</div>
             <div class="scroll-cards-track">
@@ -321,23 +349,64 @@
         </div>
 
         <div class="footer-section">
-            <h4 class="lang-en" style="color:white; margin-bottom: 5px;">Land Acknowledgement</h4>
-            <h4 class="lang-fr" style="color:white; margin-bottom: 5px;">Reconnaissance du Territoire</h4>
-            <p class="lang-en" style="max-width: 600px; margin: 0 auto 20px;">We acknowledge that the land on which this map focuses is the unceded territory of the Algonquin Anishinabe Nation.</p>
-            <p class="lang-fr" style="max-width: 600px; margin: 0 auto 20px;">Nous reconnaissons que la terre sur laquelle cette carte se concentre est le territoire non cédé de la Nation Algonquine Anishinabe.</p>
-            
-            <div class="footer-social-icons">
-                <a href="https://www.instagram.com/youandottawa/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-            
-            <p><strong class="lang-en">Feedback?</strong><strong class="lang-fr">Commentaires?</strong> Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a></p>
-            <p style="opacity: 0.6;">Waterlution Y4RC | © 2025–2026 Ana Perales.</p>
-            <div class="disclaimer-line">
-                <span class="lang-en">Information provided for community awareness purposes only.</span>
-                <span class="lang-fr">Informations fournies à des fins de sensibilisation communautaire uniquement.</span>
+            <div class="footer-credits">
+                <h4 class="lang-en">Land Acknowledgement</h4>
+                <h4 class="lang-fr">Reconnaissance du Territoire</h4>
+                <p class="lang-en">We acknowledge that the land on which this map focuses is the unceded territory of the Algonquin Anishinabe Nation.</p>
+                <p class="lang-fr">Nous reconnaissons que la terre sur laquelle cette carte se concentre est le territoire non cédé de la Nation Algonquine Anishinabe.</p>
+                <div class="footer-divider"></div>
+                <div class="footer-social">
+                    <div class="footer-social-label lang-en">Follow us on social media</div>
+                    <div class="footer-social-label lang-fr">Suivez-nous sur les réseaux sociaux</div>
+                    <div class="footer-social-icons">
+                        <a href="https://www.instagram.com/youandottawa/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                <p>
+                    <strong class="lang-en">Feedback or Questions?</strong>
+                    <strong class="lang-fr">Des questions ou des commentaires ?</strong>
+                    <br>Contact Project Lead: <a href="mailto:anaeperas@gmail.com">anaeperas@gmail.com</a>
+                </p>
+                <div class="credits-list">
+                    <span class="lang-en">An independent community initiative, originally developed through</span>
+                    <span class="lang-fr">Une initiative communautaire indépendante, développée à l'origine dans le cadre de</span>
+                    | <strong>Waterlution Y4RC</strong>
+                </div>
+                <div class="last-updated lang-en">Map last updated: March 2026</div>
+                <div class="last-updated lang-fr">Carte mise à jour : mars 2026</div>
+                <div class="copyright-line">© 2025–2026 Ana Perales. All rights reserved.</div>
+                <div class="disclaimer-line">
+                    <span class="lang-en">The information on this map is provided for community awareness purposes only. We are not responsible for changes to business hours, addresses, or services. Links to external websites are provided for convenience — we are not responsible for their content or privacy practices.</span>
+                    <span class="lang-fr">Les informations sur cette carte sont fournies à des fins de sensibilisation communautaire uniquement. Nous ne sommes pas responsables des modifications apportées aux horaires, adresses ou services. Les liens vers des sites externes sont fournis à titre indicatif.</span>
+                </div>
             </div>
         </div>
 
+    </div>
+
+    <div class="content-sheet" id="contribute-sheet">
+        <div class="sheet-header">
+            <h1 class="lang-en">Contribute</h1>
+            <h1 class="lang-fr">Contribuer</h1>
+            <h2 class="lang-en">Help us grow the map!</h2>
+            <h2 class="lang-fr">Aidez-nous à enrichir la carte !</h2>
+        </div>
+        <div class="fade-story-section" style="padding-top: 20px;">
+            <div class="lang-en">
+                <p class="fade-line line-2">Know a hidden sustainable gem in Ottawa? We want to hear about it.</p>
+                <p class="fade-line line-2">Click below to open our form and suggest your favorite spot for the community guide.</p>
+            </div>
+            <div class="lang-fr">
+                <p class="fade-line line-2">Vous connaissez un joyau écoresponsable caché à Ottawa ? Nous voulons en entendre parler.</p>
+                <p class="fade-line line-2">Cliquez ci-dessous pour ouvrir notre formulaire de suggestion et ajouter votre endroit préféré au guide communautaire.</p>
+            </div>
+            <div style="margin-top: 50px;">
+                <button class="enter-btn" onclick="window.open('https://tally.so/r/b5kNoe','_blank')">
+                    <span class="lang-en">Go to Suggestion Form</span>
+                    <span class="lang-fr">Aller au Formulaire</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -359,17 +428,27 @@
             var body = document.body;
             var tabExplore = document.getElementById('tab-explore');
             var tabLearn = document.getElementById('tab-learn');
-            var sheet = document.getElementById('content-sheet');
+            var tabContribute = document.getElementById('tab-contribute');
+            var sheetLearn = document.getElementById('content-sheet');
+            var sheetContribute = document.getElementById('contribute-sheet');
+
+            // Reset all tabs and sheets
+            body.classList.remove('sheet-open');
+            body.classList.remove('contribute-open');
+            tabExplore.classList.remove('active');
+            tabLearn.classList.remove('active');
+            tabContribute.classList.remove('active');
 
             if (tab === 'learn') {
                 body.classList.add('sheet-open');
                 tabLearn.classList.add('active');
-                tabExplore.classList.remove('active');
-                sheet.scrollTop = 0; // scroll to top of sheet
+                sheetLearn.scrollTop = 0;
+            } else if (tab === 'contribute') {
+                body.classList.add('contribute-open');
+                tabContribute.classList.add('active');
+                sheetContribute.scrollTop = 0;
             } else {
-                body.classList.remove('sheet-open');
                 tabExplore.classList.add('active');
-                tabLearn.classList.remove('active');
             }
         }
 
