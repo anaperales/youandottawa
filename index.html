@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>You & Ottawa</title>
+    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1B4965">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="You & Ottawa">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    
     <meta name="google-site-verification" content="google0031eeda4e897580">
     <meta name="description" content="Discovering Ottawa's sustainable side, by students for students.">
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; color: #333; overflow: hidden; width: 100vw; height: 100vh; }
@@ -25,24 +31,25 @@
         body:not(.fr-active) .lang-fr { display: none !important; }
         body.fr-active .lang-en { display: none !important; }
 
-        /* PWA AUTO-INSTALL BANNER (Shows on Android/Chrome automatically) */
+        /* PWA AUTO-INSTALL BANNER */
         .pwa-banner { display: none; position: fixed; top: 15px; left: 50%; transform: translateX(-50%); z-index: 9999999; background: rgba(255,255,255,0.95); border: 1px solid rgba(27,73,101,0.2); color: #1B4965; padding: 12px 20px; border-radius: 30px; font-size: 0.85em; font-family: 'Montserrat', sans-serif; font-weight: 600; backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.25); align-items: center; gap: 12px; white-space: nowrap; transition: 0.4s ease; }
         .pwa-banner.show { display: flex; animation: slideDown 0.5s ease; }
         .pwa-install-btn { background: #1B4965; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-size: 0.9em; font-weight: 700; cursor: pointer; font-family: 'Montserrat', sans-serif; }
         .pwa-dismiss-btn { background: none; border: none; color: #888; cursor: pointer; font-size: 1.2em; padding: 0; }
         @keyframes slideDown { from { top: -50px; opacity: 0; } to { top: 15px; opacity: 1; } }
 
-        /* UNIVERSAL LANG BTN (For Sheets & Welcome Screen) */
-        .top-right-lang { position: absolute; top: 20px; right: 20px; z-index: 100000; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.8em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
-        .top-right-lang:hover { background: rgba(255,255,255,0.3); }
+        /* SHEET SPECIFIC LANG BTN */
+        .sheet-lang-btn { position: absolute; top: 20px; right: 20px; z-index: 1600; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
+        .sheet-lang-btn:hover { background: rgba(255,255,255,0.3); }
 
         /* HERO / WELCOME SCREEN */
         .hero-section { position: fixed; inset: 0; z-index: 999999; background-color: #1B4965; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 0.5s ease, transform 0.5s ease; }
         .hero-section.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
-        .hero-section h1, .sheet-header h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; min-height: 1.2em; }
-        .hero-section h2, .sheet-header h2 { color: #e2e8f0; font-size: 1.1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; opacity: 0; transition: opacity 1s ease; }
-        .sheet-header h2 { opacity: 1; margin-bottom: 20px; }
+        .hero-section h1 { color: #ffffff; font-size: 4em; margin-bottom: 10px; letter-spacing: 2px; font-weight: 600; margin-top: 0; font-family: 'Lora', serif; min-height: 1.2em; }
+        .hero-section h2 { color: #e2e8f0; font-size: 1.1em; font-weight: 400; margin-bottom: 40px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; max-width: 80%; line-height: 1.5; margin-inline: auto; opacity: 0; transition: opacity 1s ease; }
         .hero-section h2.visible { opacity: 1; }
+        .hero-lang-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.8em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
+        .hero-lang-btn:hover { background: rgba(255,255,255,0.3); }
         .enter-btn { background: white; color: #1B4965; border: none; padding: 14px 32px; border-radius: 30px; font-size: 1em; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 1s ease, transform 0.2s; opacity: 0; }
         .enter-btn.visible { opacity: 1; }
         .enter-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
@@ -82,7 +89,7 @@
         .filter-grid-item span { font-size: 0.7em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
 
         /* MAP CONTROLS (Bottom Left Stack) */
-        .leaflet-bottom.leaflet-right { margin-bottom: 75px; }
+        .leaflet-bottom.leaflet-right { margin-bottom: 75px; } /* keeps zoom out of the way */
         .map-action-stack { position: absolute; bottom: 85px; left: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
         .map-action-stack .custom-btn { background: white; border: none; height: 42px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; display: flex; justify-content: center; align-items: center; transition: 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 700; }
         .map-action-stack .custom-btn:hover { background: #1B4965; color: white; }
@@ -112,28 +119,35 @@
         .sheet-center-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding-bottom: 30px; }
         .learn-hero-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding-bottom: 50px; position: relative; }
 
-        /* INTRO CARD (Highlighting the text on Learn page) */
+        /* INTRO CARD */
         .intro-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 24px; max-width: 600px; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: left; }
         .intro-card p { color: #e2e8f0; font-family: 'Montserrat', sans-serif; line-height: 1.8; font-size: 0.95em; margin: 0 0 15px 0; }
         .intro-card p:last-child { margin-bottom: 0; }
         .intro-card strong { color: white; font-weight: 700; }
 
-        /* LEFT BOUNCING ARROW */
         .scroll-arrow { position: absolute; left: 30px; bottom: 30px; color: rgba(255,255,255,0.6); font-size: 1.5em; animation: bounce-down 2s infinite; }
         @keyframes bounce-down { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
-        /* SHEET CONTENT STYLING */
         .sheet-header { padding: 0 20px; text-align: center; }
-        .sheet-header h1 { font-size: 2.8em; margin-bottom: 10px; }
+        .sheet-header h1 { font-size: 2.8em; margin-bottom: 10px; color: white; font-family: 'Lora', serif; }
+        .sheet-header h2 { font-size: 0.95em; max-width: 600px; margin-inline: auto; line-height: 1.6; color: #e2e8f0; font-weight: 400; }
         
-        .fade-story-section { padding: 20px; text-align: center; width: 100%; }
+        /* TEAM CARDS */
+        .team-title { font-family: 'Lora', serif; font-size: 2.2em; color: white; margin-top: 0; margin-bottom: 5px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+        .team-subtitle { color: #a1a5ab; font-size: 0.9em; font-weight: 300; margin-bottom: 30px; font-family: 'Montserrat', sans-serif; }
+        .team-container { width: 100%; max-width: 600px; padding: 0 20px; }
+        .team-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; margin-bottom: 20px; text-align: left; }
+        .team-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .team-card-avatar { width: 45px; height: 45px; background: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 700; font-family: 'Lora', serif; font-size: 1.1em; flex-shrink: 0; }
+        .team-card h3 { color: white; margin: 0 0 4px 0; font-size: 1.1em; font-family: 'Lora', serif; }
+        .team-card .role { color: #a1a5ab; font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; font-family: 'Montserrat', sans-serif; }
+        .team-card p { color: #d1d5db; font-size: 0.85em; line-height: 1.7; margin: 0; font-family: 'Montserrat', sans-serif; }
 
-        /* SCROLL CARDS (Responsive centering) */
+        /* SCROLL CARDS */
         .scroll-cards-section { position: relative; background-color: rgba(18,52,74,0.8); padding: 60px 0; overflow: hidden; border-top: 2px solid rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.05); }
         .cards-bg-img { position: absolute; inset: 0; background-image: url('bridge.jpg'); background-position: center; background-size: cover; opacity: 0.1; pointer-events: none; }
         .scroll-cards-label { position: relative; text-align: center; color: rgba(255,255,255,0.45); font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; }
         
-        /* Mobile: start aligned (snaps to center). Desktop: centered container. */
         .scroll-cards-track { position: relative; display: flex; gap: 15px; overflow-x: auto; padding: 10px calc(50vw - 120px) 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .scroll-cards-track::-webkit-scrollbar { display: none; }
         .scroll-card { min-width: 240px; max-width: 240px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 18px; flex-shrink: 0; scroll-snap-align: center; text-align: center; }
@@ -144,24 +158,8 @@
         @media (min-width: 768px) {
             .scroll-cards-track { justify-content: center; padding: 10px 20px 20px; }
             .scroll-card { scroll-snap-align: none; }
-            .scroll-cards-hint { display: none; } /* Hide hint on desktop */
+            .scroll-cards-hint { display: none; } 
         }
-
-        /* GUIDES (Moved to Team Tab) */
-        .guides-section { padding: 20px 5%; color: white; width: 100%; }
-        .guides-list { display: flex; flex-direction: column; max-width: 600px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .guides-list-item { background: rgba(18,52,74,0.9); border-bottom: 1px solid rgba(255,255,255,0.06); }
-        .guides-list-item:last-child { border-bottom: none; }
-        .guides-list-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; transition: background 0.2s; user-select: none; }
-        .guide-avatar-sm { width: 36px; height: 36px; background-color: white; color: #1B4965; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 0.85em; font-weight: 600; font-family: 'Lora', serif; flex-shrink: 0; }
-        .guides-list-header-text { flex: 1; text-align: left; }
-        .guides-list-header-text h3 { color: white; margin: 0 0 1px 0; font-size: 0.95em; font-family: 'Lora', serif; }
-        .guides-list-header-text .guide-role { font-size: 0.65em; color: #a1a5ab; text-transform: uppercase; letter-spacing: 1px; }
-        .guide-list-chevron { color: rgba(255,255,255,0.3); font-size: 0.8em; transition: transform 0.3s; flex-shrink: 0; }
-        .guides-list-item.open .guide-list-chevron { transform: rotate(180deg); }
-        .guides-list-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; text-align: left; }
-        .guides-list-item.open .guides-list-body { max-height: 250px; }
-        .guides-list-body p { color: #d1d5db; font-size: 0.8em; line-height: 1.6; margin: 0; padding: 0 18px 14px 66px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; }
 
         /* INSTALL SECTION */
         .install-section { padding: 0 20px; text-align: center; width: 100%; }
@@ -178,7 +176,7 @@
         .step-key { color: white; font-weight: 600; }
 
         /* FOOTER */
-        .footer-section { padding: 60px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); background-color: rgba(18,52,74,0.5); }
+        .footer-section { padding: 60px 5% 40px; border-top: 1px solid rgba(255,255,255,0.08); background-color: rgba(18,52,74,0.5); width: 100%; }
         .footer-credits { text-align: center; color: #d1d5db; line-height: 1.8; font-family: 'Montserrat', sans-serif; max-width: 700px; margin: 0 auto; }
         .footer-credits h4 { font-family: 'Montserrat', sans-serif; color: white; margin: 0 0 15px 0; font-size: 1.1em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .footer-credits a { color: #a1a5ab; font-weight: 600; text-decoration: none; }
@@ -204,8 +202,6 @@
         .directions-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px 4px; border-radius: 20px; font-size: 0.72em; font-weight: 600; font-family: 'Montserrat', sans-serif; text-decoration: none; border: 1.5px solid; cursor: pointer; background: transparent; }
         .directions-btn.google { color: #1B4965; border-color: #1B4965; }
         .directions-btn.apple { color: #555; border-color: #aaa; }
-        .directions-btn.share { color: #007bff; border-color: #007bff; width: 100%; flex-basis: 100%; margin-top: 4px; }
-        .directions-btn.share:hover { background: #007bff; color: white; }
 
         /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
@@ -222,8 +218,6 @@
 </head>
 <body>
 
-    <button class="top-right-lang" onclick="toggleLanguage()">EN | FR</button>
-
     <div class="pwa-banner" id="pwa-banner">
         <span class="lang-en">📲 Install You & Ottawa to your home screen!</span>
         <span class="lang-fr">📲 Installez You & Ottawa sur votre écran !</span>
@@ -232,6 +226,7 @@
     </div>
 
     <div class="hero-section" id="welcome-screen">
+        <button class="hero-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <h1 id="hero-h1">You & Ottawa</h1>
         <h2 id="hero-sub-en" class="lang-en">discovering Ottawa's sustainable side, by students for students</h2>
         <h2 id="hero-sub-fr" class="lang-fr">découvrir le côté écoresponsable d'Ottawa, par et pour les étudiants</h2>
@@ -277,8 +272,8 @@
         </div>
 
         <div class="map-action-stack">
-            <button class="custom-btn locate-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
             <button class="custom-btn lang-btn" onclick="toggleLanguage()">EN|FR</button>
+            <button class="custom-btn locate-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
         </div>
 
         <div id="map"></div>
@@ -297,17 +292,18 @@
             <i class="fa-solid fa-mobile-screen"></i>
             <span class="lang-en">Install</span><span class="lang-fr">Installer</span>
         </div>
-        <div class="nav-item" id="tab-team" onclick="switchTab('team')">
-            <i class="fa-solid fa-users"></i>
-            <span class="lang-en">Team</span><span class="lang-fr">Équipe</span>
-        </div>
         <div class="nav-item" id="tab-contribute" onclick="switchTab('contribute')">
             <i class="fa-solid fa-circle-plus"></i>
             <span class="lang-en">Contribute</span><span class="lang-fr">Contribuer</span>
         </div>
+        <div class="nav-item" id="tab-team" onclick="switchTab('team')">
+            <i class="fa-solid fa-users"></i>
+            <span class="lang-en">Team</span><span class="lang-fr">Équipe</span>
+        </div>
     </div>
 
     <div class="content-sheet" id="learn-sheet">
+        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
         <div class="learn-hero-wrapper">
@@ -388,6 +384,7 @@
     </div>
 
     <div class="content-sheet" id="install-sheet">
+        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
         <div class="sheet-center-wrapper">
@@ -426,65 +423,8 @@
         </div>
     </div>
 
-    <div class="content-sheet" id="team-sheet">
-        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
-        <div class="sheet-center-wrapper" style="justify-content: flex-start; padding-top: 20px;">
-            <div class="guides-section" style="padding-top: 0;">
-                <div class="guides-section-label lang-en">the team behind the map</div>
-                <div class="guides-section-label lang-fr">l'équipe derrière la carte</div>
-                <div class="guides-list">
-                    <div class="guides-list-item" id="gl-ana">
-                        <div class="guides-list-header" onclick="toggleGuideList('gl-ana')">
-                            <div class="guide-avatar-sm">AP</div>
-                            <div class="guides-list-header-text">
-                                <h3>Ana Perales</h3>
-                                <div class="guide-role lang-en">Project Lead</div>
-                                <div class="guide-role lang-fr">Chef de projet</div>
-                            </div>
-                            <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
-                        </div>
-                        <div class="guides-list-body">
-                            <div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div>
-                            <div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div>
-                        </div>
-                    </div>
-                    <div class="guides-list-item" id="gl-makenze">
-                        <div class="guides-list-header" onclick="toggleGuideList('gl-makenze')">
-                            <div class="guide-avatar-sm">MB</div>
-                            <div class="guides-list-header-text">
-                                <h3>Makenze Blackburn</h3>
-                                <div class="guide-role lang-en">Project Partner</div>
-                                <div class="guide-role lang-fr">Partenaire de projet</div>
-                            </div>
-                            <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
-                        </div>
-                        <div class="guides-list-body">
-                            <div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div>
-                            <div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div>
-                        </div>
-                    </div>
-                    <div class="guides-list-item" id="gl-volunteers">
-                        <div class="guides-list-header" onclick="toggleGuideList('gl-volunteers')">
-                            <div class="guide-avatar-sm" style="background:rgba(255,255,255,0.15);color:white;"><i class="fa-solid fa-users" style="font-size:0.85em;"></i></div>
-                            <div class="guides-list-header-text">
-                                <h3 class="lang-en">The Volunteers</h3>
-                                <h3 class="lang-fr">Les Bénévoles</h3>
-                                <div class="guide-role lang-en">Community Team</div>
-                                <div class="guide-role lang-fr">Équipe Communautaire</div>
-                            </div>
-                            <i class="fa-solid fa-chevron-down guide-list-chevron"></i>
-                        </div>
-                        <div class="guides-list-body">
-                            <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Norah Bello.</strong></p></div>
-                            <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Norah Bello.</strong></p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="content-sheet" id="contribute-sheet">
+        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
         <div class="sheet-center-wrapper">
@@ -513,6 +453,61 @@
         </div>
     </div>
 
+    <div class="content-sheet" id="team-sheet">
+        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
+        <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
+        
+        <div class="sheet-center-wrapper" style="justify-content: flex-start; padding-top: 20px;">
+            <div style="text-align: center; width: 100%; padding: 0 20px;">
+                <h1 class="team-title lang-en">The Team Behind the Map</h1>
+                <h1 class="team-title lang-fr">L'Équipe Derrière la Carte</h1>
+                <div class="fade-divider" style="margin: 20px auto;"></div>
+            </div>
+            
+            <div class="team-container">
+                <div class="team-card">
+                    <div class="team-card-header">
+                        <div class="team-card-avatar">AP</div>
+                        <div>
+                            <h3>Ana Perales</h3>
+                            <div class="role lang-en">Project Lead</div>
+                            <div class="role lang-fr">Chef de projet</div>
+                        </div>
+                    </div>
+                    <div class="lang-en"><p>As an Environmental Science student who moved to Ottawa for university, I quickly realized how hard it was to find the city's hidden sustainable gems. I combined my background in geospatial technologies with my passion for community action to build this interactive map.</p></div>
+                    <div class="lang-fr"><p>En tant qu'étudiante en sciences de l'environnement arrivée à Ottawa pour l'université, j'ai vite remarqué qu'il était difficile de trouver les joyaux durables cachés de la ville. J'ai combiné mes compétences en technologies géospatiales avec ma passion pour l'action communautaire.</p></div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-card-header">
+                        <div class="team-card-avatar">MB</div>
+                        <div>
+                            <h3>Makenze Blackburn</h3>
+                            <div class="role lang-en">Project Partner</div>
+                            <div class="role lang-fr">Partenaire de projet</div>
+                        </div>
+                    </div>
+                    <div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div>
+                    <div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-card-header">
+                        <div class="team-card-avatar"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <h3 class="lang-en">The Volunteers</h3>
+                            <h3 class="lang-fr">Les Bénévoles</h3>
+                            <div class="role lang-en">Community Team</div>
+                            <div class="role lang-fr">Équipe Communautaire</div>
+                        </div>
+                    </div>
+                    <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Norah Bello, Kira Fair, & Brett Stockwell.</strong></p></div>
+                    <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Norah Bello, Kira Fair, & Brett Stockwell.</strong></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -535,7 +530,6 @@
             } 
         };
         document.getElementById('pwa-dismiss-btn').onclick = function() { document.getElementById('pwa-banner').classList.remove('show'); };
-
 
         // TYPEWRITER EFFECT
         var heroH1=document.getElementById('hero-h1'), heroSubEn=document.getElementById('hero-sub-en'), heroSubFr=document.getElementById('hero-sub-fr'), heroEnter=document.getElementById('hero-enter');
@@ -593,27 +587,27 @@
             }, 500);
         }
 
-        // BOTTOM NAV TABS (Updated for 5 Tabs)
+        // BOTTOM NAV TABS (5 Tabs)
         function switchTab(tab) {
             var body = document.body;
             var tabExplore = document.getElementById('tab-explore');
             var tabLearn = document.getElementById('tab-learn');
             var tabInstall = document.getElementById('tab-install');
-            var tabTeam = document.getElementById('tab-team');
             var tabContribute = document.getElementById('tab-contribute');
+            var tabTeam = document.getElementById('tab-team');
             
             var sheetLearn = document.getElementById('learn-sheet');
             var sheetInstall = document.getElementById('install-sheet');
-            var sheetTeam = document.getElementById('team-sheet');
             var sheetContribute = document.getElementById('contribute-sheet');
+            var sheetTeam = document.getElementById('team-sheet');
 
             // Reset all
-            body.classList.remove('sheet-open', 'install-open', 'team-open', 'contribute-open');
+            body.classList.remove('sheet-open', 'install-open', 'contribute-open', 'team-open');
             tabExplore.classList.remove('active');
             tabLearn.classList.remove('active');
             tabInstall.classList.remove('active');
-            tabTeam.classList.remove('active');
             tabContribute.classList.remove('active');
+            tabTeam.classList.remove('active');
 
             // Activate Target
             if (tab === 'learn') {
@@ -624,14 +618,14 @@
                 body.classList.add('install-open');
                 tabInstall.classList.add('active');
                 sheetInstall.scrollTop = 0;
-            } else if (tab === 'team') {
-                body.classList.add('team-open');
-                tabTeam.classList.add('active');
-                sheetTeam.scrollTop = 0;
             } else if (tab === 'contribute') {
                 body.classList.add('contribute-open');
                 tabContribute.classList.add('active');
                 sheetContribute.scrollTop = 0;
+            } else if (tab === 'team') {
+                body.classList.add('team-open');
+                tabTeam.classList.add('active');
+                sheetTeam.scrollTop = 0;
             } else {
                 tabExplore.classList.add('active');
             }
@@ -651,16 +645,7 @@
             }
         }
 
-        // ACCORDION
-        function toggleGuideList(id) {
-            var items = document.querySelectorAll('.guides-list-item');
-            items.forEach(function(item) {
-                if (item.id === id) { item.classList.toggle('open'); }
-                else { item.classList.remove('open'); }
-            });
-        }
-
-        // LANGUAGE
+        // LANGUAGE TOGGLE
         var currentLang = 'en';
         var searchBox = document.getElementById('search-box');
         function toggleLanguage() {
@@ -673,22 +658,6 @@
                 userMarker.setPopupContent('<span class="lang-en">You are here!</span><span class="lang-fr">Vous êtes ici !</span>');
             }
         }
-
-        // NATIVE SHARE API FUNCTION
-        window.shareSpot = function(name, lat, lng) {
-            var url = window.location.href.split('?')[0]; 
-            var shareData = {
-                title: 'You & Ottawa - ' + name,
-                text: 'Check out ' + name + ' on the You & Ottawa sustainable map! ',
-                url: url
-            };
-            if (navigator.share) {
-                navigator.share(shareData).catch(console.error);
-            } else {
-                navigator.clipboard.writeText(url);
-                alert(currentLang === 'fr' ? 'Lien du site copié !' : 'Website link copied to clipboard!');
-            }
-        };
 
         // MAP SETUP
         var map=L.map('map', {zoomControl: false}).setView([45.421,-75.690],13);
@@ -718,12 +687,7 @@
             var fr=lang==='fr',m=fr&&row.The_Mission_FR?row.The_Mission_FR:row.The_Mission,w=fr&&row.Why_Matters_FR?row.Why_Matters_FR:row.Why_Matters,a=fr&&row.Action_Item_FR?row.Action_Item_FR:row.Action_Item;
             var ml=fr?'LA MISSION':'THE MISSION',wl=fr?'POURQUOI ÇA COMPTE':'WHY IT MATTERS',al=fr?'AGIR':'ACT',vl=fr?'PLANIFIER MA VISITE':'PLAN YOUR VISIT';
             var hw=row.Website_Link&&row.Website_Link.trim()!==''&&row.Website_Link.trim()!=='undefined';
-            
-            // Clean up name for the JS share function
-            var cleanName = row.Place_Organization.replace(/'/g, "\\'");
-            var shareHtml = '<button class="directions-btn share" onclick="shareSpot(\'' + cleanName + '\', ' + row.Latitude + ', ' + row.Longitude + ')"><i class="fa-solid fa-share-nodes"></i> ' + (fr ? 'Partager' : 'Share') + '</button>';
-
-            return '<div class="custom-popup"><h3>'+row.Place_Organization+'</h3><p class="category">'+row.Category+'</p><p>📍 '+row.Address+'</p><h4>'+ml+'</h4><p>'+m+'</p><h4>'+wl+'</h4><p>'+w+'</p><h4>'+al+'</h4><p>'+a+'</p>'+buildDirections(row.Latitude,row.Longitude,lang) + shareHtml + (hw?'<a href="'+row.Website_Link+'" class="plan-visit-btn" target="_blank">'+vl+'</a>':'')+'</div>';
+            return '<div class="custom-popup"><h3>'+row.Place_Organization+'</h3><p class="category">'+row.Category+'</p><p>📍 '+row.Address+'</p><h4>'+ml+'</h4><p>'+m+'</p><h4>'+wl+'</h4><p>'+w+'</p><h4>'+al+'</h4><p>'+a+'</p>'+buildDirections(row.Latitude,row.Longitude,lang)+(hw?'<a href="'+row.Website_Link+'" class="plan-visit-btn" target="_blank">'+vl+'</a>':'')+'</div>';
         }
         var allMapMarkers=[],activeFilterCategory="All";
         function rebuildAllPopups(){allMapMarkers.forEach(function(i){i.marker.setPopupContent(buildPopupContent(i.row,currentLang));});}
