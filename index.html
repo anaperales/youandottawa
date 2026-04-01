@@ -135,11 +135,10 @@
 
         .sheet-header { padding: 0 20px; text-align: center; width: 100%; }
         .sheet-header h1 { font-size: 2.8em; margin-bottom: 10px; color: white; font-family: 'Lora', serif; }
-        .sheet-header h2 { font-size: 0.95em; max-width: 600px; margin-inline: auto; line-height: 1.6; color: #e2e8f0; font-weight: 400; }
+        .sheet-header h2 { font-size: 0.95em; max-width: 600px; margin-inline: auto; line-height: 1.6; color: #e2e8f0; font-weight: 400; margin-bottom: 20px; }
         
         /* TEAM CARDS */
         .team-title { font-family: 'Lora', serif; font-size: 2.2em; color: white; margin-top: 0; margin-bottom: 5px; font-weight: 400; text-transform: none; letter-spacing: 0; }
-        .team-subtitle { color: #a1a5ab; font-size: 0.9em; font-weight: 300; margin-bottom: 30px; font-family: 'Montserrat', sans-serif; }
         .team-container { width: 100%; max-width: 600px; padding: 0 20px; }
         .team-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; margin-bottom: 20px; text-align: left; }
         .team-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
@@ -220,7 +219,17 @@
             .nav-item span { font-size: 0.55em; }
             .learn-hero-wrapper { min-height: calc(100vh - 100px); }
             .scroll-arrow { left: 15px; bottom: 15px; font-size: 1.2em; }
+            
+            /* SPECIFIC MOBILE TWEAKS */
+            .intro-card { width: calc(100% - 30px); margin: 0 auto 20px; padding: 18px; }
+            #contribute-sheet .fade-line.line-2 { font-size: 0.85em; padding: 0 10px; }
+            .footer-credits p { font-size: 0.85em; }
+            .footer-credits h4 { font-size: 1em; }
             .team-title { font-size: 1.6em !important; margin-bottom: 10px; line-height: 1.2; }
+            .team-card { text-align: center; padding: 20px; }
+            .team-card-header { flex-direction: column; justify-content: center; gap: 8px; }
+            .team-card-avatar { margin: 0 auto; width: 40px; height: 40px; font-size: 1em; }
+            .team-card p { font-size: 0.8em; line-height: 1.6; }
         }
     </style>
 </head>
@@ -311,7 +320,6 @@
     </div>
 
     <div class="content-sheet" id="learn-sheet">
-        
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
         <div class="sticky-lang-wrapper">
@@ -522,8 +530,8 @@
                             <div class="role lang-fr">Équipe Communautaire</div>
                         </div>
                     </div>
-                    <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Norah Bello.</strong></p></div>
-                    <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Norah Bello.</strong></p></div>
+                    <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Brett Stockwell, Kira Fair, & Norah Bello.</strong></p></div>
+                    <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Brett Stockwell, Kira Fair, & Norah Bello.</strong></p></div>
                 </div>
             </div>
         </div>
@@ -666,7 +674,7 @@
             }
         }
 
-        // LANGUAGE
+        // LANGUAGE TOGGLE
         var currentLang = 'en';
         var searchBox = document.getElementById('search-box');
         function toggleLanguage() {
