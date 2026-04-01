@@ -10,9 +10,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="You & Ottawa">
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icon-192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="./icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
     
     <meta name="google-site-verification" content="google0031eeda4e897580">
     <meta name="description" content="Discovering Ottawa's sustainable side, by students for students.">
@@ -38,8 +42,9 @@
         .pwa-dismiss-btn { background: none; border: none; color: #888; cursor: pointer; font-size: 1.2em; padding: 0; }
         @keyframes slideDown { from { top: -50px; opacity: 0; } to { top: 15px; opacity: 1; } }
 
-        /* SHEET SPECIFIC LANG BTN */
-        .sheet-lang-btn { position: absolute; top: 20px; right: 20px; z-index: 1600; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; }
+        /* STICKY SHEET LANG BTN (Scrolls with you!) */
+        .sticky-lang-wrapper { position: sticky; top: 15px; z-index: 1600; display: flex; justify-content: flex-end; padding-right: 15px; pointer-events: none; width: 100%; margin-bottom: -35px; }
+        .sheet-lang-btn { pointer-events: auto; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .sheet-lang-btn:hover { background: rgba(255,255,255,0.3); }
 
         /* HERO / WELCOME SCREEN */
@@ -116,7 +121,7 @@
         .sheet-handle-area:hover .sheet-handle { background: rgba(255,255,255,0.8); }
 
         /* VERTICAL CENTERING WRAPPERS */
-        .sheet-center-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding-bottom: 30px; }
+        .sheet-center-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding-bottom: 30px; text-align: center; }
         .learn-hero-wrapper { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: calc(100vh - 120px); padding-bottom: 50px; position: relative; }
 
         /* INTRO CARD */
@@ -128,7 +133,7 @@
         .scroll-arrow { position: absolute; left: 30px; bottom: 30px; color: rgba(255,255,255,0.6); font-size: 1.5em; animation: bounce-down 2s infinite; }
         @keyframes bounce-down { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
-        .sheet-header { padding: 0 20px; text-align: center; }
+        .sheet-header { padding: 0 20px; text-align: center; width: 100%; }
         .sheet-header h1 { font-size: 2.8em; margin-bottom: 10px; color: white; font-family: 'Lora', serif; }
         .sheet-header h2 { font-size: 0.95em; max-width: 600px; margin-inline: auto; line-height: 1.6; color: #e2e8f0; font-weight: 400; }
         
@@ -200,8 +205,10 @@
         .custom-popup .plan-visit-btn { display: block; background-color: #1B4965; color: white; text-align: center; padding: 8px; margin-top: 12px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 0.85em; transition: 0.2s; font-family: 'Montserrat', sans-serif; }
         .directions-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
         .directions-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 7px 4px; border-radius: 20px; font-size: 0.72em; font-weight: 600; font-family: 'Montserrat', sans-serif; text-decoration: none; border: 1.5px solid; cursor: pointer; background: transparent; }
-        .directions-btn.google { color: #1B4965; border-color: #1B4965; }
+        .directions-btn.google { color: #555; border-color: #aaa; }
+        .directions-btn.google:hover { background: #555; color: white; }
         .directions-btn.apple { color: #555; border-color: #aaa; }
+        .directions-btn.apple:hover { background: #555; color: white; }
 
         /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
@@ -213,6 +220,7 @@
             .nav-item span { font-size: 0.55em; }
             .learn-hero-wrapper { min-height: calc(100vh - 100px); }
             .scroll-arrow { left: 15px; bottom: 15px; font-size: 1.2em; }
+            .team-title { font-size: 1.6em !important; margin-bottom: 10px; line-height: 1.2; }
         }
     </style>
 </head>
@@ -272,8 +280,8 @@
         </div>
 
         <div class="map-action-stack">
-            <button class="custom-btn lang-btn" onclick="toggleLanguage()">EN|FR</button>
             <button class="custom-btn locate-btn" id="locate-btn" title="Locate Me"><i class="fa-solid fa-location-crosshairs"></i></button>
+            <button class="custom-btn lang-btn" onclick="toggleLanguage()">EN|FR</button>
         </div>
 
         <div id="map"></div>
@@ -303,9 +311,13 @@
     </div>
 
     <div class="content-sheet" id="learn-sheet">
-        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
+        
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
+        <div class="sticky-lang-wrapper">
+            <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
+        </div>
+
         <div class="learn-hero-wrapper">
             <div class="sheet-header">
                 <h1>You & Ottawa</h1>
@@ -384,9 +396,12 @@
     </div>
 
     <div class="content-sheet" id="install-sheet">
-        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
+        <div class="sticky-lang-wrapper">
+            <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
+        </div>
+
         <div class="sheet-center-wrapper">
             <div class="install-section">
                 <div class="install-inner">
@@ -424,24 +439,27 @@
     </div>
 
     <div class="content-sheet" id="contribute-sheet">
-        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
-        <div class="sheet-center-wrapper">
-            <div class="sheet-header">
+        <div class="sticky-lang-wrapper">
+            <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
+        </div>
+
+        <div class="sheet-center-wrapper" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <div class="sheet-header" style="width: 100%;">
                 <h1 class="lang-en">Contribute</h1>
                 <h1 class="lang-fr">Contribuer</h1>
                 <h2 class="lang-en">Help us grow the map!</h2>
                 <h2 class="lang-fr">Aidez-nous à enrichir la carte !</h2>
             </div>
-            <div class="fade-story-section" style="padding-top: 20px;">
+            <div class="fade-story-section" style="padding-top: 20px; text-align: center; width: 100%;">
                 <div class="lang-en">
-                    <p class="fade-line line-2" style="color:white;">Know a hidden sustainable gem in Ottawa? We want to hear about it.</p>
-                    <p class="fade-line line-2" style="color:white;">Click below to open our form and suggest your favorite spot for the community guide.</p>
+                    <p class="fade-line line-2" style="color:white; text-align: center;">Know a hidden sustainable gem in Ottawa? We want to hear about it.</p>
+                    <p class="fade-line line-2" style="color:white; text-align: center;">Click below to open our form and suggest your favorite spot for the community guide.</p>
                 </div>
                 <div class="lang-fr">
-                    <p class="fade-line line-2" style="color:white;">Vous connaissez un joyau écoresponsable caché à Ottawa ? Nous voulons en entendre parler.</p>
-                    <p class="fade-line line-2" style="color:white;">Cliquez ci-dessous pour ouvrir notre formulaire de suggestion et ajouter votre endroit préféré au guide communautaire.</p>
+                    <p class="fade-line line-2" style="color:white; text-align: center;">Vous connaissez un joyau écoresponsable caché à Ottawa ? Nous voulons en entendre parler.</p>
+                    <p class="fade-line line-2" style="color:white; text-align: center;">Cliquez ci-dessous pour ouvrir notre formulaire de suggestion et ajouter votre endroit préféré au guide communautaire.</p>
                 </div>
                 <div style="margin-top: 50px;">
                     <button class="enter-btn visible" style="opacity:1;" onclick="window.open('https://tally.so/r/vGLebX','_blank')">
@@ -454,9 +472,12 @@
     </div>
 
     <div class="content-sheet" id="team-sheet">
-        <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
+        <div class="sticky-lang-wrapper">
+            <button class="sheet-lang-btn" onclick="toggleLanguage()">EN | FR</button>
+        </div>
+
         <div class="sheet-center-wrapper" style="justify-content: flex-start; padding-top: 20px;">
             <div style="text-align: center; width: 100%; padding: 0 20px;">
                 <h1 class="team-title lang-en">The Team Behind the Map</h1>
@@ -501,8 +522,8 @@
                             <div class="role lang-fr">Équipe Communautaire</div>
                         </div>
                     </div>
-                    <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Norah Bello, Kira Fair, & Brett Stockwell.</strong></p></div>
-                    <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Norah Bello, Kira Fair, & Brett Stockwell.</strong></p></div>
+                    <div class="lang-en"><p>A massive thank you to our dedicated volunteers who help source new hidden gems, test the user interface, and bring the map to community events: <strong>Norah Bello.</strong></p></div>
+                    <div class="lang-fr"><p>Un grand merci à nos bénévoles dévoués qui aident à trouver de nouvelles adresses, à tester l'interface et à présenter la carte lors d'événements : <strong>Norah Bello.</strong></p></div>
                 </div>
             </div>
         </div>
@@ -587,7 +608,7 @@
             }, 500);
         }
 
-        // BOTTOM NAV TABS (5 Tabs)
+        // BOTTOM NAV TABS
         function switchTab(tab) {
             var body = document.body;
             var tabExplore = document.getElementById('tab-explore');
@@ -645,7 +666,7 @@
             }
         }
 
-        // LANGUAGE TOGGLE
+        // LANGUAGE
         var currentLang = 'en';
         var searchBox = document.getElementById('search-box');
         function toggleLanguage() {
