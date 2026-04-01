@@ -11,12 +11,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="You & Ottawa">
     
-    <link rel="apple-touch-icon" href="./icon-192.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="./icon-192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./icon-192.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="./icon-192.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     
     <meta name="google-site-verification" content="google0031eeda4e897580">
     <meta name="description" content="Discovering Ottawa's sustainable side, by students for students.">
@@ -42,7 +42,7 @@
         .pwa-dismiss-btn { background: none; border: none; color: #888; cursor: pointer; font-size: 1.2em; padding: 0; }
         @keyframes slideDown { from { top: -50px; opacity: 0; } to { top: 15px; opacity: 1; } }
 
-        /* STICKY SHEET LANG BTN (Scrolls with you!) */
+        /* STICKY SHEET LANG BTN */
         .sticky-lang-wrapper { position: sticky; top: 15px; z-index: 1600; display: flex; justify-content: flex-end; padding-right: 15px; pointer-events: none; width: 100%; margin-bottom: -35px; }
         .sheet-lang-btn { pointer-events: auto; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 30px; font-size: 0.75em; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .sheet-lang-btn:hover { background: rgba(255,255,255,0.3); }
@@ -93,8 +93,8 @@
         .filter-grid-item i, .filter-grid-item .legend-star { font-size: 1.3em; }
         .filter-grid-item span { font-size: 0.7em; font-family: 'Montserrat', sans-serif; font-weight: 600; }
 
-        /* MAP CONTROLS (Bottom Left Stack) */
-        .leaflet-bottom.leaflet-right { margin-bottom: 75px; } /* keeps zoom out of the way */
+        /* MAP CONTROLS */
+        .leaflet-bottom.leaflet-right { margin-bottom: 75px; } 
         .map-action-stack { position: absolute; bottom: 85px; left: 15px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
         .map-action-stack .custom-btn { background: white; border: none; height: 42px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; color: #1B4965; display: flex; justify-content: center; align-items: center; transition: 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 700; }
         .map-action-stack .custom-btn:hover { background: #1B4965; color: white; }
@@ -220,7 +220,6 @@
             .learn-hero-wrapper { min-height: calc(100vh - 100px); }
             .scroll-arrow { left: 15px; bottom: 15px; font-size: 1.2em; }
             
-            /* SPECIFIC MOBILE TWEAKS */
             .intro-card { width: calc(100% - 30px); margin: 0 auto 20px; padding: 18px; }
             #contribute-sheet .fade-line.line-2 { font-size: 0.85em; padding: 0 10px; }
             .footer-credits p { font-size: 0.85em; }
@@ -320,6 +319,7 @@
     </div>
 
     <div class="content-sheet" id="learn-sheet">
+        
         <div class="sheet-handle-area" onclick="switchTab('explore')" title="Pull down to close"><div class="sheet-handle"></div></div>
         
         <div class="sticky-lang-wrapper">
@@ -346,6 +346,11 @@
                         <p>Cette carte a été créée pour nous aider à voir notre ville différemment — en reliant les lieux que nous visitons à <strong>l'eau qui nous soutient.</strong></p>
                     </div>
                 </div>
+                
+                <button class="enter-btn visible" style="opacity:1; margin: 20px auto; display: inline-block; background-color: white; color: #1B4965;" onclick="window.open('https://anaperales.notion.site/you-ottawa?source=copy_link', '_blank')">
+                    <span class="lang-en">📖 Read Our Origin Story</span>
+                    <span class="lang-fr">📖 Lire Notre Histoire</span>
+                </button>
             </div>
             
             <div class="scroll-arrow"><i class="fa-solid fa-chevron-down"></i></div>
@@ -616,7 +621,7 @@
             }, 500);
         }
 
-        // BOTTOM NAV TABS
+        // BOTTOM NAV TABS (5 Tabs)
         function switchTab(tab) {
             var body = document.body;
             var tabExplore = document.getElementById('tab-explore');
