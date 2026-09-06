@@ -162,7 +162,6 @@
 
         @media (min-width: 768px) {
             .scroll-cards-track { justify-content: center; padding: 10px 20px 20px; }
-            .scroll-card { scroll-snap-align: none; }
             .scroll-cards-hint { display: none; } 
         }
 
@@ -205,6 +204,8 @@
         .disclaimer-line { margin-top: 10px; font-size: 0.7em; color: rgba(255,255,255,0.25); line-height: 1.7; padding-bottom: 10px; }
 
         /* MAP POPUPS */
+        .leaflet-popup-content-wrapper { max-width: calc(100vw - 40px) !important; }
+        .leaflet-popup-content { max-height: 65vh; overflow-y: auto; }
         .custom-popup h3 { color: #1B4965; margin: 0 0 4px 0; font-size: 1.2em; }
         .custom-popup .category { color: #666; font-style: italic; margin: 0 0 10px 0; font-size: 0.8em; }
         .custom-popup h4 { font-size: 0.85em; color: #1B4965; margin: 12px 0 3px 0; font-weight: 700; font-family: 'Montserrat', sans-serif; }
@@ -735,7 +736,11 @@
             var fr=lang==='fr',m=fr&&row.The_Mission_FR?row.The_Mission_FR:row.The_Mission,w=fr&&row.Why_Matters_FR?row.Why_Matters_FR:row.Why_Matters,a=fr&&row.Action_Item_FR?row.Action_Item_FR:row.Action_Item;
             var ml=fr?'LA MISSION':'THE MISSION',wl=fr?'POURQUOI ÇA COMPTE':'WHY IT MATTERS',al=fr?'AGIR':'ACT',vl=fr?'PLANIFIER MA VISITE':'PLAN YOUR VISIT';
             var hw=row.Website_Link&&row.Website_Link.trim()!==''&&row.Website_Link.trim()!=='undefined';
-            return '<div class="custom-popup"><h3>'+row.Place_Organization+'</h3><p class="category">'+row.Category+'</p><p>📍 '+row.Address+'</p><h4>'+ml+'</h4><p>'+m+'</p><h4>'+wl+'</h4><p>'+w+'</p><h4>'+al+'</h4><p>'+a+'</p>'+buildDirections(row.Latitude,row.Longitude,lang)+(hw?'<a href="'+row.Website_Link+'" class="plan-visit-btn" target="_blank">'+vl+'</a>':'')+'</div>';
+            var priceRaw=row.Price_Range?row.Price_Range.trim():'';
+            var priceDisplay=priceRaw;
+            if(priceRaw.toLowerCase()==='free'){priceDisplay=fr?'Gratuit':'Free';}
+            var priceHtml=(priceRaw!==''&&priceRaw.toLowerCase()!=='undefined')?'<p>💲 '+priceDisplay+'</p>':'';
+            return '<div class="custom-popup"><h3>'+row.Place_Organization+'</h3><p class="category">'+row.Category+'</p><p>📍 '+row.Address+'</p>'+priceHtml+'<h4>'+ml+'</h4><p>'+m+'</p><h4>'+wl+'</h4><p>'+w+'</p><h4>'+al+'</h4><p>'+a+'</p>'+buildDirections(row.Latitude,row.Longitude,lang)+(hw?'<a href="'+row.Website_Link+'" class="plan-visit-btn" target="_blank">'+vl+'</a>':'')+'</div>';
         }
         var allMapMarkers=[],activeFilterCategory="All";
         function rebuildAllPopups(){allMapMarkers.forEach(function(i){i.marker.setPopupContent(buildPopupContent(i.row,currentLang));});}
@@ -743,7 +748,7 @@
         Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){
             results.data.forEach(function(row){
                 var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)});
-                marker.bindPopup(buildPopupContent(row,currentLang),{maxWidth:280});
+                marker.bindPopup(buildPopupContent(row,currentLang),{maxWidth:280,autoPanPadding:[20,20]});
                 
                 // AUTO-CENTER MAP WHEN CLICKING A PIN
                 marker.on('click', function(e) {
