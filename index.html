@@ -411,8 +411,8 @@
                     <span class="lang-fr">Une initiative communautaire indépendante, développée à l'origine dans le cadre de</span>
                     | <strong>Waterlution Y4RC</strong>
                 </div>
-                <div class="last-updated lang-en">Map last updated: March 2026</div>
-                <div class="last-updated lang-fr">Carte mise à jour : mars 2026</div>
+                <div class="last-updated lang-en">Map last updated: September 2026</div>
+                <div class="last-updated lang-fr">Carte mise à jour : septembre 2026</div>
                 <div class="copyright-line">© 2025–2026 Ana Perales. All rights reserved.</div>
                 <div class="disclaimer-line">
                     <span class="lang-en">The information on this map is provided for community awareness purposes only. We are not responsible for changes to business hours, addresses, or services. Links to external websites are provided for convenience — we are not responsible for their content or privacy practices.</span>
@@ -531,12 +531,12 @@
                         <div class="team-card-avatar">MB</div>
                         <div>
                             <h3>Makenze Blackburn</h3>
-                            <div class="role lang-en">Project Partner</div>
-                            <div class="role lang-fr">Partenaire de projet</div>
+                            <div class="role lang-en">Former Project Partner</div>
+                            <div class="role lang-fr">Ancienne partenaire de projet</div>
                         </div>
                     </div>
-                    <div class="lang-en"><p>Makenze leads team coordination and community outreach for "You & Ottawa", helping connect our digital map with the real-world volunteers and organizations that make this city sustainable.</p></div>
-                    <div class="lang-fr"><p>Makenze dirige la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa », aidant à relier notre carte aux organisations sur le terrain.</p></div>
+                    <div class="lang-en"><p>Makenze led team coordination and community outreach for "You & Ottawa" during its early months, helping bring our first volunteers together and shape the project's foundation.</p></div>
+                    <div class="lang-fr"><p>Makenze a dirigé la coordination de l'équipe et l'engagement communautaire pour « You & Ottawa » durant ses premiers mois, aidant à rassembler nos premiers bénévoles et à façonner les bases du projet.</p></div>
                 </div>
 
                 <div class="team-card">
@@ -710,7 +710,7 @@
         // MAP SETUP
         var map=L.map('map', {zoomControl: false}).setView([45.421,-75.690],13);
         L.control.zoom({position: 'bottomright'}).addTo(map);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=cb1_2ymj_1_0efb88d39cff36938eb907b0',{maxZoom:19,attribution:'© OpenStreetMap © CARTO'}).addTo(map);
 
         document.getElementById('locate-btn').onclick=function(){
             if(!navigator.geolocation){alert(currentLang==='fr'?"La géolocalisation n'est pas supportée.":"Geolocation is not supported by your browser.");return;}
