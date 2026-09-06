@@ -748,7 +748,7 @@
         Papa.parse("You_Ottawa_MASTER_v2.csv",{download:true,header:true,skipEmptyLines:true,complete:function(results){
             results.data.forEach(function(row){
                 var marker=L.marker([row.Latitude,row.Longitude],{icon:getIconForCategory(row.Category)});
-                marker.bindPopup(buildPopupContent(row,currentLang),{maxWidth:280,autoPanPadding:[20,20]});
+                marker.bindPopup(buildPopupContent(row,currentLang),{maxWidth:280,autoPanPaddingTopLeft:[20,180],autoPanPaddingBottomRight:[20,90]});
                 
                 // AUTO-CENTER MAP WHEN CLICKING A PIN
                 marker.on('click', function(e) {
